@@ -1,0 +1,14 @@
+RUNNAME=rsp-scf-dbogo_serial.run-PL3
+
+echo "Compiling ${RUNNAME}..."
+
+cp -f param.h_PL3          param.h
+make del-all.o
+make rsp-scf_ksave_serial.run
+#make rsp-scf_save0.run
+
+if [ $? -eq 0 ]; then
+  mv rsp-scf_ksave_serial.run $RUNNAME
+  echo "Compiled ${RUNNAME} ."
+fi
+

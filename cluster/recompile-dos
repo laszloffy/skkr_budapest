@@ -1,0 +1,6 @@
+POST=`head -1 compile-cluster | awk -F= '{print $2}'`
+cp -f param.h-clu$POST param.h
+cp -f ./main/chcore.f.clu ./main/chcore.f
+make rsp-clu.run
+mv rsp-clu.run rsp-clu.run$POST
+###make -f sce/makefile.cluster rsp-sce.run

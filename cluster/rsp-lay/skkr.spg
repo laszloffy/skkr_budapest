@@ -1,0 +1,569 @@
+!*==main.spg  processed by SPAG 6.50Rc at 16:27 on  3 Mar 2017
+      PROGRAM MAIN
+      IMPLICIT NONE
+!*--MAIN4
+C*** Start of declarations inserted by SPAG
+      REAL*8 arot , bopra , boprb , boprla , boprlb , boprra , boprrb , 
+     &       bra , brb , brla , brlb , brra , brrb , conc , concl , 
+     &       concr , cpatol , CVEc , defermi , denba
+      REAL*8 denbb , dentotifc , dosa , dosb , dosmaga , dosmagb , dv0 , 
+     &       dx , dxl , dxr , ebottom , efermi , enba , enbb , 
+     &       enbdiffa , enbdiffb , enbifc , enca , encb , enela
+      REAL*8 enelb , enmaga , enmagb , enorba , enorbb , enpota , 
+     &       enpotb , entot , entota , entotb , entotifc , entotifc0 , 
+     &       enxca , enxcb , eps , eta , etop , ferr1 , omifc , orbmoma
+      REAL*8 orbmomb , orb_magva , orb_magvb , orb_magvpa , orb_magvpb , 
+     &       park , ph0a , ph0b , ph1a , ph1b , phia , phib , qca , 
+     &       qcb , qva , qvb , qvdiffa , qvdiffb , qvifc , qvpa
+      REAL*8 qvpb , rba , rbb , rbl , rbr , rhoca , rhocb , rhodspa , 
+     &       rhodspb , rhomaga , rhomagb , rhospa , rhospb , rhova , 
+     &       rhovb , rmt , rmtl , rmtr , rnul , rs
+      REAL*8 rsl , rsr , sigma , spinmoma , spinmomb , spin_magva , 
+     &       spin_magvb , spin_magvpa , spin_magvpb , sxa , sxb , sxl , 
+     &       sxr , th0a , th0b , th1a , th1b , tiny , tolef , tolen
+      REAL*8 tolerr , v0 , v00 , vecna , vecnb , vra , vrb , vrla , 
+     &       vrlb , vrra , vrrb , vscreen , wk , xk , za , zb , zla , 
+     &       zlb , zra , zrb
+      INTEGER ie , ie0 , iek , iesubl , iesublatt , igraph , ik , 
+     &        imesh , intbz , iscreen , istop , itcpam , ITEst , itscf , 
+     &        itscf0 , itscfcont , itscfmax , ivacpot , iwrite , kmy0
+      INTEGER kmymax , kmymaxp , kset , ksetmax , kunning , lfix1 , 
+     &        lfix2 , lliter , lmax , lmsup , lsublatt , me , melem , 
+     &        mimp , minprc , mintfc , mkpar , mpair , mprc , mtotal
+      INTEGER NBUlkl , NBUlkr , ne , ne1 , ne2 , ne3 , nepanel , 
+     &        newvac , NEXtra , NINprc , nintfc , nk , nl , npanel , 
+     &        NPRc , nrad , ns , nsl , nsr , ntotal
+C*** End of declarations inserted by SPAG
+c
+      INCLUDE '../param.h'
+c
+      LOGICAL bulk , dos , wrel , lms , bulkgeo , linbw
+      LOGICAL orbpol , opotl , opotr , opot
+      LOGICAL cpatest , cpamatin , cpamatinl , cpamatinr
+c
+      CHARACTER*10 idpota(mintfc) , idpotla(minprc) , idpotra(minprc)
+      CHARACTER*10 idpotb(mintfc) , idpotlb(minprc) , idpotrb(minprc)
+      CHARACTER*30 for006 , for007 , for008 , for009 , for010
+      CHARACTER*30 leftpot , rightpot , laypot , laycore
+      CHARACTER*30 leftmat , rightmat , laymat
+      CHARACTER*1 rightm
+c
+      REAL*8 lza(2,mintfc) , lzb(2,mintfc)
+c
+      DIMENSION park(2) , kset(me)
+      DIMENSION xk(mkpar,2) , wk(mkpar)
+      DIMENSION nepanel(5) , ebottom(5) , etop(5) , eps(5)
+      DIMENSION iesubl(mtotal) , iesublatt(mintfc) , 
+     &          lsublatt(mintfc,melem)
+c
+      DIMENSION vra(nrad,mintfc) , bra(nrad,mintfc)
+      DIMENSION bopra(nrad,2,mintfc)
+      DIMENSION vrb(nrad,mintfc) , brb(nrad,mintfc)
+      DIMENSION boprb(nrad,2,mintfc)
+      DIMENSION rs(mintfc) , dx(mintfc) , ns(mintfc) , rmt(mintfc)
+      DIMENSION vrla(nrad,minprc) , brla(nrad,minprc)
+      DIMENSION vrlb(nrad,minprc) , brlb(nrad,minprc)
+      DIMENSION boprla(nrad,2,minprc) , boprlb(nrad,2,minprc)
+      DIMENSION rsl(minprc) , dxl(minprc) , nsl(minprc) , rmtl(minprc)
+      DIMENSION vrra(nrad,minprc) , brra(nrad,minprc)
+      DIMENSION vrrb(nrad,minprc) , brrb(nrad,minprc)
+      DIMENSION boprra(nrad,2,minprc) , boprrb(nrad,2,minprc)
+      DIMENSION rsr(minprc) , dxr(minprc) , nsr(minprc) , rmtr(minprc)
+c
+      DIMENSION za(mintfc) , zb(mintfc) , zla(minprc) , zlb(minprc) , 
+     &          zra(minprc) , zrb(minprc)
+      DIMENSION conc(mintfc) , sxa(mintfc) , sxb(mintfc)
+      DIMENSION concl(minprc) , sxl(minprc)
+      DIMENSION concr(minprc) , sxr(minprc)
+      DIMENSION qca(mintfc) , qcb(mintfc)
+      DIMENSION qva(mintfc) , qvb(mintfc)
+      DIMENSION qvpa(kmymaxp,mintfc) , qvpb(kmymaxp,mintfc)
+c
+      DIMENSION rbl(3,minprc) , rbr(3,minprc)
+      DIMENSION rba(3,mintfc) , rbb(3,mintfc)
+      DIMENSION vecna(3,mintfc) , phia(mintfc)
+      DIMENSION vecnb(3,mintfc) , phib(mintfc)
+      COMPLEX*16 dmatl(kmymaxp,kmymaxp,minprc)
+      COMPLEX*16 dmatlp(kmymaxp,kmymaxp,minprc)
+      COMPLEX*16 dmatr(kmymaxp,kmymaxp,minprc)
+      COMPLEX*16 dmatrp(kmymaxp,kmymaxp,minprc)
+      COMPLEX*16 dmata(kmymaxp,kmymaxp,mintfc)
+      COMPLEX*16 dmatpa(kmymaxp,kmymaxp,mintfc)
+      COMPLEX*16 dmatb(kmymaxp,kmymaxp,mintfc)
+      COMPLEX*16 dmatpb(kmymaxp,kmymaxp,mintfc)
+      COMPLEX*16 rmata(lmsup,lmsup,mintfc) , rmatpa(lmsup,lmsup,mintfc)
+      COMPLEX*16 rmatb(lmsup,lmsup,mintfc) , rmatpb(lmsup,lmsup,mintfc)
+c
+      COMPLEX*16 ddpha(kmymaxp,kmymaxp,mintfc)
+      COMPLEX*16 ddphb(kmymaxp,kmymaxp,mintfc)
+      COMPLEX*16 ddphpa(kmymaxp,kmymaxp,mintfc)
+      COMPLEX*16 ddphpb(kmymaxp,kmymaxp,mintfc)
+      COMPLEX*16 ddtha(kmymaxp,kmymaxp,mintfc)
+      COMPLEX*16 ddthb(kmymaxp,kmymaxp,mintfc)
+      COMPLEX*16 ddthpa(kmymaxp,kmymaxp,mintfc)
+      COMPLEX*16 ddthpb(kmymaxp,kmymaxp,mintfc)
+c
+      DIMENSION dosa(kmymaxp,mintfc,me) , dosb(kmymaxp,mintfc,me)
+      DIMENSION dosmaga(kmymaxp,mintfc,me) , dosmagb(kmymaxp,mintfc,me)
+      DIMENSION enbdiffa(mintfc,me) , enbdiffb(mintfc,me)
+      DIMENSION qvdiffa(mintfc,me) , qvdiffb(mintfc,me)
+c
+      DIMENSION spin_magvpa(kmymaxp,mintfc,3)
+      DIMENSION spin_magvpb(kmymaxp,mintfc,3)
+      DIMENSION spin_magva(mintfc,3) , spin_magvb(mintfc,3)
+      DIMENSION orb_magvpa(kmymaxp,mintfc,3)
+      DIMENSION orb_magvpb(kmymaxp,mintfc,3)
+      DIMENSION orb_magva(mintfc,3) , orb_magvb(mintfc,3)
+      DIMENSION enba(mintfc) , enbb(mintfc)
+      DIMENSION denba(mintfc) , denbb(mintfc)
+      DIMENSION enca(mintfc) , encb(mintfc)
+      DIMENSION enela(mintfc) , enelb(mintfc)
+      DIMENSION enxca(mintfc) , enxcb(mintfc)
+      DIMENSION enpota(mintfc) , enpotb(mintfc)
+      DIMENSION enmaga(mintfc) , enmagb(mintfc)
+      DIMENSION enorba(mintfc) , enorbb(mintfc)
+      DIMENSION entota(mintfc) , entotb(mintfc) , entot(mintfc)
+      DIMENSION rhoca(nrad,mintfc) , rhocb(nrad,mintfc)
+      DIMENSION rhova(nrad,mintfc) , rhovb(nrad,mintfc)
+      DIMENSION rhospa(nrad,2,mintfc) , rhospb(nrad,2,mintfc)
+      DIMENSION rhodspa(nrad,2,mintfc) , rhodspb(nrad,2,mintfc)
+      DIMENSION rhomaga(nrad,mintfc) , rhomagb(nrad,mintfc)
+c
+      DIMENSION spinmoma(mintfc) , orbmoma(mintfc)
+      DIMENSION th0a(mintfc) , th1a(mintfc)
+      DIMENSION ph0a(mintfc) , ph1a(mintfc)
+      DIMENSION spinmomb(mintfc) , orbmomb(mintfc)
+      DIMENSION th0b(mintfc) , th1b(mintfc)
+      DIMENSION ph0b(mintfc) , ph1b(mintfc)
+c
+      COMPLEX*16 cear(me) , we(me) , ce
+      COMPLEX*16 tminvl(kmymaxp,kmymaxp,minprc)
+      COMPLEX*16 tminvr(kmymaxp,kmymaxp,minprc)
+      COMPLEX*16 tminv(kmymaxp,kmymaxp,mintfc)
+      COMPLEX*16 tminva(kmymaxp,kmymaxp,mintfc)
+      COMPLEX*16 tminvb(kmymaxp,kmymaxp,mintfc)
+      COMPLEX*16 ptminva(kmymaxp,kmymaxp,mintfc)
+      COMPLEX*16 ptminvb(kmymaxp,kmymaxp,mintfc)
+      COMPLEX*16 taua(kmymaxp,kmymaxp,mintfc)
+      COMPLEX*16 taub(kmymaxp,kmymaxp,mintfc)
+      COMPLEX*16 gtaua(kmymaxp,kmymaxp,mintfc)
+      COMPLEX*16 gtaub(kmymaxp,kmymaxp,mintfc)
+      COMPLEX*16 qmoma(lmsup,mintfc) , qmomb(lmsup,mintfc)
+      COMPLEX*16 qmomla(lmsup,minprc) , qmomlb(lmsup,minprc)
+      COMPLEX*16 qmomra(lmsup,minprc) , qmomrb(lmsup,minprc)
+c
+c -------------------------------------------
+c variables for cluster calculation
+c
+      LOGICAL calcoff
+      LOGICAL offready
+      LOGICAL tauhonly
+c
+      CHARACTER*15 taupath
+c
+      INTEGER nposimp(3,mimp)
+      INTEGER nimp
+      INTEGER iscreencl
+c
+      INTEGER npair
+      INTEGER kpair(4,mpair)
+      INTEGER kpairind(mimp,mimp)
+c
+      REAL*8 rbcl(3,mimp)
+      REAL*8 bthcl(mimp)
+      REAL*8 bphcl(mimp)
+      REAL*8 sxcl(mimp)
+      REAL*8 vmadih(mimp)
+c
+      COMPLEX*16 tau_ii(kmymaxp,kmymaxp,mintfc)
+      COMPLEX*16 tau_ij(kmymaxp,kmymaxp,mpair)
+      COMPLEX*16 tau_ji(kmymaxp,kmymaxp,mpair)
+c -------------------------------------------
+      COMMON /TEST  / ITEst
+      COMMON /LAY2D / CVEc(mtotal,3) , NEXtra , NBUlkl , NBUlkr , NPRc , 
+     &                NINprc(0:mprc+1)
+c
+c
+      DATA tiny/1.0D-6/
+      DATA rnul/0.D0/
+c     data tolerr,tolef,tolen,tolv0/1.0d-10,1.0d-10,1.0d-9,1.0d-08/
+c
+c
+c     ***************************************************************
+c                            INITIALIZE
+c     ***************************************************************
+c
+      OPEN (UNIT=5,FILE='input_rsp.in',STATUS='old')
+c     ---------------------------------------------------------------
+      CALL READINI(imesh,ne,npanel,nepanel,ne1,ne2,ne3,ebottom,etop,eps,
+     &             lmax,eta,sigma,park,kset,ksetmax,itcpam,cpatol,
+     &             cpatest,for006,for007,for008,for009,for010,iwrite,
+     &             leftpot,rightpot,laypot,laycore,leftmat,rightmat,
+     &             laymat,wrel,lms,bulk,dos,rightm,newvac,ivacpot,v0,
+     &             v00,vscreen,iscreen,itscfmax,tolerr,tolef,tolen,
+     &             intbz,kunning,orbpol,opotl,opotr,opot,lliter)
+c     ---------------------------------------------------------------
+      CLOSE (5)
+c
+      OPEN (UNIT=5,FILE='input_geo.in',STATUS='old')
+c     ---------------------------------------------------------------
+      CALL READGEOM(bulk,bulkgeo,rightm,intbz,nintfc,arot,rsl,concl,rbl,
+     &              sxl,rs,conc,rba,rbb,sxa,sxb,rsr,concr,rbr,sxr,lfix1,
+     &              lfix2,linbw,igraph,iesublatt,lsublatt)
+c     ---------------------------------------------------------------
+      CLOSE (5)
+c
+c     ---------------------------------------------------------------
+      CALL READCLU(nintfc,nimp,nposimp,npair,kpair,kpairind,iscreencl,
+     &             bthcl,bphcl,rbcl,sxcl,taupath,tauhonly)
+c     ---------------------------------------------------------------
+c
+      WRITE (6,'(/2x,''routine MAIN>''/)')
+c
+      nl = lmax + 1
+      kmymax = 2*nl*nl
+      ntotal = nintfc + NINprc(0)*(NEXtra+1) + NINprc(NPRc+1)*(NEXtra+1)
+c
+c -read Left,Right and Layer potentials
+c
+c     ---------------------------------------------------------------
+      CALL POTHANDLE(bulk,linbw,rightm,lmax,nintfc,NINprc(0),
+     &               NINprc(NPRc+1),v00,ivacpot,for006,opotl,opotr,opot,
+     &               leftpot,concl,qmomla,qmomlb,dxl,nsl,rsl,idpotla,
+     &               vrla,brla,boprla,zla,idpotlb,vrlb,brlb,boprlb,zlb,
+     &               rightpot,concr,qmomra,qmomrb,dxr,nsr,rsr,idpotra,
+     &               vrra,brra,boprra,zra,idpotrb,vrrb,boprrb,brrb,zrb,
+     &               laypot,conc,dx,ns,rs,idpota,vra,bra,bopra,za,
+     &               idpotb,vrb,brb,boprb,zb,igraph)
+c     ---------------------------------------------------------------
+c
+c -read in data from update file if exists
+c    ----------------------------------------------------------------
+      CALL RESTART_IN(itscf0,etop(npanel),v0,conc,opot,vra,bra,bopra,
+     &                rba,vrb,brb,boprb,rbb,bulk,nintfc,idpota,idpotb,
+     &                za,zb,laycore,for006)
+c    ----------------------------------------------------------------
+      WRITE (6,*)
+      WRITE (6,'(2x,''etop= '',f17.13)') etop(npanel)
+      IF ( .NOT.bulk ) WRITE (6,*) 'v0=  ' , v0
+c
+c -fix manipulations with files containing inverse cpa t-matrices
+c     --------------------------------------------------------------
+      CALL TCPA_MAIN(leftmat,rightmat,laymat,bulk,dos,ksetmax,nintfc,
+     &               NINprc(0),NINprc(NPRc+1),conc,concl,concr,cpamatin,
+     &               cpamatinl,cpamatinr)
+c     --------------------------------------------------------------
+c
+c -initialize common blocks
+c
+      CALL INITIA
+c ======================================================================
+c     calcoff=.false.
+      calcoff = tauhonly
+      offready = .FALSE.
+      IF ( tauhonly ) THEN
+         WRITE (6,*) 'Calculation of the off-diagonal elements of tau'
+         WRITE (6,*) 'mainly for TESTS!!!!!!!'
+      ENDIF
+c ======================================================================
+c
+c
+c     *************************************************************
+c               START SELFCONSISTENT ITERATIONS
+c     *************************************************************
+c
+      itscf = 0
+      istop = 0
+      efermi = etop(npanel)
+ 100  itscf = itscf + 1
+      itscfcont = itscf0 + itscf
+      WRITE (6,'(/'' Selfconsistent iteration: '',i3/)') itscf
+c
+      IF ( bulk ) THEN
+c        ---------------------------------------------------------
+         CALL AVERAGEBPOT(nsl,nintfc,NBUlkl,vra,vrla,vrra)
+         CALL AVERAGEBPOT(nsl,nintfc,NBUlkl,vrb,vrlb,vrrb)
+         CALL AVERAGEBPOT(nsl,nintfc,NBUlkl,bra,brla,brra)
+         CALL AVERAGEBPOT(nsl,nintfc,NBUlkl,brb,brlb,brrb)
+         IF ( orbpol ) THEN
+            CALL AVERAGEBPOTSP(nsl,nintfc,NBUlkl,bopra,boprla,boprra)
+            CALL AVERAGEBPOTSP(nsl,nintfc,NBUlkl,boprb,boprlb,boprrb)
+         ENDIF
+c        ---------------------------------------------------------
+      ENDIF
+c
+c -solve Diraq equation for core states
+c  (non spin-polarized!)
+c
+c     ------------------------------------------------------------
+      CALL CHCORE(itscfcont,nintfc,conc,idpota,vra,za,idpotb,vrb,zb,dx,
+     &            ns,rs,qca,qcb,rhoca,rhocb,enca,encb,for006)
+c     ------------------------------------------------------------
+c
+c -generate new energy mesh in the case of bulk iterations
+c
+c        ---------------------------------------------------------
+c        ---------------------------------------------------------
+      IF ( itscf.EQ.1 .OR. bulk ) CALL ZMESH(imesh,npanel,nepanel,ne1,
+     &     ne2,ne3,ebottom,etop,eps,cear,we)
+      IF ( ITEst.GE.2 .AND. itscf.EQ.1 ) THEN
+         WRITE (6,*)
+         DO ie = 1 , ne
+            WRITE (6,
+     &'('' ie='',i2,'' e='',2f12.8,'' w='',2f12.8,              ''  kset
+     &='',i5)') ie , cear(ie) , we(ie) , kset(ie)
+         ENDDO
+         WRITE (6,*)
+      ENDIF
+c
+c -open binary files containing (inverse of) effective t-matrices
+c     -------------------------------------------------------------
+      CALL TCPA_OPEN(for010,leftmat,rightmat,laymat,cpamatin,cpamatinl,
+     &               cpamatinr)
+c     -------------------------------------------------------------
+c
+c - set quantities for contour integration to zero
+c
+c     -----------------------------------------------------------
+      CALL INITZERO(qvpa,qvpb,qva,qvb,spin_magvpa,spin_magvpb,
+     &              spin_magva,spin_magvb,orb_magvpa,orb_magvpb,
+     &              orb_magva,orb_magvb,enba,enbb,denba,denbb,enorba,
+     &              enorbb,qmoma,qmomb,rhova,rhovb,rhospa,rhospb,
+     &              rhodspa,rhodspb,rhomaga,rhomagb,enbifc,qvifc,omifc)
+c     -----------------------------------------------------------
+c
+c Rotation matrices between local and global frames of reference
+c
+c     -------------------------------------------------------------
+      CALL LOCALROT2(lmax,nintfc,rbl,rbr,rba,rbb,vecna,vecnb,phia,phib,
+     &               dmatl,dmatlp,dmatr,dmatrp,dmata,dmatb,dmatpa,
+     &               dmatpb,ddpha,ddphb,ddphpa,ddphpb,ddtha,ddthb,
+     &               ddthpa,ddthpb,rmata,rmatpa,rmatb,rmatpb)
+c     -------------------------------------------------------------
+c
+c                 *************************
+c                 *** Start energy loop ***
+c                 *************************
+c
+      ie0 = 1
+      iek = 0
+      DO ie = 1 , ne
+c
+         ce = cear(ie)
+c
+c -read in (inverse of) effective t-matrices if necessary
+c     -----------------------------------------------
+         CALL TCPA_IN(leftmat,rightmat,laymat,ce,nintfc,NINprc(0),
+     &                NINprc(NPRc+1),conc,concl,concr,cpamatin,
+     &                cpamatinl,cpamatinr,kmymax,tminv,tminvl,tminvr,
+     &                kmymaxp)
+c     -----------------------------------------------
+c
+c  generate k-mesh in irreducible Brillouin-zone
+c
+         IF ( kset(ie).EQ.0 ) itcpam = 0
+c     ------------------------------------------------------------------
+         CALL KMESH2D(intbz,kunning,kset(ie),park,xk(1,1),xk(1,2),wk,nk,
+     &                mkpar)
+c     ------------------------------------------------------------------
+c
+         IF ( ITEst.GE.1 ) THEN
+            WRITE (6,'('' ie='',i3,''   e='',2f12.8,''  nk='',i5)') ie , 
+     &             ce , nk
+            CALL FLUSH(6)
+         ENDIF
+         IF ( ITEst.GE.2 ) THEN
+            IF ( ie.GT.1 ) ie0 = ie - 1
+            IF ( (kset(ie).NE.kset(ie0)) .OR. (ie.EQ.1) ) THEN
+               DO ik = 1 , nk
+                  WRITE (6,'(i5,3f14.10)') ik , xk(ik,1) , xk(ik,2) , 
+     &                   wk(ik)
+               ENDDO
+            ENDIF
+         ENDIF
+c
+c  t-matrices to start CPA
+c     ------------------------------------------------------
+         CALL TMATINI(ce,lmax,nintfc,iscreen,vscreen,v0,bulk,wrel,sxl,
+     &                sxr,sxa,sxb,concl,concr,conc,cpamatin,cpamatinl,
+     &                cpamatinr,idpotla,vrla,brla,boprla,idpotlb,vrlb,
+     &                brlb,boprlb,rsl,dxl,nsl,idpotra,vrra,brra,boprra,
+     &                idpotrb,vrrb,brrb,boprrb,rsr,dxr,nsr,idpota,vra,
+     &                bra,bopra,idpotb,vrb,brb,boprb,dx,ns,rs,dmatl,
+     &                dmatlp,dmatr,dmatrp,dmata,dmatb,dmatpa,dmatpb,
+     &                tminvl,tminvr,tminv,tminva,tminvb,ptminva,ptminvb)
+c     ------------------------------------------------------
+c       write(6,'('' tmat'')')
+c       call flush(6)
+c
+c  perform CPA, BZ integration & calculate tau-matices
+c     write(6,*) '<skkr>:',taupath
+c     ---------------------------------------------
+c --------- cluster --------------------)
+         CALL CPACOORD(iwrite,itscf,ie,ce,lmax,nintfc,eta,rightm,bulk,
+     &                 bulkgeo,wrel,kset(ie),xk,wk,nk,intbz,iek,conc,
+     &                 itcpam,cpatol,cpatest,dmata,dmatb,dmatpa,dmatpb,
+     &                 tminvl,tminvr,tminv,tminva,tminvb,taua,taub,
+     &                 gtaua,gtaub,kpair,npair,tau_ii,tau_ij,tau_ji,
+     &                 taupath,calcoff,offready)
+c     ---------------------------------------------
+c       write(6,'('' cpa'')')
+c       call flush(6)
+c
+c -write out (inverse of) effective t-matrices
+c     --------------------------------------------------
+         CALL TCPA_OUT(ce,nintfc,conc,kmymax,tminv,kmymaxp)
+c     --------------------------------------------------
+c
+c  calculate local physical quantities
+c  integrate with respect to energy
+c     --------------------------------------------------------------
+c
+c
+c
+c
+c
+c
+         CALL LOCQUANT(ie,ce,we(ie),lmax,nintfc,wrel,lms,sxa,sxb,conc,
+     &                 v0,idpota,vra,bra,bopra,idpotb,vrb,brb,boprb,dx,
+     &                 ns,rs,dmata,dmatb,dmatpa,dmatpb,ddpha,ddphb,
+     &                 ddphpa,ddphpb,ddtha,ddthb,ddthpa,ddthpb,rmata,
+     &                 rmatpa,rmatb,rmatpb,taua,taub,gtaua,gtaub,
+     &                 ptminva,ptminvb,tminv,dosa(1,1,ie),qvpa,qva,
+     &                 qvdiffa(1,ie),enba,enbdiffa(1,ie),denba,enorba,
+     &                 qmoma,rhova,rhospa,rhodspa,rhomaga,
+     &                 dosmaga(1,1,ie),spin_magvpa,spin_magva,
+     &                 orb_magvpa,orb_magva,dosb(1,1,ie),qvpb,qvb,
+     &                 qvdiffb(1,ie),enbb,enbdiffb(1,ie),denbb,enorbb,
+     &                 qmomb,rhovb,rhospb,rhodspb,rhomagb,
+     &                 dosmagb(1,1,ie),spin_magvpb,spin_magvb,
+     &                 orb_magvpb,orb_magvb,lliter,linbw,efermi,enbifc,
+     &                 qvifc,omifc)
+c     --------------------------------------------------------------
+c
+      ENDDO
+c
+c                 **************************
+c                 *** End of energy loop ***
+c                 **************************
+c
+c -close binary files containing (inverse of) effective t-matrices
+c     -----------------------------------------------------
+      CALL TCPA_CLOSE(leftmat,rightmat,laymat,cpamatin,cpamatinl,
+     &                cpamatinr)
+c     -----------------------------------------------------
+c
+c for DOS calculation print out results and stop
+      IF ( .NOT.(dos) ) THEN
+c
+c  update spin-quantization axes
+c     -----------------------------------------------
+         CALL NEWDIR(itscf,itscfcont,nintfc,lfix1,lfix2,rba,rbb,vecna,
+     &               phia,vecnb,phib,lmax,spin_magvpa,spin_magvpb,
+     &               spin_magva,spin_magvb,orb_magvpa,orb_magvpb,
+     &               orb_magva,orb_magvb,lza,lzb,spinmoma,orbmoma,th0a,
+     &               th1a,ph0a,ph1a,spinmomb,orbmomb,th0b,th1b,ph0b,
+     &               ph1b)
+c     -----------------------------------------------
+c
+c  write out results
+c     ---------------------------------------------------
+         CALL PRINTSCF(linbw,nintfc,itscfcont,conc,enbifc,qvifc,omifc,
+     &                 qva,qca,za,qvb,qcb,zb,enba,enbb,denba,denbb,
+     &                 efermi,arot,rba,rbb,spin_magva,spin_magvb,
+     &                 orb_magva,orb_magvb,spinmoma,orbmoma,th0a,th1a,
+     &                 ph0a,ph1a,spinmomb,orbmomb,th0b,th1b,ph0b,ph1b)
+c     ---------------------------------------------------
+         IF ( linbw ) GOTO 200
+c
+c -find new Fermi level
+c
+         IF ( bulk ) THEN
+c       -----------------------------------------------------------
+            kmy0 = 1
+            CALL NEWFL(itscfcont,kmy0,kmymax,kmymaxp,ne,NBUlkl,conc,
+     &                 dosa,dosb,qca,qcb,qva,qvb,za,zb,efermi,defermi)
+c       -----------------------------------------------------------
+         ENDIF
+c
+c -Generate new layer potentials
+c
+c     -----------------------------------------------------------
+c ---cluster---
+         CALL VGEN(itscf,itscfcont,nintfc,lmax,sigma,rightm,bulk,orbpol,
+     &             opot,conc,concl,concr,za,qca,qva,qmoma,qmomla,qmomra,
+     &             zb,qcb,qvb,qmomb,qmomlb,qmomrb,rhoca,rhova,rhospa,
+     &             rhodspa,rhocb,rhovb,rhospb,rhodspb,dx,ns,rs,efermi,
+     &             defermi,vra,vrb,bra,brb,bopra,boprb,lza,lzb,v0,dv0,
+     &             ferr1,newvac,enpota,enela,enxca,enpotb,enelb,enxcb,
+     &             enmaga,enmagb,nimp,nposimp,vmadih)
+c     -----------------------------------------------------------
+c ======================================================================
+         IF ( calcoff ) CALL VHOUT(nimp,vmadih,v0,iscreencl,vscreen,
+     &                             kpairind,taupath)
+         IF ( tauhonly ) GOTO 200
+c ======================================================================
+c
+c
+c -calculate and print out energies
+c     -------------------------------------------------------
+         CALL ENPRINT(itscfcont,nintfc,conc,enca,encb,enba,enbb,enela,
+     &                enelb,enxca,enxcb,enpota,enpotb,enmaga,enmagb,
+     &                enorba,enorbb,entota,entotb,entot,entotifc)
+c     -------------------------------------------------------
+         IF ( itscf.EQ.1 ) THEN
+            dentotifc = 10.0D0*tolen
+         ELSE
+            dentotifc = entotifc - entotifc0
+         ENDIF
+         entotifc0 = entotifc
+c
+c -update output necessary for restart
+c     --------------------------------------------------------------
+         CALL RESTART_OUT(itscfcont,efermi,v0,conc,orbpol,vra,bra,bopra,
+     &                    rba,vrb,brb,boprb,rbb,bulk,nintfc,for006)
+c     --------------------------------------------------------------
+         IF ( bulk ) etop(npanel) = efermi
+c
+         IF ( ferr1.LT.tolerr ) istop = 1
+         IF ( bulk .AND. (DABS(defermi).GT.tolef) ) istop = 0
+         IF ( bulk .AND. (DABS(dentotifc).GT.nintfc*tolen) ) istop = 0
+      ENDIF
+c     if(rightm.eq.'V'.and.dv0.gt.tolv0) istop=0
+c
+c
+c -Print results
+c
+c     ---------------------------------------------------------------
+      CALL PRINTRES(for007,for008,itscfcont,lmax,nintfc,ne,cear,efermi,
+     &              conc,dosa,dosb,qvpa,qvpb,qva,qvb,dosmaga,dosmagb,
+     &              spin_magvpa,spin_magvpb,spin_magva,spin_magvb,
+     &              orb_magvpa,orb_magvpb,orb_magva,orb_magvb,arot,
+     &              qmoma,qmomb,za,zb,qca,qcb,qvdiffa,qvdiffb,enbdiffa,
+     &              enbdiffb,entota,entotb,entot,entotifc,idpota,idpotb,
+     &              vra,bra,bopra,vrb,brb,boprb,rs,dx,ns,lms,orbpol,
+     &              bulk)
+c     ---------------------------------------------------------------
+      IF ( itscf.LT.itscfmax .AND. istop.EQ.0 ) GOTO 100
+      calcoff = .TRUE.
+      IF ( .NOT.offready ) WRITE (6,*) 
+     &            '<skkr>: SCF is converged +1 SCI for off-diagonal tau'
+      IF ( (.NOT.offready) .AND. (itscf.LE.itscfmax) ) GOTO 100
+c
+c
+c     ****************************************************************
+c                    END OF SELFCONSISTENT ITERATIONS
+c     ****************************************************************
+c
+ 200  CLOSE (6)
+      IF ( tauhonly ) THEN
+         WRITE (6,*) 
+     &             '***************************************************'
+         WRITE (6,*) 
+     &             '* Calculation of the off-diagonal elements of tau *'
+         WRITE (6,*) 
+     &             '* mainly for TESTS!!!!!!!                         *'
+         WRITE (6,*) 
+     &             '***************************************************'
+      ENDIF
+      END

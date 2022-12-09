@@ -1,0 +1,424 @@
+c     Name of Copyright owners: Gabor Csire, Andras Laszloffy, Bendeguz Nyari, Laszlo Szunyogh, and Balazs Ujfalussy
+c Store E- and k- for non-magnetic bulk
+      subroutine cpacoord(
+c     ====================
+     > iwrite,itscf,ie,ce,lmax,nintfc,eta,rightm,bulk,bulkgeo,wrel,
+     > kset,xk,wk,nk,intbz,iek,
+     > conc,itcpam,cpatol,cpatest,
+     > dmata,dmatb,dmatpa,dmatpb,
+     > tminvl,tminvr,tminv,tminva,tminvb,taua,taub,gtaua,gtaub)
+c
+      implicit real*8 (a-h,o-z)
+c
+      include '../param.h'
+      parameter(mdim=mdimr) 
+      parameter(mek=mekr0) 
+c
+      logical wrel,bulk,bulkgeo,sgf,sgfx,sgfy
+      logical cpacon,concpa,cpatest,cpalay
+c
+      character*1 rightm
+c
+      dimension park(2),xk(mkpar,2),wk(mkpar)
+c
+      dimension invg(melem),ieqg(melem),ieqdum(melem)
+c
+      dimension conc(mintfc)
+c
+      complex*16 ce,psq,fac
+      complex*16 help(kmymaxp,kmymaxp),help1(kmymaxp,kmymaxp)
+c
+      complex*16 tminv(kmymaxp,kmymaxp,mintfc)
+      complex*16 tminva(kmymaxp,kmymaxp,mintfc)
+      complex*16 tminvb(kmymaxp,kmymaxp,mintfc)
+      complex*16 tminvl(kmymaxp,kmymaxp,minprc)
+      complex*16 tminvr(kmymaxp,kmymaxp,minprc)
+      complex*16 ttmp(kmymaxp,kmymaxp,mintfc,melem)
+      complex*16 ttmpl(kmymaxp,kmymaxp,minprc,melem)
+      complex*16 ttmpr(kmymaxp,kmymaxp,minprc,melem)
+c
+      complex*16 xx(mdim,mdim),yy(mdim,mdim),
+     > gg2d(lmmaxp,lmmaxp,-minprc:minprc,minprc,0:mprc1+1)
+c
+      complex*16 xsave(mdim,mdim,mek+1),
+     >           ysave(mdim,mdim,mek+1),
+     > g2d(lmmaxp,lmmaxp,-minprc:minprc,minprc,0:mprc1+1,mek+1)
+c
+      complex*16 tau(kmymaxp,kmymaxp,mintfc)
+      complex*16 taua(kmymaxp,kmymaxp,mintfc)
+      complex*16 taub(kmymaxp,kmymaxp,mintfc)
+      complex*16 gtaua(kmymaxp,kmymaxp,mintfc)
+      complex*16 gtaub(kmymaxp,kmymaxp,mintfc)
+      complex*16 tau1(kmymaxp,kmymaxp,mintfc,melem)
+      complex*16 tau2(kmymaxp,kmymaxp)
+c
+      complex*16 dmata(kmymaxp,kmymaxp,mintfc)
+      complex*16 dmatpa(kmymaxp,kmymaxp,mintfc)
+      complex*16 dmatb(kmymaxp,kmymaxp,mintfc)
+      complex*16 dmatpb(kmymaxp,kmymaxp,mintfc)
+c
+      complex*16 rmat(kmymaxp,kmymaxp,melem)
+      complex*16 rmatp(kmymaxp,kmymaxp,melem)
+c
+      complex*16 alphalkkr(0:lmaxp,minprc)
+      complex*16 alpharkkr(0:lmaxp,minprc)
+      complex*16 alphaintkkr(0:lmaxp,mintfc)
+      common/scrpar/alphalkkr,alpharkkr,alphaintkkr
+c
+      common/test/itest
+      common/relfac/fac
+      common/lay2d/cvec(mtotal,3),nextra,nbulkl,nbulkr,
+     &             nprc,ninprc(0:mprc+1)
+c
+      data tol/1.0d-8/ 
+      data tiny/1.0d-6/
+c
+      save xsave,ysave,g2d
+c
+c ********************
+c initialize constants
+c ********************
+c
+c---> c in rydberg units:
+      c=274.072d0
+      if(.not.wrel) then
+        psq=ce+ce*ce/(c*c)
+      else
+        psq=ce
+      end if
+      fac = psq/ce 
+c
+      irel=1
+c
+      nl=lmax+1
+      kmymax=2*nl*nl
+c
+      ninprcl = ninprc(0)
+      ninprcr = ninprc(nprc+1)
+      ndiml=ninprcl*kmymax
+      ndimr=ninprcr*kmymax
+c
+      nprc1=nprc
+      if(bulkgeo) nprc1=1
+      if(nprc1.gt.mprc1) stop ' increase mprc1 !!!'
+c
+c ****************************************************************
+c initialize irreducible representations of point group operations
+c ****************************************************************
+c
+c     --------------------------------------
+      call sphbas(rmat,rmatp,ng,invg)
+c     --------------------------------------
+      if(intbz.eq.0.or.intbz.eq.2) ngeff=1
+      if(intbz.eq.1) ngeff=ng
+c
+c
+c                        ***************************
+c                        * starting CPA iterations *
+c                        ***************************
+c
+      itcpa=1
+      concpa=.true.        ! controls CPA tolerance
+      cpacon=.true.        ! controls no. of CPA iterations
+c
+      iekstart=iek
+  100 continue
+      iek=iekstart
+c
+c     ----------------------------------------
+      call czero(tau,kmymaxp*kmymaxp*mintfc)
+c     ----------------------------------------
+c
+c *******************************
+c adjust t-matrices for bulk case
+c *******************************
+c
+      if(bulk) then
+c The I region is supposed to comprise one PL only !
+        if(kset.ge.1) then
+c Force L and R t-matrices to be identical with the
+c corresponding t-matrices in I
+          do li=1,ninprcl
+            call repl(tminvl(1,1,li),tminv(1,1,li),kmymax,kmymaxp)
+            call repl(tminvr(1,1,li),tminv(1,1,li),kmymax,kmymaxp)
+          enddo
+        else
+c This is for only spectral-DOS calculation: force I t-matrices
+c to be identical with the corresponding self-consistent L t-matrices
+          do li=1,nintfc
+            call repl(tminv(1,1,li),tminvl(1,1,li),kmymax,kmymaxp)
+          end do
+        end if
+      end if
+c
+c *******************************************************************
+c transform inverse t-matrices with respect to point group operations
+c and find degeneracies
+c *******************************************************************
+c
+c     ---------------------------------------------------
+      call sorttmat(
+     > lmax,nintfc,ninprcl,ninprcr,rmat,rmatp,ngeff,invg,
+     > tminvl,tminvr,tminv,ttmpl,ttmpr,ttmp,
+     > ieqdum,ieqdum,ieqg,ieqdum,ieqdum,1)
+c     ---------------------------------------------------
+c
+c ****************************
+c loop over k points in 2D IBZ
+c ****************************
+c
+      do ik=1,nk
+        park(1)=xk(ik,1)
+        park(2)=xk(ik,2)
+c
+c *************************************************
+c initialize saving of structure constants and SSPO
+c *************************************************
+c
+        iek=iek+1
+        if(iek.le.mek) then
+          iekuse=iek
+        else
+          iekuse=mek+1
+        end if
+        if(iek.eq.mek+1)
+     >  write(6,'(/''WARNING: iek='',i3,'' greater than mek='',i3/
+     >             ''         causes dramatic slow-down !'')') iek,mek
+c
+        if(bulk) then
+c    calculate g2d only for the first CPA iteration
+          nocalcstr=itcpa-1
+        else
+c    calculate g2d only for the first scf and CPA iteration
+          nocalcstr=itscf+itcpa-2
+        end if
+c    do not store g2d for iek.gt.mek
+        if(iek.gt.mek) nocalcstr=0
+c
+        if(bulk) then
+c    always calculate SSPO
+          sgf=.true.
+        else
+c    calculate SSPO only for the first scf and CPA iteration
+c    or for iek.gt.mek
+          sgf=(itcpa.eq.1.and.itscf.eq.1).or.(iek.gt.mek)
+        end if
+        sgfy=sgf
+        sgfx=sgf
+c    if vacuum, recalculate R SSPO after every tenth step
+        if(rightm.eq.'V')
+     >   sgfx=((mod(itscf,10).eq.1).and.(itcpa.eq.1)).or.(iek.gt.mek)
+c
+c ********************************************
+c k-resolved layer-indexed structure constants
+c ********************************************
+c
+        if(nocalcstr.ne.0) then
+c         ------------------------
+          iread=iwrite
+          if(iwrite.eq.1) iread=-1
+c         ------------------------
+          call getg2d(g2d(1,1,-minprc,1,0,iekuse),gg2d,
+     >                bulkgeo,lmax,nintfc,iread)
+        else
+c         -----------------------------------------
+          call gstore(park,ce,eta,bulkgeo,lmax,nintfc,gg2d)
+c         -----------------------------------------
+          call getg2d(gg2d,g2d(1,1,-minprc,1,0,iekuse),
+     >                bulkgeo,lmax,nintfc,iwrite)
+        endif
+c
+c **********************
+c surface Green function
+c **********************
+c
+        if(sgfy) then
+c         ------------------------------------------------
+          call dugo(lmax,kmymax,ttmpl(1,1,1,1),kmymaxp,
+     >              gg2d(1,1,-minprc,1,0),
+     >              gg2d(1,1,-minprc,1,1),
+     >              yy,mdim,'L',bulkgeo,irel)
+c         ------------------------------------------------
+          call getsfg(yy,ysave(1,1,iekuse),
+     >                ndiml,mdim,iwrite)
+        else
+c         ------------------------
+          iread=iwrite
+          if(iwrite.eq.1) iread=-1
+c         ------------------------   
+          call getsfg(ysave(1,1,iekuse),yy,
+     >                ndiml,mdim,iread)
+        endif
+        if(sgfx) then
+c         ------------------------------------------------
+          call dugo(lmax,kmymax,ttmpr(1,1,1,1),kmymaxp,
+     >              gg2d(1,1,-minprc,1,nprc1+1),
+     >              gg2d(1,1,-minprc,1,nprc1),
+     >              xx,mdim,'R',bulkgeo,irel)
+c         ------------------------------------------------
+          call getsfg(xx,xsave(1,1,iekuse),
+     >                ndimr,mdim,iwrite)
+        else
+c         ------------------------
+          iread=iwrite
+          if(iwrite.eq.1) iread=-1
+c         ------------------------   
+          call getsfg(xsave(1,1,iekuse),xx,
+     >                ndimr,mdim,iread)
+        endif
+c
+c ********************************
+c loop over point group operations
+c ********************************
+c
+        do ig=1,ngeff
+          ige=ieqg(ig)
+          ig1=invg(ig)
+c
+          if(ige.eq.ig) then
+c
+c ***********************************
+c k-resolved tau matrix for interface
+c ***********************************
+c
+          if(itest.ge.4) then
+          write(6,*) ' YY'
+          do il=1,ninprcl
+          do jl=1,ninprcl
+            i0=(il-1)*kmymax
+            j0=(jl-1)*kmymax
+            do i=1,kmymax
+            do j=1,kmymax
+              help1(i,j)=yy(i0+i,j0+j)
+            end do
+            end do
+            write(6,*) il,jl
+            call replmsf(help,help1,lmax)
+            call outmat1(help,kmymax,kmymax,kmymaxp,outtol,6)
+          end do
+          end do
+          write(6,*) ' XX'
+          do il=1,ninprcr
+          do jl=1,ninprcr
+            i0=(il-1)*kmymax
+            j0=(jl-1)*kmymax
+            do i=1,kmymax
+            do j=1,kmymax
+              help1(i,j)=xx(i0+i,j0+j)
+            end do
+            end do
+            write(6,*) il,jl
+            call replmsf(help,help1,lmax)
+            call outmat1(help,kmymax,kmymax,kmymaxp,outtol,6)
+          end do
+          end do
+          end if
+c
+            wgeff = wk(ik)/ngeff
+c           ---------------------------------------------------------
+            call tau2d(irel,wgeff,bulkgeo,lmax,kmymax,kmymaxp,nintfc,
+     >                 ttmp(1,1,1,ig),gg2d,xx,yy,tau1(1,1,1,ig),mdim)
+c           ---------------------------------------------------------
+c
+          end if
+c
+c **************************************
+c BZ sum for layer diagonal tau matrices
+c **************************************
+c
+          do li=1,nintfc
+c           -----------------------------------------------
+            call repl(tau2,tau1(1,1,li,ige),kmymax,kmymaxp)
+c           -----------------------------------------------
+            call tripmt(rmatp(1,1,ig1),tau2,rmat(1,1,ig1),
+     >                  kmymax,kmymax,kmymaxp)        
+c           -----------------------------------------------
+            call addmat(tau(1,1,li),tau2,kmymax,kmymaxp)
+c           -----------------------------------------------
+          end do
+c
+        end do
+c *********************************
+c end of loop over point operations
+c *********************************
+c
+      end do
+c *************************
+c end of loop over k points
+c *************************
+c
+c **********
+c CPA solver
+c **********
+c     -----------------------------------------------------------------
+      call cpacor(conc,tminv,tminva,tminvb,tau,taua,taub,kmymax,nintfc,
+     >            itcpa,itcpam,cpatol,cpacon,concpa,cpatest,cpaerr)
+c     -----------------------------------------------------------------
+c
+      if(concpa.and.cpacon) goto 100
+      if(itest.ge.1) write(6,'('' CPA iterations:'',i3,2x,
+     >'' ERROR:'',d15.6)') itcpa-1,cpaerr
+c
+c                        *************************
+c                        * ending CPA iterations *
+c                        *************************
+c
+c *************************************************************
+c * loop over layers to transform layer diagonal tau matrices *
+c * into physical representation and rotate to the local      *
+c * frame of reference                                        *
+c *************************************************************
+c 
+      do li=1,nintfc
+         cpalay=(1.d0-conc(li)).gt.tiny
+c
+c        --------------------------------------------------------
+         call phystau(taua(1,1,li),tminva(1,1,li),tminva(1,1,li),
+     >                alphaintkkr(0,li),lmax,1)
+c        --------------------------------------------------------
+c
+c rotate tau-matrix to local frame of reference
+c
+         call repl(gtaua(1,1,li),taua(1,1,li),kmymax,kmymaxp)
+c        ------------------------------------------------------
+         call tripmt(dmatpa(1,1,li),taua(1,1,li),dmata(1,1,li),
+     >               kmymax,kmymax,kmymaxp)
+c        ------------------------------------------------------
+c
+         if(itest.gt.2) then
+            write(6,'(/'' tau -A '',i2)') li
+            call outmat1(taua(1,1,li),kmymax,kmymax,kmymaxp,tol,6)
+         end if
+c
+         if(cpalay) then
+c+------------+
+c+ BIG CPA IF +
+c+------------+
+c
+c        --------------------------------------------------------
+         call phystau(taub(1,1,li),tminvb(1,1,li),tminvb(1,1,li),
+     >                alphaintkkr(0,li),lmax,1)
+c        --------------------------------------------------------
+c
+c rotate tau-matrix to local frame of reference
+c
+         call repl(gtaub(1,1,li),taub(1,1,li),kmymax,kmymaxp)
+c        ---------------------------------------------------
+         call tripmt(dmatpb(1,1,li),taub(1,1,li),dmatb(1,1,li),
+     >               kmymax,kmymax,kmymaxp)
+c        ---------------------------------------------------
+c
+         if(itest.gt.2) then
+            write(6,'(/'' tau -B '',i2)') li
+            call outmat1(taub(1,1,li),kmymax,kmymax,kmymaxp,tol,6)
+         end if
+c
+         end if
+c+----------------+
+c+ END BIG CPA IF +
+c+----------------+
+      end do
+c *** end loop over layers ***
+c
+      return
+      end

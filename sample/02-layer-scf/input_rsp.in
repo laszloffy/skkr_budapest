@@ -1,0 +1,39 @@
+Nb8_110                                        JOBNAME FOR LAYER
+Nbb_110.pot0                                   LEFT POTENTIAL 
+Nb8_110.pot0                                   LAYER POTENTIAL
+none                                           RIGHT POTENTIAL
+core.in                                        LAYER CORE CHARGE DENSITIES
+none                                           LEFTMAT
+none                                           LAYMAT
+none                                           RIGHTMAT
+Nbb_110.mom                                    LEFTMOM
+none                                           RIGHTMOM
+1     0                                        ITEST,IWRITE
+.false.                                        LMS
+.false.   .false.  .false.                     BULK,DOS,NSPHERES
+2                                              LMAX
+ 4                                             IXCH
+1.00  1.00                                     ETA,SIGMA
+1  3.0                                         ISCREEN,VSCREEN
+.false.  .false.  .false.  .false.             orbpol,opotl,opotr,opot
+'V'  0.3313324738    1                         RIGHTM (V=Vacuum),V0,NEWVAC
+0.0   0.0                                      qc,cpc
+0     0.200     0.0                            IVACPOT,V00,VRSH
+0 0 0.0                                        LAYSHIFTi-f,POTSHIFT
+0   0.000   0                                  IB0,B0,NOMAG 
+0 0                                            LAYB0i-f
+ 50 50  1.0d-8  0                              ITERMAXL,ITERMAXR,ERRMAX,ICHK
+50   1.0d-5   .false.  .false.                 ITCPAM,CPATOL,CPATEST,CPAIN
+ 0.05     1.5   15                             CMIX,WBR,NBRCASE
+15 15 15 15 15 15 15 15 15 15 15 15 15 15 15   NBRMAX(1:nbrcase)
+ 0.0     1.5   1                               DMIX,WBRDIR,NBRDIR 
+1.0d-10   1.0d-08   1.0d-08                    tolerr,tolef,tolen
+1  1                                           IMESH,NPANEL
+16   0  0 0  -1.0  -0.0183132794260   150.0    NEPANEL,EBOTTOM,ETOP,EPS
+1   0       0.000000 0.000000                  INTBZ,KUNNING,PARK
+5                                              NTAB
+21   10                                        KSETTAB(),INTAB()
+31    2                                        KSETTAB(),INTAB()
+41    2                                        KSETTAB(),INTAB()
+51    1                                        KSETTAB(),INTAB()
+61    1                                        KSETTAB(),INTAB()

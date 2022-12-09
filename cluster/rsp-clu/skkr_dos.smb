@@ -1,0 +1,233 @@
+**++ Symbol table for subprogram MAIN in file skkr_dos.f
+     produced by SPAG     6.50Rc-40 at 15:38:03 on  6 Mar 2014
+   0         X             K             skkr_dos.f,0000001,0000412
+   1         D           U              +../param.h
+   2         C     / 6/  U        920   /LAY2D/CVEC,NEXTRA,NBULKL,NBULKR,NPRC,NINPRC
+   3         C     / 1/  U          4   /TEST/ITEST
+   4          R*8       ?? E            AROT*8
+   5          R*8       ?? E            B0*8
+   6          R*8  ( 3) ?? E   116000   BOPRA(nrad,2,mimp)*8
+   7          R*8  ( 1) ?? E      145   BPHCL(mimp)*8
+   8          R*8  ( 2) ?? E    58000   BRA(nrad,mimp)*8
+   9          R*8  ( 1) ?? E      145   BTHCL(mimp)*8
+  10          X*16      M? E            CE*16
+  11          X*16 ( 1) ?U E      200   CEAR(me)*16
+  12         s     (12)                 CHCORE
+     (I4V,I4V,CAA,R8A,R8A,R8A,I4A,R8A,R8A,R8A,R8A,CUV)
+  13    2   1 R*8  ( 2)C   E      108   CVEC*8(mtotal,3)
+  14          X*16 ( 3) ?? E    46980   D2DPH(kmymaxp,kmymaxp,mimp)*16
+  15          X*16 ( 3) ?? E    46980   D2DPHP(kmymaxp,kmymaxp,mimp)*16
+  16          X*16 ( 3) ?? E    46980   D2DTH(kmymaxp,kmymaxp,mimp)*16
+  17          X*16 ( 3) ?? E    46980   D2DTHP(kmymaxp,kmymaxp,mimp)*16
+  18          X*16 ( 3) ?? E    46980   D2DTHPH(kmymaxp,kmymaxp,mimp)*16
+  19          X*16 ( 3) ?? E    46980   D2DTHPHP(kmymaxp,kmymaxp,mimp)*16
+  20          X*16 ( 3) ?? E    46980   DDPHA(kmymaxp,kmymaxp,mimp)*16
+  21          X*16 ( 3) ?? E    46980   DDPHPA(kmymaxp,kmymaxp,mimp)*16
+  22          X*16 ( 3) ?? E    46980   DDTHA(kmymaxp,kmymaxp,mimp)*16
+  23          X*16 ( 3) ?? E    46980   DDTHPA(kmymaxp,kmymaxp,mimp)*16
+  24          R*8  ( 1) ?? E      145   DENBA(mimp)*8
+  25          R*8          E            DENTOTIFC*8
+  26          X*16 ( 3) ?? E    46980   DMATA(kmymaxp,kmymaxp,mimp)*16
+  27          X*16 ( 3) ?? E    46980   DMATPA(kmymaxp,kmymaxp,mimp)*16
+  28          L         ?? E            DOS
+  29          R*8  ( 2) ?? E     2610   DOSA(kmymaxp,mimp)*8
+  30          R*8  ( 1) ?? E      145   DX(mimp)*8
+  31          R*8  ( 1) ?? E        5   EBOTTOM(5)*8
+  32         s     (15)                 ECOREIMP
+     (I4V,I4V,XGL,XGL,XGL,XGA,XGL,I4V,I4A,I4A,XGA,XGA,XGA,XGA,XGA)
+  33          R*8       M  E            EFERMI*8
+  34          R*8  ( 1) ?? E      145   ENBA(mimp)*8
+  35          R*8       ?? E            ENBIFC*8
+  36          R*8  ( 1) ?? E      145   ENCA(mimp)*8
+  37          R*8  ( 1) ?? E      145   ENORBA(mimp)*8
+  38          R*8          E            ENTOTIFC*8
+  39          R*8          E            ENTOTIFC0*8
+  40          R*8  ( 1) ?? E        5   EPS(5)*8
+  41          R*8       ?? E            ETA*8
+  42          R*8  ( 1) ?U E        5   ETOP(5)*8
+  43          R*8          E            FERR1*8
+  44          C*30      ?? E            FOR006*30
+  45          C*30      ?? E            FOR007*30
+  46          C*30      ?U E            FOR008*30
+  47          C*30      ?? E            FOR009*30
+  48          C*30         E            FOR010*30
+  49          R*8  ( 1) ?? E      145   GRADPH(mimp)*8
+  50          R*8  ( 1) ?? E      145   GRADTH(mimp)*8
+  51          X*16 ( 3) ?? E    46980   GTAUCL(kmymaxp,kmymaxp,mimp)*16
+  52          I         ?? E            IB0
+  53          C*10 ( 1) ?? E      145   IDPOTA(mimp)*10
+  54          I*4       MU E            IE*4
+  55          I*4       M  E            IE0*4
+  56          I*4       M  E            IEK*4
+  57          I*4       MU E            IIMP*4
+  58          I*4       ?? E            IMESH*4
+  59          I         ?? E            IMPB0
+  60          I         ?? E            IMPB0F
+  61          C*30      ?? E            IMPPOT*30
+  62         s                          INITIA
+  63         s     (19)                 INITZERO1
+     (R8A,R8A,R8A,R8A,R8A,R8A,R8A,R8A,R8A,R8A,R8A,XGA,R8A,R8A,R8A,R8A,R8V,R8V
+     ,I4V)
+  64    1    PI            E       30   IORB=30
+  65          I*4       ?? E            ISCREEN*4
+  66          I         ?? E            ISCREENCL
+  67          I    ( 1) ?? E      145   ISIGB(mimp)
+  68          I*4       M  E            ISTOP*4
+  69    3   1 I*4      C U E            ITEST*4
+  70          I*4       MU E            ITSCF*4
+  71          I*4       ?U E            ITSCF0*4
+  72          I*4       M? E            ITSCFCONT*4
+  73          I*4       ?? E            ITSCFMAX*4
+  74          I*4       ?? E            IVACPOT*4
+  75          I         ?? E            IWTAU
+  76    1    PI            E        5   KMAXP=2*lmaxp+1
+  77          I*4       M? E            KMYMAX*4
+  78    1    PI          U E       18   KMYMAXP=2*lmmaxp
+  79          I    ( 2) ?? E    84100   KPAIR(4,mpair)
+  80          I    ( 2) ?? E    21025   KPAIRIND(mimp,mimp)
+  81    1    PI            E        3   L1MAXP=lmaxp+1
+  82          C*30      ?? E            LAYCORE*30
+  83          I*4       ?? E            LFIX1*4
+  84          I*4       ?? E            LFIX2*4
+  85          I*4       ?? E            LLITER*4
+  86          I*4       ?U E            LMAX*4
+  87    1    PI          U E        2   LMAXP=2
+  88    1    PI          U E        9   LMMAXP=(lmaxp+1)**2
+  89          L         ?? E            LMS
+  90    1    PI            E       81   LMSHAPE=(lshape+1)**2
+  91    1    PI          U E       25   LMSUP=(lsup+1)**2
+  92         s     (21)                 LOCALROT2IMP
+     (I4V,I4V,R8A,R8A,R8A,XGA,XGA,XGA,XGA,XGA,XGA,XGA,XGA,R8V,R8V,XGA,XGA,XGA
+     ,XGA,XGA,XGA)
+  93         s     (16)                 LOCQUANT_DOS
+     (XGV,I4V,I4V,L4V,L4V,R8A,R8V,CAA,R8A,R8A,R8A,R8A,I4A,R8A,XGA,R8A)
+  94    1    PI          U E        8   LSHAPE=4*lmaxp
+  95    1    PI          U E        4   LSUP=2*lmaxp
+  96          I         ?? E            MADMAX
+  97         M                     57   MAIN
+  98    1    PI            E        4   MBULK=4
+  99    1    PI            E       27   MDIMNR=minprc*lmmaxp
+ 100    1    PI            E       54   MDIMR=minprc*kmymaxp
+ 101    1    PI          U E    20000   MDIR=20000
+ 102    1    PI            E    20000   MDR=mrec
+ 103    1    PI          U E      200   ME=200
+ 104    1    PI            E     2200   MEKR=2200
+ 105    1    PI            E       12   MELEM=12
+ 106    1    PI            E        8   MELEM1=8
+ 107    1    PI          U E        1   MEXTRA=1
+ 108    1    PI          U E      145   MIMP=145
+ 109    1    PI          U E        3   MINPRC=3
+ 110    1    PI          U E       24   MINTFC=mprc*minprc
+ 111    1    PI            E    20000   MK=mrec
+ 112    1    PI            E    50000   MKPAR=50000
+ 113    1    PI            E       30   MNUM=mintfc+2*minprc
+ 114    1    PI          U E    21025   MPAIR=mimp*mimp
+ 115    1    PI          U E        8   MPRC=8
+ 116    1    PI          U E        8   MPRC1=8
+ 117    1    PI            E    20000   MR=mdir
+ 118    1    PI          U E    20000   MREC=20000
+ 119    1    PI          U E       36   MTOTAL=(mprc+2+mextra*2)*minprc
+ 120    1    PI            E       36   MTOTAL1=(mprc1+2+mextra*2)*minprc
+ 121    2   3 I*4      C   E            NBULKL*4
+ 122    2   4 I*4      C   E            NBULKR*4
+ 123          I*4       ?U E            NE*4
+ 124          I*4       ?? E            NE1*4
+ 125          I*4       ?? E            NE2*4
+ 126          I*4       ?? E            NE3*4
+ 127          I    ( 1) ?? E        5   NEPANEL(5)
+ 128    1    PI            E       16   NET=16
+ 129    2   2 I*4      C U E            NEXTRA*4
+ 130          I*4       ?U E            NIMP*4
+ 131    2   6 I*4  ( 1)C U E       10   NINPRC*4(0:mprc+1)
+ 132          I*4       ?U E            NINTFC*4
+ 133          I*4       MU E            NL*4
+ 134          I         ?? E            NPAIR
+ 135          I*4       ?U E            NPANEL*4
+ 136          I    ( 2) ?U E      435   NPOSIMP(3,mimp)
+ 137    2   5 I*4      C U E            NPRC*4
+ 138    1    PI          U E      400   NRAD=400
+ 139          I    ( 1) ?? E      145   NS(mimp)
+ 140          I*4       M  E            NTOTAL*4
+ 141    1    PI            E        2   NUZP=2
+ 142          I         ?? E            NWTAU
+ 143          I*4       ?? E            OMIFC*4
+ 144          L         ?? E            OPOT
+ 145          L         ?? E            ORBPOL
+ 146          R*8  ( 2) ?? E      435   ORB_MAGVA(mimp,3)*8
+ 147          R*8  ( 3) ?? E     7830   ORB_MAGVPA(kmymaxp,mimp,3)*8
+ 148          R*8       ?? E            PHI0*8
+ 149          R*8  ( 1) ?? E      145   PHIA(mimp)*8
+ 150         s     (20)                 POTHANDLEIMP
+     (I4V,I4V,R8V,I4V,CUV,L4V,CUV,R8A,I4A,R8A,CAA,R8A,R8A,R8A,R8A,I4V,R8V,I4V
+     ,I4V,I4A)
+ 151          X*16 ( 3) ?? E    46980   PTMINV0(kmymaxp,kmymaxp,mimp)*16
+ 152          X*16 ( 3) ?? E    46980   PTMINVA(kmymaxp,kmymaxp,mimp)*16
+ 153          R*8  ( 1) ?? E      145   QCA(mimp)*8
+ 154          X*16 ( 2) ?? E     3625   QMOMA(lmsup,mimp)*16
+ 155          R*8  ( 1) ?? E      145   QVA(mimp)*8
+ 156          R*8       ?? E            QVIFC*8
+ 157          R*8  ( 2) ?? E     2610   QVPA(kmymaxp,mimp)*8
+ 158          R*8  ( 2) ?? E      435   RBA(3,mimp)*8
+ 159         s     (25)                 READCLU
+     (I4V,I4V,I4A,I4V,I4A,I4A,I4V,R8A,R8A,R8A,R8A,CFV,CUV,I4V,I4V,I4V,I4V,R8V
+     ,I4V,I4V,I4A,R8V,R8V,I4V,I4V)
+ 160         s     ( 3)                 READGEOM
+     (I4V,R8V,R8A)
+ 161         s     (30)                 READINI
+     (I4V,I4V,I4V,I4A,I4V,I4V,I4V,R8A,R8A,R8A,I4V,R8V,R8V,CUV,CUV,CUV,CUV,CUV
+     ,L4V,L4V,L4V,R8V,I4V,I4V,R8V,R8V,R8V,L4V,L4V,I4V)
+ 162         s     (13)                 RESTART_IN1
+     (I4V,R8L,R8V,L4V,R8A,R8A,R8A,R8A,I4V,CAA,R8A,CUV,CUV)
+ 163          R*8  ( 2) ?? E    58000   RHOCA(nrad,mimp)*8
+ 164          R*8  ( 3) ?? E   116000   RHODSPA(nrad,2,mimp)*8
+ 165          R*8  ( 2) ?? E    58000   RHOMAGA(nrad,mimp)*8
+ 166          R*8  ( 3) ?? E   116000   RHOSPA(nrad,2,mimp)*8
+ 167          R*8  ( 2) ?? E    58000   RHOVA(nrad,mimp)*8
+ 168          X*16 ( 3) ?? E    90625   RMATA(lmsup,lmsup,mimp)*16
+ 169          X*16 ( 3) ?? E    90625   RMATPA(lmsup,lmsup,mimp)*16
+ 170          R*8      I   E            RNUL*8
+ 171          R*8  ( 1) M? E      145   RS(mimp)*8
+ 172          R*8  ( 1) ?U E       24   RS0(mintfc)*8
+ 173         s     ( 2)                 RZERO
+     (R8A,I4E)
+ 174          R*8       ?? E            SIGMA*8
+ 175          R*8  ( 2) ?? E      435   SPIN_MAGVA(mimp,3)*8
+ 176          R*8  ( 3) ?? E     7830   SPIN_MAGVPA(kmymaxp,mimp,3)*8
+ 177          R*8  ( 1)    E      145   SXA(mimp)*8
+ 178          R*8  ( 1) ?? E      145   SXCL(mimp)*8
+ 179          X*16 ( 3) ?? E    46980   TAUCL(kmymaxp,kmymaxp,mimp)*16
+ 180          X*16 ( 4) ?? E  6812100   TAUCLIJ(kmymaxp,kmymaxp,mimp,mimp)*16
+ 181         s     (10)                 TAUHIN
+     (I4E,XGV,I4V,I4V,I4V,XGL,XGL,XGL,CFV,I4V)
+ 182          C*15      ?? E            TAUPATH*15
+ 183          X*16 ( 3) ?? E     7776   TAU_II(kmymaxp,kmymaxp,mintfc)*16
+ 184          X*16 ( 3) ?? E  6812100   TAU_IJ(kmymaxp,kmymaxp,mpair)*16
+ 185          X*16 ( 3) ?? E  6812100   TAU_JI(kmymaxp,kmymaxp,mpair)*16
+ 186          R*8       ?? E            THETA0*8
+ 187         s     ( 6)                 THIN
+     (I4E,XGV,I4V,I4V,XGL,CFV)
+ 188          R*8      I   E            TINY*8
+ 189         s     (22)                 TMATINIIMP
+     (XGV,I4V,I4V,I4V,I4A,I4V,R8V,R8V,L4V,R8A,CAA,R8A,R8A,R8A,R8A,I4A,R8A,XGA
+     ,XGA,XGA,XGA,XGA)
+ 190          X*16 ( 3) ?? E    46980   TMINVA(kmymaxp,kmymaxp,mimp)*16
+ 191          X*16 ( 3) ?? E     7776   TMINVH(kmymaxp,kmymaxp,mintfc)*16
+ 192          R*8       ?? E            TOLEF*8
+ 193          R*8       ?? E            TOLEN*8
+ 194          R*8       ?? E            TOLERR*8
+ 195          R*8       ?U E            V0*8
+ 196          R*8       ?? E            V00*8
+ 197          R*8  ( 2) ?? E      435   VECNA(3,mimp)*8
+ 198          R*8  ( 3) ?? E    84100   VIJ(4,mimp,mimp)*8
+ 199          R*8  ( 1) ?? E      145   VMADID(mimp)*8
+ 200          R*8  ( 1) ?? E      145   VMADIQ(mimp)*8
+ 201          R*8  ( 2) ?? E    58000   VRA(nrad,mimp)*8
+ 202          R*8       ?? E            VSCREEN*8
+ 203          X*16 ( 1) ?U E      200   WE(me)*16
+ 204          L         ?? E            WREL
+ 205          R*8  ( 1) ?? E      145   ZA(mimp)*8
+ 206          X*16      ?? E            ZE*16
+ 207         s     (11)                 ZMESH
+     (I4V,I4V,I4A,I4V,I4V,I4V,R8A,R8A,R8A,XGA,XGA)
+**-- END OF SYMBOL TABLE
+**+-!*--MAIN5 skkr_dos.spg

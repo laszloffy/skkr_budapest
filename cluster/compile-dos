@@ -1,0 +1,10 @@
+#for i in 50 100 150 200 250; do
+for i in 100; do
+POST=_PL4L3N$i
+cp -f param.h-clu$POST param.h
+cp -f ./main/chcore.f.clu ./main/chcore.f
+make del-all.o
+make rsp-clu-dos.run
+mv rsp-clu-dos.run rsp-clu-dos.run$POST
+###make -f sce/makefile.cluster rsp-sce.run
+done

@@ -1,0 +1,157 @@
+      do i1=1,kmymaxp
+      do i2=1,mimp
+      do i3=1,me
+       idatc=idatc+1
+       datain(idatc)=dosa(i3,i2,i1)
+      end do
+      end do
+      end do
+c
+      do i1=1,kmymaxp
+      do i2=1,mimp
+       idatc=idatc+1
+       datain(idatc)=qvpa(i2,i1)
+      end do
+      end do
+c
+      do i1=1,mimp
+       idatc=idatc+1
+       datain(idatc)=qva(i1)
+      end do
+c
+      do i1=1,mimp
+      do i2=1,me
+       idatc=idatc+1
+       datain(idatc)=qvdiffa(i2,i1)
+      end do
+      end do
+c
+      do i1=1,mimp
+       idatc=idatc+1
+       datain(idatc)=vmadid(i1)
+      end do
+c
+      do i1=1,mimp
+       idatc=idatc+1
+       datain(idatc)=vmadiq(i1)
+      end do
+c
+      do i1=1,mimp
+       idatc=idatc+1
+       datain(idatc)=enba(i1)
+      end do
+c
+      do i1=1,mimp
+      do i2=1,me
+       idatc=idatc+1
+       datain(idatc)=enbdiffa(i2,i1)
+      end do
+      end do
+c
+      do i1=1,mimp
+       idatc=idatc+1
+       datain(idatc)=denba(i1)
+      end do
+c
+      do i1=1,mimp
+       idatc=idatc+1
+       datain(idatc)=enorba(i1)
+      end do
+c
+      do i1=1,nrad
+      do i2=1,mimp
+       idatc=idatc+1
+       datain(idatc)=rhova(i2,i1)
+      end do
+      end do
+c
+      do i1=1,nrad
+      do i2=1,2
+      do i3=1,mimp
+       idatc=idatc+1
+       datain(idatc)=rhospa(i3,i2,i1)
+      end do
+      end do
+      end do
+c
+      do i1=1,nrad
+      do i2=1,2
+      do i3=1,mimp
+       idatc=idatc+1
+       datain(idatc)=rhodspa(i3,i2,i1)
+      end do
+      end do
+      end do
+c
+      do i1=1,nrad
+      do i2=1,mimp
+       idatc=idatc+1
+       datain(idatc)=rhomaga(i2,i1)
+      end do
+      end do
+c
+      do i1=1,kmymaxp
+      do i2=1,mimp
+      do i3=1,me
+       idatc=idatc+1
+       datain(idatc)=dosmaga(i3,i2,i1)
+      end do
+      end do
+      end do
+c
+      do i1=1,kmymaxp
+      do i2=1,mimp
+      do i3=1,3
+       idatc=idatc+1
+       datain(idatc)=spin_magvpa(i3,i2,i1)
+      end do
+      end do
+      end do
+c
+      do i1=1,mimp
+      do i2=1,3
+       idatc=idatc+1
+       datain(idatc)=spin_magva(i2,i1)
+      end do
+      end do
+c
+      do i1=1,kmymaxp
+      do i2=1,mimp
+      do i3=1,3
+       idatc=idatc+1
+       datain(idatc)=orb_magvpa(i3,i2,i1)
+      end do
+      end do
+      end do
+c
+      do i1=1,mimp
+      do i2=1,3
+       idatc=idatc+1
+       datain(idatc)=orb_magva(i2,i1)
+      end do
+      end do
+c
+      do i1=1,4
+      do i2=1,mimp
+      do i3=1,mimp
+       idatc=idatc+1
+       datain(idatc)=vij(i3,i2,i1)
+      end do
+      end do
+      end do
+c
+      do i1=1,mimp
+       idatc=idatc+1
+       datain(idatc)=gradth(i1)
+      end do
+c
+      do i1=1,mimp
+       idatc=idatc+1
+       datain(idatc)=gradph(i1)
+      end do
+c
+      do i1=1,1
+       idatc=idatc+1
+       datain(idatc)=ebl(i1)
+      end do
+c

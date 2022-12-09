@@ -1,0 +1,62 @@
+SPAG - Version 6.50Rc
+Copyright (C) Polyhedron Software - 1986-2002 - All rights reserved
+ 
+Licensee : Intel Linux Starter Pack
+         : For EDUCATIONAL, ACADEMIC and COMMERCIAL EVALUATION use only.
+ 
+Licence data             read from /usr/local/plusfort/plusFORT.fig
+Licence Expiry Date  Dec 2020
+Sorry - your licence does not cover Clutter removal
+Item 3 of configuration data reduced to 1
+ 
+INTRINSIC function names read from /usr/local/plusfort/f90func.txt
+Configuration data       read from /usr/local/plusfort/spag.fig
+--------------------------------------------------------------------
+<>W INCLUDEd file cannot be opened           mpif.h
+    detected at line      7 of skkr.f
+      INCLUDE 'mpif.h'
+Finished reading MAIN from file skkr.f
+<>I Variable assigned a value but not used   ALLOCATESTATUS
+<>I Variable declared but not used           BULK
+<>I Variable assigned a value but not used   DENTOTIFC
+<>I Variable declared but not used           ENCB
+<>I Variable declared but not used           FOR010
+<>I Variable declared but not used           I1
+<>I Variable declared but not used           I2
+<>I Variable declared but not used           I3
+<>I Variable declared but not used           I4
+<>I Variable assigned a value but not used   IE0
+<>I Variable assigned a value but not used   IEK
+<>W Local variable used but not set          MPI_SUCCESS
+<>I Variable assigned a value but not used   NTOTAL
+<>I Variable declared but not used           OUT010
+<>I Variable declared but not used           QCB
+<>I Variable declared but not used           QMOMLA
+<>I Variable declared but not used           QMOMRA
+<>I Variable declared but not used           RBCL
+<>I Variable declared but not used           RHOCB
+<>I Variable declared but not used           RMT
+<>I Variable declared but not used           RNUL
+<>I Variable declared but not used           SXA
+<>I Variable declared but not used           TINY
+<>I Variable declared but not used           VSCREEN0
+<>I Variable declared but not used           ZB
+<>I INTRINSIC functn name used for variable  TINY
+Re-structuring..Writing MAIN
+--------------------------------------------------------------------
+ 
+End of input after    1 sub-programs (   837 lines)
+ 
+   1 were re-structured
+   1 were re-labelled
+   1 were beautified
+ 
+    27 diagnostics generated
+ 
+    19 occurrences of Variable declared but not used
+     1 occurrences of Local variable used but not set
+     5 occurrences of Variable assigned a value but not used
+     1 occurrences of INCLUDEd file cannot be opened
+     1 occurrences of INTRINSIC functn name used for variable
+ 
+SPAG finished normally

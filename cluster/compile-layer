@@ -1,0 +1,7 @@
+POST=_PL4L2
+cp -f ./main/chcore.f.lay ./main/chcore.f
+cp -f param.h-save-lay$POST param.h
+make del-all.o
+make rsp-lay_save.run
+rm -f ./main/chcore.f
+mv rsp-lay_save.run rsp-lay_save.run$POST

@@ -1,0 +1,4 @@
+make del-all.o
+cp param.h-PL4L2 param.h
+make rsp-scf.run
+mv rsp-scf.run rsp-scf_ksave.run-PL4L2

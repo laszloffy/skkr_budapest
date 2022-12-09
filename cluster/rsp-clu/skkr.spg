@@ -1,0 +1,706 @@
+!*==main.spg  processed by SPAG 6.50Rc at 12:53 on 27 Feb 2018
+      PROGRAM MAIN
+c      use mpi
+c      implicit real*8 (a-h,o-z)
+      IMPLICIT NONE
+!*--MAIN6
+c
+      INCLUDE '../param.h'
+      INCLUDE 'mpif.h'
+c
+      LOGICAL bulk
+      LOGICAL dos
+      LOGICAL wrel
+      LOGICAL lms
+      LOGICAL orbpol
+      LOGICAL opot
+c
+      CHARACTER*10 idpota(MIMP)
+      CHARACTER*30 for006
+      CHARACTER*30 for007
+      CHARACTER*30 for008
+      CHARACTER*30 for009
+      CHARACTER*30 for010
+      CHARACTER*30 laycore
+c
+      REAL*8 tiny , rnul , eta , sigma , tolerr
+      REAL*8 tolef , tolen , arot , v00 , v0
+      REAL*8 efermi , enbifc , qvifc , ferr1 , entotifc
+      REAL*8 dentotifc , entotifc0 , CVEc
+ 
+      INTEGER*4 imesh , ne , npanel , ne1 , ne2 , rnet , cnet
+                                                  !reduced net, current net
+      INTEGER*4 ne3 , lmax , iscreen , itscfmax , lliter
+      INTEGER*4 nintfc , nimp , lfix1 , lfix2
+      INTEGER*4 iimp , nl , kmymax , ntotal , NINprc
+      INTEGER*4 NEXtra , NPRc , ivacpot , itscf0 , ITEst
+      INTEGER*4 ie , itscf , istop
+      INTEGER*4 itscfcont , omifc , ie0 , iek
+      INTEGER*4 NBUlkl
+      INTEGER*4 NBUlkr
+c
+      REAL*8 lza(2,MIMP)
+c
+      INTEGER nepanel(5)
+      INTEGER ns(MIMP)
+      REAL*8 ebottom(5)
+      REAL*8 etop(5)
+      REAL*8 eps(5)
+c
+      REAL*8 vra(NRAD,MIMP)
+      REAL*8 bra(NRAD,MIMP)
+      REAL*8 bopra(NRAD,2,MIMP)
+      REAL*8 rs(MIMP)
+      REAL*8 rs0(MINTFC)
+      REAL*8 dx(MIMP)
+      REAL*8 rmt(MIMP)
+c
+      REAL*8 za(MIMP)
+      REAL*8 sxa(MIMP)
+      REAL*8 qca(MIMP)
+      REAL*8 qva(MIMP)
+      REAL*8 qvpa(KMYMAXP,MIMP)
+c
+      REAL*8 zb(MIMP)
+      REAL*8 qcb(MIMP)
+      REAL*8 encb(MIMP)
+      REAL*8 rhocb(NRAD,MIMP)
+c
+      REAL*8 vecna(3,MIMP)
+      REAL*8 rba(3,MIMP)
+      REAL*8 phia(MIMP)
+c
+      COMPLEX*16 ddpha(KMYMAXP,KMYMAXP,MIMP)
+      COMPLEX*16 ddphpa(KMYMAXP,KMYMAXP,MIMP)
+      COMPLEX*16 ddtha(KMYMAXP,KMYMAXP,MIMP)
+      COMPLEX*16 ddthpa(KMYMAXP,KMYMAXP,MIMP)
+c
+      COMPLEX*16 dmata(KMYMAXP,KMYMAXP,MIMP)
+      COMPLEX*16 dmatpa(KMYMAXP,KMYMAXP,MIMP)
+      COMPLEX*16 rmata(LMSUP,LMSUP,MIMP)
+      COMPLEX*16 rmatpa(LMSUP,LMSUP,MIMP)
+c
+      REAL*8 dosa(KMYMAXP,MIMP,ME)
+      REAL*8 dosmaga(KMYMAXP,MIMP,ME)
+      REAL*8 enbdiffa(MIMP,ME)
+      REAL*8 qvdiffa(MIMP,ME)
+c
+      REAL*8 spin_magvpa(KMYMAXP,MIMP,3)
+      REAL*8 spin_magva(MIMP,3)
+      REAL*8 orb_magvpa(KMYMAXP,MIMP,3)
+      REAL*8 orb_magva(MIMP,3)
+      REAL*8 enba(MIMP)
+      REAL*8 denba(MIMP)
+      REAL*8 enca(MIMP)
+      REAL*8 enela(MIMP)
+      REAL*8 enxca(MIMP)
+      REAL*8 enpota(MIMP)
+      REAL*8 enmaga(MIMP)
+      REAL*8 enorba(MIMP)
+      REAL*8 entota(MIMP)
+      REAL*8 entot(MIMP)
+      REAL*8 rhoca(NRAD,MIMP)
+      REAL*8 rhova(NRAD,MIMP)
+      REAL*8 rhospa(NRAD,2,MIMP)
+      REAL*8 rhodspa(NRAD,2,MIMP)
+      REAL*8 rhomaga(NRAD,MIMP)
+c
+      REAL*8 spinmoma(MIMP)
+      REAL*8 orbmoma(MIMP)
+      REAL*8 th0a(MIMP)
+      REAL*8 th1a(MIMP)
+      REAL*8 ph0a(MIMP)
+      REAL*8 ph1a(MIMP)
+c
+      COMPLEX*16 cear(ME)
+      COMPLEX*16 we(ME)
+      COMPLEX*16 ce
+c
+      COMPLEX*16 tminva(KMYMAXP,KMYMAXP,MIMP)
+      COMPLEX*16 ptminva(KMYMAXP,KMYMAXP,MIMP)
+      COMPLEX*16 ptminv0(KMYMAXP,KMYMAXP,MIMP)
+c
+c     complex*16 taua(kmymaxp,kmymaxp,mimp)
+c     complex*16 gtaua(kmymaxp,kmymaxp,mimp)
+c
+      COMPLEX*16 qmoma(LMSUP,MIMP)
+      COMPLEX*16 qmomla(LMSUP,MINPRC)
+      COMPLEX*16 qmomra(LMSUP,MINPRC)
+c
+c -----------immpurities----------
+      COMPLEX*16 detl , det0(ME)
+      COMPLEX*16 detlie(ME)
+      REAL*8 ebl
+c
+      CHARACTER*30 imppot
+      CHARACTER*15 taupath
+c
+      REAL*8 b0
+c
+      INTEGER ib0
+      INTEGER impb0
+      INTEGER impb0f
+      INTEGER isigb(MIMP)
+c
+      INTEGER iscreencl
+      INTEGER nposimp(3,MIMP)
+      INTEGER kpairind(MIMP,MIMP)
+      INTEGER kpair(4,MPAIR)
+      INTEGER npair
+      INTEGER madmax
+c
+      REAL*8 rbcl(3,MIMP)
+      REAL*8 bthcl(MIMP)
+      REAL*8 bphcl(MIMP)
+      REAL*8 sxcl(MIMP)
+c
+      REAL*8 vmadih(MIMP)
+      REAL*8 vmadich(MIMP)
+      REAL*8 vmadid(MIMP)
+      REAL*8 vmadiq(MIMP)
+c
+c     complex*16 tau_ii(kmymaxp,kmymaxp,mintfc,net)
+c     complex*16 tminvh(kmymaxp,kmymaxp,mintfc,net)
+      COMPLEX*16 , ALLOCATABLE :: tau_ii(:,:,:,:)
+      COMPLEX*16 , ALLOCATABLE :: tminvh(:,:,:,:)
+c
+c     complex*16 tau_ij(kmymaxp,kmymaxp,mpair,net)
+c     complex*16 tau_ji(kmymaxp,kmymaxp,mpair,net)
+      COMPLEX*16 , ALLOCATABLE :: tau_ij(:,:,:,:)
+      COMPLEX*16 , ALLOCATABLE :: tau_ji(:,:,:,:)
+      COMPLEX*16 taucl(KMYMAXP,KMYMAXP,MIMP)
+      COMPLEX*16 gtaucl(KMYMAXP,KMYMAXP,MIMP)
+c
+      COMPLEX*16 tauclij(KMYMAXP,KMYMAXP,MIMP,MIMP)
+c     complex*16, allocatable :: tauclij(:,:,:,:)
+c
+      COMPLEX*16 ze
+c
+      REAL*8 vscreen
+      REAL*8 vscreen0
+c variables for the derivatives of the free energy
+      COMPLEX*16 d2dph(KMYMAXP,KMYMAXP,MIMP)
+      COMPLEX*16 d2dphp(KMYMAXP,KMYMAXP,MIMP)
+      COMPLEX*16 d2dth(KMYMAXP,KMYMAXP,MIMP)
+      COMPLEX*16 d2dthp(KMYMAXP,KMYMAXP,MIMP)
+      COMPLEX*16 d2dthph(KMYMAXP,KMYMAXP,MIMP)
+      COMPLEX*16 d2dthphp(KMYMAXP,KMYMAXP,MIMP)
+      REAL*8 theta0 , phi0
+c
+      COMPLEX*16 dtmph(KMYMAXP,KMYMAXP,MIMP)
+      COMPLEX*16 dtmth(KMYMAXP,KMYMAXP,MIMP)
+      COMPLEX*16 d2tmph(KMYMAXP,KMYMAXP,MIMP)
+      COMPLEX*16 d2tmth(KMYMAXP,KMYMAXP,MIMP)
+      COMPLEX*16 d2tmthph(KMYMAXP,KMYMAXP,MIMP)
+c
+      REAL*8 vij(4,MIMP,MIMP) , gradth(MIMP) , gradph(MIMP)
+      REAL*8 dedmx(MIMP) , dedmy(MIMP) , dedmz(MIMP)
+c---------------------------------
+      INTEGER iwtau , nwtau
+c---------------------------------
+c Laszloffy 06/04/17
+      LOGICAL isscf , rotind , spinorb
+      REAL*8 dmmin
+c mpi test
+      INTEGER out010
+      INTEGER i1 , i2 , i3 , i4
+c
+      COMMON /TEST  / ITEst
+      COMMON /LAY2D / CVEc(MTOTAL,3) , NEXtra , NBUlkl , NBUlkr , NPRc , 
+     &                NINprc(0:MPRC+1)
+c
+      DATA tiny/1.0D-6/
+      DATA rnul/0.D0/
+c     data tolerr,tolef,tolen,tolv0/1.0d-10,1.0d-10,1.0d-9,1.0d-08/
+c
+c MPI parameters
+      INTEGER ROOt , MYRank , NPRocs , ierror
+      COMMON /MPI0  / ROOt , MYRank , NPRocs
+c
+      INTEGER allocatestatus
+      REAL*8 start0 , init , tscf , tchcore , tinitzero1 , 
+     &       tlocalrot2imp , tenergy , ttmatiniimp , tderivt , 
+     &       tecoreimp , tjij , tlocquant , start , finish , 
+     &       tcollect_data , tprintjij
+c
+c     ***************************************************************
+c                            INITIALIZE
+c     ***************************************************************
+      CALL CPU_TIME(start0)
+c
+!   MPI BEGIN
+      ROOt = 0
+      CALL MPI_INIT(ierror)
+      CALL MPI_COMM_RANK(mpi_comm_world,MYRank,ierror)
+      CALL MPI_COMM_SIZE(mpi_comm_world,NPRocs,ierror)
+c     call mpi_barrier(mpi_comm_world,ierror)
+!   MPI END
+c
+      OPEN (UNIT=5,FILE='input_rsp.in',STATUS='old')
+c     ---------------------------------------------------------------
+                 !park,kset,ksetmax,itcpam,cpatol,cpatest,
+c    > leftpot,rightpot,laypot,
+                                   !for010,iwrite,
+               !leftmat,rightmat,laymat,
+                !bulk,
+           !rightm,newvac,ivacpot,v0,v00,
+                                   !intbz,kunning,
+      CALL READINI(imesh,ne,npanel,nepanel,ne1,ne2,ne3,ebottom,etop,eps,
+     &             lmax,eta,sigma,for006,for007,for008,for009,laycore,
+     &             wrel,lms,dos,vscreen,iscreen,itscfmax,tolerr,tolef,
+     &             tolen,orbpol,opot,lliter,isscf,rotind,spinorb,dmmin)
+              !opotl,opotr,
+c     ---------------------------------------------------------------
+      CLOSE (5)
+      WRITE (6,'(/" Running on",i3," parallel processes."/)') NPRocs
+c
+c     call mpi_barrier(mpi_comm_world,ierror)
+c
+      OPEN (UNIT=5,FILE='input_geo.in',STATUS='old')
+c     ---------------------------------------------------------------
+      CALL READGEOM(nintfc,arot,rs0)
+c     call readgeom(bulk,bulkgeo,rightm,intbz,nintfc,arot,
+c    > rsl,concl,rbl,sxl,
+c    > rs,conc,rba,rbb,sxa,sxb,
+c    > rsr,concr,rbr,sxr,
+c    > lfix1,lfix2,linbw,igraph,iesublatt,lsublatt)
+c     ---------------------------------------------------------------
+      CLOSE (5)
+c     call mpi_barrier(mpi_comm_world,ierror)
+c
+c     ---------------------------------------------------------------
+      CALL READCLU(nintfc,nimp,nposimp,npair,kpair,kpairind,iscreencl,
+     &             bthcl,bphcl,rba,sxcl,taupath,imppot,madmax,lfix1,
+     &             lfix2,ib0,b0,impb0,impb0f,isigb,theta0,phi0,iwtau,
+     &             nwtau)
+c     ---------------------------------------------------------------
+c     call mpi_barrier(mpi_comm_world,ierror)
+      DO iimp = 1 , nimp
+         rs(iimp) = rs0(nposimp(3,iimp))
+      ENDDO
+c
+      WRITE (6,'(/2x,''routine MAIN>''/)')
+c
+      nl = lmax + 1
+      kmymax = 2*nl*nl
+      ntotal = nintfc + NINprc(0)*(NEXtra+1) + NINprc(NPRc+1)*(NEXtra+1)
+c
+c -read Impuity potentials
+c
+c     ---------------------------------------------------------------
+      CALL POTHANDLEIMP(lmax,nimp,v00,ivacpot,for006,opot,imppot,dx,ns,
+     &                  rs,idpota,vra,bra,bopra,za,ib0,b0,impb0,impb0f,
+     &                  isigb)
+c     ---------------------------------------------------------------
+c     call mpi_barrier(mpi_comm_world,ierror)
+!     do imp=1,nimp
+!       if(itest.ge.2) then
+!        write(6,*) '<skkr>: after pothandleimp'
+!         write(6,*) '<skkr>: imp=',imp
+!         write(6,*) '<skkr>: idpota=',idpota(imp)
+!         write(6,*) '<skkr>: v0=',v0
+!         write(6,*) '<skkr>: dx=',dx(imp)
+!         write(6,*) '<skkr>: ns=',ns(imp)
+!         write(6,*) '<skkr>: rs=',rs(imp)
+!         write(6,*) '<skkr>: sxcl=',sxcl(imp)
+!       end if
+!     end do
+c
+c
+c -read in data from update file if exists
+c    ----------------------------------------------------------------
+      CALL RESTART_IN1(itscf0,etop(npanel),v0,opot,vra,bra,bopra,rba,
+     &                 nimp,idpota,za,laycore,for006)
+c    ----------------------------------------------------------------
+c     call mpi_barrier(mpi_comm_world,ierror)
+c
+c -initialize common blocks
+c
+      CALL INITIA
+c
+c -generate energy mesh (fix energy contour)
+c
+c     ---------------------------------------------------------
+      CALL ZMESH(imesh,npanel,nepanel,ne1,ne2,ne3,ebottom,etop,eps,cear,
+     &           we)
+c     ---------------------------------------------------------
+c     call mpi_barrier(mpi_comm_world,ierror)
+      IF ( ITEst.GE.2 ) THEN
+         WRITE (6,*)
+         DO ie = 1 , ne
+            WRITE (6,'('' ie='',i2,'' e='',2f12.8,'' w='',2f12.8)') ie , 
+     &             cear(ie) , we(ie)
+         ENDDO
+         WRITE (6,*) 'CROSSCHECK RSCL!!!!!!!!!'
+         WRITE (6,*) 'GIVE MADMAX!!!!!!!!!!!!!'
+         WRITE (6,*) 'EMAD!!!!!!!!!!!!!'
+         WRITE (6,*) 'direction mixing!!!!!!!!!!!!!'
+!       write(6,*) 'READ V0!!!!!!!!!!!!'
+!       write(6,*) 'SCRPAR!!!!!!!!!!!!!'
+!       write(6,*) 'RESTART!!!!!!!!!!!!!'
+      ENDIF
+c
+c =====================================================================
+c - read in the host t and tau matrices
+c     ALLOCATE ( tauclij(kmymaxp,kmymaxp,mimp,mimp),
+c    >                  STAT = AllocateStatus)
+      rnet = ne/NPRocs
+      IF ( MYRank.LT.MOD(ne,NPRocs) ) rnet = rnet + 1
+      ALLOCATE (tau_ji(KMYMAXP,KMYMAXP,MPAIR,rnet),STAT=allocatestatus)
+      ALLOCATE (tau_ij(KMYMAXP,KMYMAXP,MPAIR,rnet),STAT=allocatestatus)
+      ALLOCATE (tau_ii(KMYMAXP,KMYMAXP,MINTFC,rnet),STAT=allocatestatus)
+      ALLOCATE (tminvh(KMYMAXP,KMYMAXP,MINTFC,rnet),STAT=allocatestatus)
+      cnet = 0
+      DO ie = 1 , ne
+         IF ( MOD(ie-1,NPRocs).EQ.MYRank ) THEN
+c       write(6,*) 'ie-1,nprocs,myrank,modulo:',ie-1,nprocs,myrank,
+c    >               mod(ie-1,nprocs),mod(ie-1,nprocs).eq.myrank
+            cnet = cnet + 1
+            ze = cear(ie)
+            CALL TAUHIN(ie,ze,npair,nintfc,kmymax,tau_ij(1,1,1,cnet),
+     &                  tau_ji(1,1,1,cnet),tau_ii(1,1,1,cnet),taupath,
+     &                  imesh)
+            CALL THIN(ie,ze,nintfc,kmymax,tminvh(1,1,1,cnet),taupath)
+         ENDIF
+      ENDDO
+c
+c     call mpi_barrier(mpi_comm_world,ierror)
+      CALL VHIN(nimp,vmadih,v0,iscreencl,vscreen,kpairind,taupath)
+c =====================================================================
+c     call mpi_barrier(mpi_comm_world,ierror)
+      WRITE (6,*)
+      WRITE (6,'(2x,''etop= '',f17.13)') etop(npanel)
+      WRITE (6,*) 'v0=  ' , v0
+c
+c
+      CALL CPU_TIME(init)
+c
+c
+c     *************************************************************
+c               START SELFCONSISTENT ITERATIONS
+c     *************************************************************
+c
+      itscf = 0
+      istop = 0
+      efermi = etop(npanel)
+c set det0 array
+      DO ie = 1 , ne
+         det0(ie) = (0.D0,0.D0)
+      ENDDO
+c
+ 100  CALL CPU_TIME(tscf)
+c
+      itscf = itscf + 1
+      itscfcont = itscf0 + itscf
+      WRITE (6,'(/'' Selfconsistent iteration: '',i3/)') itscf
+c
+c -solve Diraq equation for core states
+c  (non spin-polarized!)
+c
+c     ------------------------------------------------------------
+      CALL CHCORE(itscfcont,nimp,idpota,vra,za,dx,ns,rs,qca,rhoca,enca,
+     &            for006)
+c     ------------------------------------------------------------
+      CALL CPU_TIME(tchcore)
+c     call mpi_barrier(mpi_comm_world,ierror)
+c
+c - set quantities for contour integration to zero
+c     -----------------------------------------------------------
+      CALL INITZERO1(qvpa,qva,vmadid,vmadiq,spin_magvpa,spin_magva,
+     &               orb_magvpa,orb_magva,enba,denba,enorba,qmoma,rhova,
+     &               rhospa,rhodspa,rhomaga,enbifc,qvifc,omifc)
+c set vij, gradth, gradph to zero
+      CALL RZERO(vij,4*MIMP*MIMP)
+      CALL RZERO(gradth,MIMP)
+      CALL RZERO(gradph,MIMP)
+      ebl = 0.D0
+c     -----------------------------------------------------------
+      CALL CPU_TIME(tinitzero1)
+c     call mpi_barrier(mpi_comm_world,ierror)
+c
+c Rotation matrices between local and global frames of reference
+c
+c     -------------------------------------------------------------
+      CALL LOCALROT2IMP(lmax,nimp,rba,vecna,phia,dmata,dmatpa,ddpha,
+     &                  ddphpa,ddtha,ddthpa,rmata,rmatpa,theta0,phi0,
+     &                  d2dph,d2dphp,d2dth,d2dthp,d2dthph,d2dthphp)
+c     -------------------------------------------------------------
+c     call mpi_barrier(mpi_comm_world,ierror)
+      CALL CPU_TIME(tlocalrot2imp)
+c test localrot
+c     write(6,*) 'ddph'
+c     call testrot(dmata,dmatpa,ddpha,ddphpa,nimp,kmymax)
+c     write(6,*) 'ddth'
+c     call testrot(dmata,dmatpa,ddtha,ddthpa,nimp,kmymax)
+c test localrot vege
+      IF ( iwtau.EQ.1 ) THEN
+         OPEN (UNIT=16,FILE='adatok.bin',FORM='unformatted')
+         WRITE (16) kmymax , ne
+      ENDIF
+ 
+c                 *************************
+c                 *** Start energy loop ***
+c                 *************************
+c
+      ie0 = 1
+      iek = 0
+      cnet = 0
+      DO ie = 1 , ne
+         IF ( MOD(ie-1,NPRocs).EQ.MYRank ) THEN
+            CALL CPU_TIME(tenergy)
+c
+c
+            cnet = cnet + 1
+c
+            ce = cear(ie)
+c
+c  t-matrices
+c     call mpi_barrier(mpi_comm_world,ierror)
+c     ------------------------------------------------------
+c     call mpi_bcast(dmata(9,10,1),1,mpi_complex16,
+c    > root,mpi_comm_world,ierror)
+            CALL TMATINIIMP(ce,lmax,nintfc,nimp,nposimp,iscreencl,
+     &                      vscreen,v0,wrel,sxcl,idpota,vra,bra,bopra,
+     &                      dx,ns,rs,dmata,dmatpa,tminva,ptminva,
+     &                      ptminv0)
+c
+c     call mpi_barrier(mpi_comm_world,ierror)
+c
+            CALL CPU_TIME(ttmatiniimp)
+c
+c
+c     ------------------------------------------------------
+c       write(6,'('' tmat'')')
+c       call flush(6)
+c  calculate derivatives of the physical t^{-1} matrices
+c =====================================================================
+            CALL DERIVT(nimp,kmymax,ptminv0,dmata,dmatpa,ddpha,ddphpa,
+     &                  d2dph,d2dphp,ddtha,ddthpa,d2dth,d2dthp,d2dthph,
+     &                  d2dthphp,dtmph,dtmth,d2tmph,d2tmth,d2tmthph)
+            CALL CPU_TIME(tderivt)
+c
+c  calculate tau-matices
+c =====================================================================
+            CALL ECOREIMP(nimp,iscreencl,tau_ij(1,1,1,cnet),
+     &                    tau_ji(1,1,1,cnet),tau_ii(1,1,1,cnet),ptminva,
+     &                    tminvh(1,1,1,cnet),lmax,nposimp,kpairind,
+     &                    dmata,dmatpa,gtaucl,taucl,tauclij,detl)
+            CALL CPU_TIME(tecoreimp)
+c =====================================================================
+c      if(itest.ge.2) call timit(tindex,6)
+c    band energy from Lloyds formula
+c        write(6,*) 'det:',ie,ce,detl
+            detlie(ie) = detl
+            CALL SETPHASE(det0(ie),detl)
+            ebl = ebl + DIMAG(we(ie)*detl)
+c
+c       write(6,'('' cpa'')')
+c       call flush(6)
+c
+c  calculate first and second derivatives of the band energy
+            CALL JIJ(nimp,kmymax,we(ie),tauclij,dtmph,dtmth,d2tmph,
+     &               d2tmth,d2tmthph,vij,gradph,gradth)
+            CALL CPU_TIME(tjij)
+c =====================================================================
+c
+c  calculate local physical quantities
+c  integrate with respect to energy
+c     --------------------------------------------------------------
+            CALL LOCQUANT2(ie,ce,we(ie),lmax,madmax,nimp,wrel,lms,sxcl,
+     &                     v0,idpota,vra,bra,bopra,dx,ns,rs,nimp,
+     &                     nposimp,dmata,dmatpa,ddpha,ddphpa,ddtha,
+     &                     ddthpa,rmata,rmatpa,taucl,gtaucl,ptminva,
+     &                     dosa(1,1,ie),qvpa,qva,qvdiffa(1,ie),vmadid,
+     &                     vmadiq,enba,enbdiffa(1,ie),denba,enorba,
+     &                     qmoma,rhova,rhospa,rhodspa,rhomaga,
+     &                     dosmaga(1,1,ie),spin_magvpa,spin_magva,
+     &                     orb_magvpa,orb_magva,lliter,efermi,enbifc,
+     &                     qvifc,omifc,iwtau,nwtau)
+            CALL CPU_TIME(tlocquant)
+c     --------------------------------------------------------------
+         ENDIF
+c     ------------------------------------------------------------------
+c      call cpu_time(start)
+c     call mpi_barrier(mpi_comm_world,ierror)
+c      call cpu_time(finish)
+c      write(6,'(/" MPI sync idle time =",f10.3," s")') finish-start
+c
+c
+      ENDDO
+c
+c                 **************************
+c                 *** End of energy loop ***
+c                 **************************
+c
+c
+      CALL CPU_TIME(start)
+      CALL MPI_BARRIER(mpi_comm_world,ierror)
+      CALL CPU_TIME(finish)
+c
+      CALL COLLECT_DATA(kmymax,nimp,ne,dosa,qvpa,qva,qvdiffa,vmadid,
+     &                  vmadiq,enba,enbdiffa,denba,enorba,qmoma,rhova,
+     &                  rhospa,rhodspa,rhomaga,dosmaga,spin_magvpa,
+     &                  spin_magva,orb_magvpa,orb_magva,vij,gradph,
+     &                  gradth,ebl)
+c
+      CALL CPU_TIME(tcollect_data)
+c
+      DO ie = 1 , ne
+         IF ( MOD(ie-1,NPRocs).EQ.MYRank ) WRITE (6,*) 'det:' , ie , 
+     &        cear(ie) , detlie(ie)
+      ENDDO
+c
+      IF ( iwtau.EQ.1 ) CLOSE (16)
+c
+      CALL GRADM(rba,nimp,gradth,gradph,theta0,phi0,dedmx,dedmy,dedmz)
+      IF ( MYRank.EQ.ROOt ) CALL PRINTJIJ(vij,gradth,gradph,dedmx,dedmy,
+     &     dedmz,nimp)
+c
+      CALL CPU_TIME(tprintjij)
+c
+      WRITE (6,'(/" MPI sync idle time =",f10.3," s")') finish - start
+      WRITE (6,'(/" Init time =",f10.3," s")') init - start0
+      WRITE (6,'(/" chcore time =",f10.3," s")') tchcore - tscf
+      WRITE (6,'(/" initzero1 time =",f10.3," s")') tinitzero1 - tchcore
+      WRITE (6,'(/" init time =",f10.3," s")') init - start0
+      WRITE (6,'(/" chcore time =",f10.3," s")') tchcore - tscf
+      WRITE (6,'(/" initzero1 time =",f10.3," s")') tinitzero1 - tchcore
+      WRITE (6,'(/" localrot2imp time =",f10.3," s")') tlocalrot2imp - 
+     &       tinitzero1
+      WRITE (6,'(/" tmatiniimp time =",f10.3," s")') ttmatiniimp - 
+     &       tenergy
+      WRITE (6,'(/" derivt time =",f10.3," s")') tderivt - ttmatiniimp
+      WRITE (6,'(/" ecoreimp time =",f10.3," s")') tecoreimp - tderivt
+      WRITE (6,'(/" jij time =",f10.3," s")') tjij - tecoreimp
+      WRITE (6,'(/" locquant time =",f10.3," s")') tlocquant - tjij
+      WRITE (6,'(/" start time =",f10.3," s")') start - tlocquant
+      WRITE (6,'(/" finish time =",f10.3," s")') finish - start
+      WRITE (6,'(/" collect_data time =",f10.3," s")') tcollect_data - 
+     &       finish
+      WRITE (6,'(/" printjij time =",f10.3," s")') tprintjij - 
+     &       tcollect_data
+c
+c for DOS calculation print out results and stop
+      IF ( .NOT.(dos) ) THEN
+c
+c Write band energy from Lloyd's formula
+c     if(myrank.eq.root) then
+         ebl = ebl/3.141592653589793D0
+         WRITE (6,*) 'Band energy:' , ebl
+c  update spin-quantization axes
+c     -----------------------------------------------
+         CALL NEWDIR1(itscf,itscfcont,nimp,lfix1,lfix2,rba,vecna,phia,
+     &                lmax,spin_magvpa,spin_magva,orb_magvpa,orb_magva,
+     &                lza,spinmoma,orbmoma,th0a,th1a,ph0a,ph1a,rotind,
+     &                spinorb,dmmin)
+c
+c
+c     call newdir1(
+c    > nimp,rba,vecna,phia,lmax,spin_magva,orb_magva,
+c    > spinmoma,orbmoma,
+c    > rotind,spinorb,dmmin)
+c
+c
+c
+c     -----------------------------------------------
+c
+c  write out results
+c     ---------------------------------------------------
+         CALL PRINTSCF1(nimp,itscfcont,enbifc,qvifc,omifc,qva,qca,za,
+     &                  enba,denba,efermi,rba,spin_magva,orb_magva,
+     &                  spinmoma,orbmoma,th0a,th1a,ph0a,ph1a)
+c     ---------------------------------------------------
+c -Generate new layer potentials
+c
+c     -----------------------------------------------------------
+c
+c Laszloffy
+c only if scf calculations performed
+c
+c     if(isscf) then
+         CALL VGEN1(itscf,itscfcont,nimp,nposimp,orbpol,opot,madmax,za,
+     &              qca,qva,rhoca,rhova,rhospa,rhodspa,dx,ns,rs,vra,bra,
+     &              bopra,lza,ferr1,enpota,enela,enxca,enmaga,vmadih,
+     &              vmadich,vmadid,vmadiq)
+c     end if
+c     -----------------------------------------------------------
+c
+c
+c -calculate and print out energies
+c     -------------------------------------------------------
+         CALL ENPRINT1(itscfcont,nimp,enca,enba,enela,enxca,enpota,
+     &                 enmaga,enorba,entota,entot,entotifc)
+c     -------------------------------------------------------
+c     end if ! myrank.eq.root
+c
+c
+c     call vgen_bcast(vra,bra,
+c    >  v0,ferr1,entotifc,
+c    >  vmadih,vmadich,vmadid,vmadiq)
+c
+c
+         IF ( itscf.EQ.1 ) THEN
+            dentotifc = 10.0D0*tolen
+         ELSE
+            dentotifc = entotifc - entotifc0
+         ENDIF
+         entotifc0 = entotifc
+c
+c
+c     call jij_bcast(vij,gradph,gradth)
+c
+c
+c
+c
+c -update output necessary for restart
+c     --------------------------------------------------------------
+         IF ( MYRank.EQ.ROOt ) CALL RESTART_OUT1(itscfcont,efermi,v0,
+     &        orbpol,vra,bra,bopra,rba,nimp,for006)
+c     --------------------------------------------------------------
+c     if(bulk) etop(npanel)=efermi
+c
+c
+c Laszloffy
+c
+         IF ( isscf .AND. (ferr1.LT.tolerr) ) istop = 1
+      ENDIF
+c
+c -Print results
+c
+c     ---------------------------------------------------------------
+c
+      IF ( MYRank.EQ.ROOt ) CALL PRINTRES1(for007,for008,itscfcont,lmax,
+     &     nimp,ne,cear,efermi,dosa,qvpa,qva,dosmaga,spin_magvpa,
+     &     spin_magva,orb_magvpa,orb_magva,arot,qmoma,za,qca,qvdiffa,
+     &     enbdiffa,entota,entot,entotifc,idpota,vra,bra,bopra,rs,dx,ns,
+     &     lms,orbpol)
+c     ---------------------------------------------------------------
+      CALL MPI_BARRIER(mpi_comm_world,ierror)
+      CALL FLUSH(6)
+      IF ( ierror.NE.mpi_success ) THEN
+         WRITE (6,'("Error in MPI_barrier! (err=",i2)') ierror
+         CALL FLUSH(6)
+         CALL MPI_FINALIZE(ierror)
+         STOP
+      ENDIF
+      IF ( itscf.LT.itscfmax .AND. istop.EQ.0 ) GOTO 100
+c
+c
+c     ****************************************************************
+c                    END OF SELFCONSISTENT ITERATIONS
+c     ****************************************************************
+c
+c     close(6)
+      CALL MPI_BARRIER(mpi_comm_world,ierror)
+      CALL FLUSH(6)
+      IF ( ierror.NE.mpi_success ) THEN
+         WRITE (6,'("Error in MPI_barrier! (err=",i2)') ierror
+         CALL FLUSH(6)
+         CALL MPI_FINALIZE(ierror)
+         STOP
+      ENDIF
+! 200 close(6)
+      CALL MPI_FINALIZE(ierror)
+c
+      CLOSE (6)
+      END

@@ -1,0 +1,104 @@
+      subroutine tauhin(ie,ze,npair,kmymax,
+     >                  tau_ij,tau_ji,tau_ii,taupath)
+c
+c ***********************************************
+c * read in the tau matrix of the cluster       *
+c *---------------------------------------------*
+c * inpur:  ze - energy array                   *
+c *         ne - # of energy points             *
+c *         nimp - # of impurities              *
+c *         n - kmymax                          *
+c *                                             *
+c * output:                                     *
+c *         tauij - off-diag tau-matrix         *
+c *         nk - number of k-points             *
+c *                                             *
+c *                                             *
+c ***********************************************
+c
+c ======================================================
+      implicit none
+      include '../param.h'
+c
+      character*4  temp
+      character*50 tauin_file
+      character*15 taupath
+c
+      integer ie
+      integer ipair
+      integer jpair
+      integer li
+      integer lj
+c     integer jimp
+      integer k1
+      integer k2
+      integer ne
+      integer nk
+      integer kmymax
+      integer n
+      integer nintfc
+      integer nimp
+      integer ndim
+      integer ktauin
+c
+      parameter(ndim=kmymaxp)
+      parameter(ktauin=32)
+c
+      real*8 tol
+c
+      complex*16 ce
+      complex*16 ze
+      complex*16 tau_ij(ndim,ndim,mpair)
+      complex*16 tau_ji(ndim,ndim,mpair)
+      complex*16 tau_ii(ndim,ndim,mintfc)
+c     complex*16 tauij(ndim,ndim,mimp,mimp)
+c
+      logical tautest
+c
+c
+      data tol/1.0d-15/
+c
+c ======================================================
+c
+      tautest=.false.
+c
+      write(temp,'(i4.4)') ie
+      ij=index(taupath,' ')-1
+      tauin_file=taupath(1:ij)//temp//'.tau'
+      write(6,*) '<tauhout>: the unscreined tau is written', tauhin_file
+c
+c     Open binary file for the tau-matrices of the host
+c
+      open(UNIT=ktauin,FILE=tauin_file,
+     >     FORM='unformatted',STATUS='old')
+c
+      read(ktauin) ie
+      read(ktauin) ce
+      read(ktauin) nk
+      if(ze.ne.ce) write(6,*) '<tauhin> : STOP: energy mismatch',ie
+      if(ze.ne.ce) stop '<tauhin> : energy mismatch'
+c
+      n=kmymax
+c
+      do ipair=1,npair
+        read(ktauin) jpair
+        read(ktauin) ((tau_ij(k1,k2,ipair),k1=1,n),k2=1,n)
+        read(ktauin) ((tau_ji(k1,k2,ipair),k1=1,n),k2=1,n)
+      end do
+c
+      do li=1,nintfc
+        read(ktauin) lj
+        read(ktauin) ((tau_ii(k1,k2,li),k1=1,n),k2=1,n)
+c
+      if(tautest) then
+        write(6,*) 'Diagonal elements of tauij'
+        write(6,*) 'li=',li,'  ie=',ie
+        call outmat1(tau_ij(1,1,li),n,n,kmymaxp,tol,6)
+      end if
+c
+      end do
+c
+      close(ktauin)
+c
+      return
+      end

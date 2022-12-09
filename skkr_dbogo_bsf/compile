@@ -1,0 +1,15 @@
+POST=
+RUNNAME=rsp-scf-dbogo.run${POST}
+
+echo "Compiling ${RUNNAME}..."
+
+cp -f param.h$POST        param.h
+make del-all.o
+make rsp-scf_ksave_mpi.run
+#make rsp-scf_save0.run
+
+if [ $? -eq 0 ]; then
+  mv rsp-scf_ksave_mpi.run $RUNNAME
+  echo "Compiled ${RUNNAME} ."
+fi
+

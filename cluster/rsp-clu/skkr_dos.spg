@@ -1,0 +1,399 @@
+!*==main.spg  processed by SPAG 6.50Rc at 15:38 on  6 Mar 2014
+      PROGRAM MAIN
+c     implicit real*8 (a-h,o-z)
+      IMPLICIT NONE
+!*--MAIN5
+c
+      INCLUDE '../param.h'
+c
+      LOGICAL dos
+      LOGICAL wrel
+      LOGICAL lms
+      LOGICAL orbpol
+      LOGICAL opot
+c
+      CHARACTER*10 idpota(MIMP)
+      CHARACTER*30 for006
+      CHARACTER*30 for007
+      CHARACTER*30 for008
+      CHARACTER*30 for009
+      CHARACTER*30 for010
+      CHARACTER*30 laycore
+c
+      REAL*8 tiny , rnul , eta , sigma , tolerr
+      REAL*8 tolef , tolen , arot , v00 , v0
+      REAL*8 efermi , enbifc , qvifc , ferr1 , entotifc
+      REAL*8 dentotifc , entotifc0 , CVEc
+ 
+      INTEGER*4 imesh , ne , npanel , ne1 , ne2
+      INTEGER*4 ne3 , lmax , iscreen , itscfmax , lliter
+      INTEGER*4 nintfc , nimp , lfix1 , lfix2
+      INTEGER*4 iimp , nl , kmymax , ntotal , NINprc
+      INTEGER*4 NEXtra , NPRc , ivacpot , itscf0 , ITEst
+      INTEGER*4 ie , itscf , istop
+      INTEGER*4 itscfcont , omifc , ie0 , iek
+      INTEGER*4 NBUlkl
+      INTEGER*4 NBUlkr
+c
+c
+      INTEGER nepanel(5)
+      INTEGER ns(MIMP)
+c
+      REAL*8 ebottom(5)
+      REAL*8 etop(5)
+      REAL*8 eps(5)
+c
+      REAL*8 vra(NRAD,MIMP)
+      REAL*8 bra(NRAD,MIMP)
+      REAL*8 bopra(NRAD,2,MIMP)
+      REAL*8 rs(MIMP)
+      REAL*8 rs0(MINTFC)
+      REAL*8 dx(MIMP)
+c
+      REAL*8 za(MIMP)
+      REAL*8 sxa(MIMP)
+      REAL*8 qca(MIMP)
+      REAL*8 qva(MIMP)
+      REAL*8 qvpa(KMYMAXP,MIMP)
+c
+c
+      REAL*8 vecna(3,MIMP)
+      REAL*8 rba(3,MIMP)
+      REAL*8 phia(MIMP)
+c
+      COMPLEX*16 dmata(KMYMAXP,KMYMAXP,MIMP)
+      COMPLEX*16 dmatpa(KMYMAXP,KMYMAXP,MIMP)
+      COMPLEX*16 rmata(LMSUP,LMSUP,MIMP)
+      COMPLEX*16 rmatpa(LMSUP,LMSUP,MIMP)
+c
+      COMPLEX*16 ddpha(KMYMAXP,KMYMAXP,MIMP)
+      COMPLEX*16 ddphpa(KMYMAXP,KMYMAXP,MIMP)
+      COMPLEX*16 ddtha(KMYMAXP,KMYMAXP,MIMP)
+      COMPLEX*16 ddthpa(KMYMAXP,KMYMAXP,MIMP)
+c
+      REAL*8 dosa(KMYMAXP,MIMP)
+c
+      REAL*8 spin_magvpa(KMYMAXP,MIMP,3)
+      REAL*8 spin_magva(MIMP,3)
+      REAL*8 orb_magvpa(KMYMAXP,MIMP,3)
+      REAL*8 orb_magva(MIMP,3)
+      REAL*8 enba(MIMP)
+      REAL*8 denba(MIMP)
+      REAL*8 enca(MIMP)
+      REAL*8 enorba(MIMP)
+      REAL*8 rhoca(NRAD,MIMP)
+      REAL*8 rhova(NRAD,MIMP)
+      REAL*8 rhospa(NRAD,2,MIMP)
+      REAL*8 rhodspa(NRAD,2,MIMP)
+      REAL*8 rhomaga(NRAD,MIMP)
+c
+      COMPLEX*16 cear(ME)
+      COMPLEX*16 we(ME)
+      COMPLEX*16 ce
+c
+      COMPLEX*16 tminva(KMYMAXP,KMYMAXP,MIMP)
+      COMPLEX*16 ptminva(KMYMAXP,KMYMAXP,MIMP)
+      COMPLEX*16 ptminv0(KMYMAXP,KMYMAXP,MIMP)
+c
+c     complex*16 taua(kmymaxp,kmymaxp,mimp)
+c     complex*16 gtaua(kmymaxp,kmymaxp,mimp)
+c
+      COMPLEX*16 qmoma(LMSUP,MIMP)
+c
+c -----------immpurities----------
+      CHARACTER*30 imppot
+      CHARACTER*15 taupath
+c
+      REAL*8 b0
+c
+      INTEGER ib0
+      INTEGER impb0
+      INTEGER impb0f
+      INTEGER isigb(MIMP)
+c
+      INTEGER iscreencl
+      INTEGER nposimp(3,MIMP)
+      INTEGER kpairind(MIMP,MIMP)
+      INTEGER kpair(4,MPAIR)
+      INTEGER npair
+      INTEGER madmax
+c
+      REAL*8 bthcl(MIMP)
+      REAL*8 bphcl(MIMP)
+      REAL*8 sxcl(MIMP)
+c
+      REAL*8 vmadid(MIMP)
+      REAL*8 vmadiq(MIMP)
+c
+      COMPLEX*16 tau_ii(KMYMAXP,KMYMAXP,MINTFC)
+      COMPLEX*16 tminvh(KMYMAXP,KMYMAXP,MINTFC)
+c
+      COMPLEX*16 tau_ij(KMYMAXP,KMYMAXP,MPAIR)
+      COMPLEX*16 tau_ji(KMYMAXP,KMYMAXP,MPAIR)
+      COMPLEX*16 taucl(KMYMAXP,KMYMAXP,MIMP)
+      COMPLEX*16 gtaucl(KMYMAXP,KMYMAXP,MIMP)
+c
+      COMPLEX*16 tauclij(KMYMAXP,KMYMAXP,MIMP,MIMP)
+c
+      COMPLEX*16 ze
+c
+      REAL*8 vscreen
+c variables for the derivatives of the free energy
+      COMPLEX*16 d2dph(KMYMAXP,KMYMAXP,MIMP)
+      COMPLEX*16 d2dphp(KMYMAXP,KMYMAXP,MIMP)
+      COMPLEX*16 d2dth(KMYMAXP,KMYMAXP,MIMP)
+      COMPLEX*16 d2dthp(KMYMAXP,KMYMAXP,MIMP)
+      COMPLEX*16 d2dthph(KMYMAXP,KMYMAXP,MIMP)
+      COMPLEX*16 d2dthphp(KMYMAXP,KMYMAXP,MIMP)
+      REAL*8 theta0 , phi0
+c
+      REAL*8 vij(4,MIMP,MIMP) , gradth(MIMP) , gradph(MIMP)
+c---------------------------------
+      INTEGER iwtau , nwtau
+c---------------------------------
+c
+      COMMON /TEST  / ITEst
+      COMMON /LAY2D / CVEc(MTOTAL,3) , NEXtra , NBUlkl , NBUlkr , NPRc , 
+     &                NINprc(0:MPRC+1)
+c
+      DATA tiny/1.0D-6/
+      DATA rnul/0.D0/
+c     data tolerr,tolef,tolen,tolv0/1.0d-10,1.0d-10,1.0d-9,1.0d-08/
+c
+c
+c     ***************************************************************
+c                            INITIALIZE
+c     ***************************************************************
+c
+      OPEN (UNIT=5,FILE='input_rsp.in',STATUS='old')
+c     ---------------------------------------------------------------
+                 !park,kset,ksetmax,itcpam,cpatol,cpatest,
+c    > leftpot,rightpot,laypot,
+                                   !for010,iwrite,
+               !leftmat,rightmat,laymat,
+                !bulk,
+           !rightm,newvac,ivacpot,v0,v00,
+                                   !intbz,kunning,
+      CALL READINI(imesh,ne,npanel,nepanel,ne1,ne2,ne3,ebottom,etop,eps,
+     &             lmax,eta,sigma,for006,for007,for008,for009,laycore,
+     &             wrel,lms,dos,vscreen,iscreen,itscfmax,tolerr,tolef,
+     &             tolen,orbpol,opot,lliter)
+              !opotl,opotr,
+c     ---------------------------------------------------------------
+      CLOSE (5)
+c
+      OPEN (UNIT=5,FILE='input_geo.in',STATUS='old')
+c     ---------------------------------------------------------------
+      CALL READGEOM(nintfc,arot,rs0)
+c     call readgeom(bulk,bulkgeo,rightm,intbz,nintfc,arot,
+c    > rsl,concl,rbl,sxl,
+c    > rs,conc,rba,rbb,sxa,sxb,
+c    > rsr,concr,rbr,sxr,
+c    > lfix1,lfix2,linbw,igraph,iesublatt,lsublatt)
+c     ---------------------------------------------------------------
+      CLOSE (5)
+c
+c     ---------------------------------------------------------------
+      CALL READCLU(nintfc,nimp,nposimp,npair,kpair,kpairind,iscreencl,
+     &             bthcl,bphcl,rba,sxcl,taupath,imppot,madmax,lfix1,
+     &             lfix2,ib0,b0,impb0,impb0f,isigb,theta0,phi0,iwtau,
+     &             nwtau)
+c     ---------------------------------------------------------------
+      DO iimp = 1 , nimp
+         rs(iimp) = rs0(nposimp(3,iimp))
+      ENDDO
+c
+      WRITE (6,'(/2x,''routine MAIN>''/)')
+c
+      nl = lmax + 1
+      kmymax = 2*nl*nl
+      ntotal = nintfc + NINprc(0)*(NEXtra+1) + NINprc(NPRc+1)*(NEXtra+1)
+c
+c -read Impuity potentials
+c
+c     ---------------------------------------------------------------
+      CALL POTHANDLEIMP(lmax,nimp,v00,ivacpot,for006,opot,imppot,dx,ns,
+     &                  rs,idpota,vra,bra,bopra,za,ib0,b0,impb0,impb0f,
+     &                  isigb)
+c     ---------------------------------------------------------------
+!     do imp=1,nimp
+!       if(itest.ge.2) then
+!        write(6,*) '<skkr>: after pothandleimp'
+!         write(6,*) '<skkr>: imp=',imp
+!         write(6,*) '<skkr>: idpota=',idpota(imp)
+!         write(6,*) '<skkr>: v0=',v0
+!         write(6,*) '<skkr>: dx=',dx(imp)
+!         write(6,*) '<skkr>: ns=',ns(imp)
+!         write(6,*) '<skkr>: rs=',rs(imp)
+!         write(6,*) '<skkr>: sxcl=',sxcl(imp)
+!       end if
+!     end do
+c
+c
+c -read in data from update file if exists
+c    ----------------------------------------------------------------
+      CALL RESTART_IN1(itscf0,etop(npanel),v0,opot,vra,bra,bopra,rba,
+     &                 nimp,idpota,za,laycore,for006)
+c    ----------------------------------------------------------------
+c
+c -initialize common blocks
+c
+      CALL INITIA
+c
+c -generate energy mesh (fix energy contour)
+c
+c     ---------------------------------------------------------
+      CALL ZMESH(imesh,npanel,nepanel,ne1,ne2,ne3,ebottom,etop,eps,cear,
+     &           we)
+c     ---------------------------------------------------------
+      IF ( ITEst.GE.2 ) THEN
+         WRITE (6,*)
+         DO ie = 1 , ne
+            WRITE (6,'('' ie='',i2,'' e='',2f12.8,'' w='',2f12.8)') ie , 
+     &             cear(ie) , we(ie)
+         ENDDO
+         WRITE (6,*) 'CROSSCHECK RSCL!!!!!!!!!'
+         WRITE (6,*) 'GIVE MADMAX!!!!!!!!!!!!!'
+         WRITE (6,*) 'EMAD!!!!!!!!!!!!!'
+         WRITE (6,*) 'direction mixing!!!!!!!!!!!!!'
+!       write(6,*) 'READ V0!!!!!!!!!!!!'
+!       write(6,*) 'SCRPAR!!!!!!!!!!!!!'
+!       write(6,*) 'RESTART!!!!!!!!!!!!!'
+      ENDIF
+c
+c =====================================================================
+c
+c     call vhin(nimp,vmadih,v0,iscreencl,vscreen,kpairind,taupath)
+c =====================================================================
+      WRITE (6,*)
+      WRITE (6,'(2x,''etop= '',f17.13)') etop(npanel)
+      WRITE (6,*) 'v0=  ' , v0
+c     *************************************************************
+c               START SELFCONSISTENT ITERATIONS
+c     *************************************************************
+c
+      itscf = 0
+      istop = 0
+      efermi = etop(npanel)
+      itscf = itscf + 1
+      itscfcont = itscf0 + itscf
+      WRITE (6,'(/'' Selfconsistent iteration: '',i3/)') itscf
+c
+c -solve Diraq equation for core states
+c  (non spin-polarized!)
+c
+c     ------------------------------------------------------------
+      CALL CHCORE(itscfcont,nimp,idpota,vra,za,dx,ns,rs,qca,rhoca,enca,
+     &            for006)
+c     ------------------------------------------------------------
+c
+c - set quantities for contour integration to zero
+c     -----------------------------------------------------------
+      CALL INITZERO1(qvpa,qva,vmadid,vmadiq,spin_magvpa,spin_magva,
+     &               orb_magvpa,orb_magva,enba,denba,enorba,qmoma,rhova,
+     &               rhospa,rhodspa,rhomaga,enbifc,qvifc,omifc)
+c set vij, gradth, gradph to zero
+      CALL RZERO(vij,4*MIMP*MIMP)
+      CALL RZERO(gradth,MIMP)
+      CALL RZERO(gradph,MIMP)
+c     -----------------------------------------------------------
+c
+c Rotation matrices between local and global frames of reference
+c
+c     -------------------------------------------------------------
+      CALL LOCALROT2IMP(lmax,nimp,rba,vecna,phia,dmata,dmatpa,ddpha,
+     &                  ddphpa,ddtha,ddthpa,rmata,rmatpa,theta0,phi0,
+     &                  d2dph,d2dphp,d2dth,d2dthp,d2dthph,d2dthphp)
+c     -------------------------------------------------------------
+c                 *************************
+c                 *** Start energy loop ***
+c                 *************************
+c
+      ie0 = 1
+      iek = 0
+      OPEN (8,FILE=for008,FORM='formatted')
+      DO ie = 1 , ne
+c
+         ce = cear(ie)
+         CALL TAUHIN(ie,ce,npair,nintfc,kmymax,tau_ij(1,1,1),
+     &               tau_ji(1,1,1),tau_ii(1,1,1),taupath,imesh)
+         CALL THIN(ie,ze,nintfc,kmymax,tminvh(1,1,1),taupath)
+c
+c  t-matrices
+c     ------------------------------------------------------
+         CALL TMATINIIMP(ce,lmax,nintfc,nimp,nposimp,iscreencl,vscreen,
+     &                   v0,wrel,sxcl,idpota,vra,bra,bopra,dx,ns,rs,
+     &                   dmata,dmatpa,tminva,ptminva,ptminv0)
+c     ------------------------------------------------------
+c       write(6,'('' tmat'')')
+c       call flush(6)
+c  calculate derivatives of the physical t^{-1} matrices
+c =====================================================================
+c     call derivt(nimp,kmymax,ptminv0,
+c    > dmata,dmatpa,
+c    > ddpha,ddphpa,d2dph,d2dphp,
+c    > ddtha,ddthpa,d2dth,d2dthp,
+c    > d2dthph,d2dthphp,
+c    > dtmph, dtmth, d2tmph, d2tmth, d2tmthph)
+c
+c  calculate tau-matices
+c =====================================================================
+         CALL ECOREIMP(nimp,iscreencl,tau_ij(1,1,1),tau_ji(1,1,1),
+     &                 tau_ii(1,1,1),ptminva,tminvh(1,1,1),lmax,nposimp,
+     &                 kpairind,dmata,dmatpa,gtaucl,taucl,tauclij)
+c =====================================================================
+c       write(6,'('' cpa'')')
+c       call flush(6)
+c
+c  calculate first and second derivatives of the band energy
+c       call jij(nimp,kmymax,we(ie),tauclij,
+c    >               dtmph,dtmth,d2tmph,d2tmth,d2tmthph,
+c    >               vij,gradph,gradth)
+c =====================================================================
+c
+c  calculate local physical quantities
+c  integrate with respect to energy
+c     --------------------------------------------------------------
+         CALL LOCQUANT_DOS(ce,lmax,nimp,wrel,lms,sxcl,v0,idpota,vra,bra,
+     &                     bopra,dx,ns,rs,taucl,dosa)
+c
+c     call locquant1(
+c    > ie,ce,we(ie),lmax,madmax,nimp,wrel,lms,sxcl,v0,
+c    > idpota,vra,bra,bopra,dx,ns,rs,nimp,nposimp,
+c    > dmata,dmatpa,
+c    > ddpha,ddphpa,
+c    > ddtha,ddthpa,
+c    > rmata,rmatpa,
+c    > taucl,gtaucl,ptminva,
+c    > dosa(1,1,ie),qvpa,qva,qvdiffa(1,ie),
+c    > vmadid,vmadiq,enba,enbdiffa(1,ie),denba,enorba,qmoma,
+c    > rhova,rhospa,rhodspa,rhomaga,
+c    > dosmaga(1,1,ie),spin_magvpa,spin_magva,orb_magvpa,orb_magva,
+c    > lliter,efermi,enbifc,qvifc,omifc, iwtau, nwtau)
+c     --------------------------------------------------------------
+c
+      ENDDO
+      CLOSE (8)
+c
+c                 **************************
+c                 *** End of energy loop ***
+c                 **************************
+c     ---------------------------------------------------------------
+c     call printres1(
+c    >     for007,for008,itscfcont,lmax,nimp,ne,cear,efermi,
+c    >     dosa,qvpa,qva,dosmaga,
+c    >     spin_magvpa,spin_magva,
+c    >     orb_magvpa,orb_magva,
+c    >     arot,qmoma,za,qca,
+c    >     qvdiffa,enbdiffa,
+c    >     entota,entot,entotifc,
+c    >     idpota,vra,bra,bopra,
+c    >     rs,dx,ns,lms,orbpol)
+c     ---------------------------------------------------------------
+c
+c     ****************************************************************
+c                    END OF SELFCONSISTENT ITERATIONS
+c     ****************************************************************
+c
+! 200 close(6)
+      END

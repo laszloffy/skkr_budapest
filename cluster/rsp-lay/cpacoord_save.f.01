@@ -1,0 +1,539 @@
+c Store E- and k- for magnetic bulk
+      subroutine cpacoord(
+c     ====================
+     > iwrite,itscf,ie,ce,lmax,nintfc,eta,rightm,bulk,bulkgeo,wrel,
+     > kset,xk,wk,nk,intbz,iek,
+     > conc,itcpam,cpatol,cpatest,
+     > dmata,dmatb,dmatpa,dmatpb,
+     > tminvl,tminvr,tminv,tminva,tminvb,taua,taub,gtaua,gtaub,
+c --------- cluster --------------------)
+     > kpair,npair,tau_ij,tau_ji)
+c
+      implicit real*8 (a-h,o-z)
+c
+      include '../param.h'
+      parameter(mdim=mdimr) 
+      parameter(mek=mekr) 
+c
+      logical wrel,bulk,bulkgeo,sgf,sgfx,sgfy
+      logical cpacon,concpa,cpatest,cpalay
+c
+      character*1 rightm
+c
+      real*8 park(2)
+      real*8 xk(mkpar,2)
+      real*8 wk(mkpar)
+      real*8 wgeff
+c
+      integer invg(melem)
+      integer ieqg(melem)
+      integer ieqgl(melem)
+      integer ieqgr(melem)
+      integer igordl(melem)
+      integer igordr(melem)
+c
+      real*8 conc(mintfc)
+c
+      complex*16 ce
+      complex*16 psq
+      complex*16 fac
+c
+      complex*16 tminv(kmymaxp,kmymaxp,mintfc)
+      complex*16 tminva(kmymaxp,kmymaxp,mintfc)
+      complex*16 tminvb(kmymaxp,kmymaxp,mintfc)
+      complex*16 tminvl(kmymaxp,kmymaxp,minprc)
+      complex*16 tminvr(kmymaxp,kmymaxp,minprc)
+      complex*16 ttmp(kmymaxp,kmymaxp,mintfc,melem)
+      complex*16 ttmpl(kmymaxp,kmymaxp,minprc,melem)
+      complex*16 ttmpr(kmymaxp,kmymaxp,minprc,melem)
+c
+      complex*16 xx(mdim,mdim)
+      complex*16 yy(mdim,mdim)
+      complex*16 gg2d(lmmaxp,lmmaxp,-minprc:minprc,minprc,0:mprc1+1)
+c
+      complex*16 xsave(mdim,mdim,mek+1,melem1) 
+      complex*16 ysave(mdim,mdim,mek+1,melem1),
+     >          g2d(lmmaxp,lmmaxp,-minprc:minprc,minprc,0:mprc1+1,mek+1)
+c
+      complex*16 tau(kmymaxp,kmymaxp,mintfc)
+      complex*16 taua(kmymaxp,kmymaxp,mintfc)
+      complex*16 taub(kmymaxp,kmymaxp,mintfc)
+      complex*16 gtaua(kmymaxp,kmymaxp,mintfc)
+      complex*16 gtaub(kmymaxp,kmymaxp,mintfc)
+      complex*16 tau11(kmymaxp,kmymaxp,mintfc,melem)
+      complex*16 tau2(kmymaxp,kmymaxp)
+c
+c --- For the cluster code ---
+      integer kpair(4,npair)
+      integer npair
+      integer ipair
+      integer kk
+c
+      real*8 amat
+      real*8 a0mat
+      integer mg
+      integer mg0
+      common/rrotmat/amat(2,2,melem),a0mat(2,2,melem),mg,mg0
+c
+      real*8 a1,a2
+      common/brav2d/a1(2),a2(2)
+c
+      real*8 dvec(2)
+      real*8 bvec(2)
+      real*8 kx
+c
+      complex*16 tau1(kmymaxp,kmymaxp,mintfc,mintfc,melem)
+      complex*16 tauij(kmymaxp,kmymaxp,mintfc,mintfc)
+      complex*16 tau_ii(kmymaxp,kmymaxp,mintfc)
+      complex*16 tau_ij(kmymaxp,kmymaxp,mpair)
+      complex*16 tau_ji(kmymaxp,kmymaxp,mpair)
+      complex*16 taudiag(kmymaxp)
+      complex*16 ffacx
+      complex*16 ffacxp
+c ----------------------------
+c
+      complex*16 dmata(kmymaxp,kmymaxp,mintfc)
+      complex*16 dmatpa(kmymaxp,kmymaxp,mintfc)
+      complex*16 dmatb(kmymaxp,kmymaxp,mintfc)
+      complex*16 dmatpb(kmymaxp,kmymaxp,mintfc)
+c
+      complex*16 rmat(kmymaxp,kmymaxp,melem)
+      complex*16 rmatp(kmymaxp,kmymaxp,melem)
+c
+      complex*16 alphalkkr(0:lmaxp,minprc)
+      complex*16 alpharkkr(0:lmaxp,minprc)
+      complex*16 alphaintkkr(0:lmaxp,mintfc)
+      common/scrpar/alphalkkr,alpharkkr,alphaintkkr
+c
+      common/test/itest
+      common/relfac/fac
+      common/lay2d/cvec(mtotal,3),nextra,nbulkl,nbulkr,
+     &             nprc,ninprc(0:mprc+1)
+c
+      data tol/1.0d-8/ 
+      data tiny/1.0d-6/
+c
+      save xsave,ysave,g2d
+c
+c ********************
+c initialize constants
+c ********************
+c
+c---> c in rydberg units:
+      c=274.072d0
+      if(.not.wrel) then
+        psq=ce+ce*ce/(c*c)
+      else
+        psq=ce
+      end if
+      fac = psq/ce
+c
+      irel=1
+c
+      nl=lmax+1
+      kmymax=2*nl*nl
+c
+      ninprcl = ninprc(0)
+      ninprcr = ninprc(nprc+1)
+      ndiml=ninprcl*kmymax
+      ndimr=ninprcr*kmymax
+c
+      nprc1=nprc
+      if(bulkgeo) nprc1=1
+      if(nprc1.gt.mprc1) stop ' increase mprc1 !!!'
+c
+c ****************************************************************
+c initialize irreducible representations of point group operations
+c ****************************************************************
+c
+c     --------------------------------------
+      call sphbas(rmat,rmatp,ng,invg)
+c     --------------------------------------
+      if(intbz.eq.0.or.intbz.eq.2) ngeff=1
+      if(intbz.eq.1) ngeff=ng
+      if(ngeff.gt.melem1) then
+        write(6,'(/'' Parameter melem1 is too small!!!'')')
+        stop
+      end if
+c
+c
+c                        ***************************
+c                        * starting CPA iterations *
+c                        ***************************
+c
+      itcpa=1
+      concpa=.true.        ! controls CPA tolerance
+      cpacon=.true.        ! controls no. of CPA iterations
+c
+      iekstart=iek
+  100 continue
+      iek=iekstart
+c
+c     ----------------------------------------
+      call czero(tau,kmymaxp*kmymaxp*mintfc)
+      call czero(tau_ii,kmymaxp*kmymaxp*mintfc)
+      call czero(tau_ij,kmymaxp*kmymaxp*mpair)
+      call czero(tau_ji,kmymaxp*kmymaxp*mpair)
+c     ----------------------------------------
+c
+c *******************************
+c adjust t-matrices for bulk case
+c *******************************
+c
+      if(bulk) then
+c The I region is supposed to comprise one PL only !
+        if(kset.ge.1) then
+c Force L and R t-matrices to be identical with the
+c corresponding t-matrices in I
+          do li=1,ninprcl
+            call repl(tminvl(1,1,li),tminv(1,1,li),kmymax,kmymaxp)
+            call repl(tminvr(1,1,li),tminv(1,1,li),kmymax,kmymaxp)
+          enddo
+        else
+c This is for only spectral-DOS calculation: force I t-matrices
+c to be identical with the corresponding self-consistent L t-matrices
+          do li=1,nintfc
+            call repl(tminv(1,1,li),tminvl(1,1,li),kmymax,kmymaxp)
+          end do
+        end if
+      end if
+c
+c *******************************************************************
+c transform inverse t-matrices with respect to point group operations
+c and find degeneracies
+c *******************************************************************
+c
+c     ---------------------------------------------------
+      call sorttmat(
+     > lmax,nintfc,ninprcl,ninprcr,rmat,rmatp,ngeff,invg,
+     > tminvl,tminvr,tminv,ttmpl,ttmpr,ttmp,
+     > ieqgl,ieqgr,ieqg,igordl,igordr,0)
+c     ---------------------------------------------------
+c
+c ****************************
+c loop over k points in 2D IBZ
+c ****************************
+c
+      do ik=1,nk
+        park(1)=xk(ik,1)
+        park(2)=xk(ik,2)
+c
+c *************************************************
+c initialize saving of structure constants and SSPO
+c *************************************************
+c
+        iek=iek+1
+        if(iek.le.mek) then
+          iekuse=iek
+        else
+          iekuse=mek+1
+        end if
+        if(iek.eq.mek+1) 
+     >  write(6,'(/''WARNING: iek='',i3,'' greater than mek='',i3/
+     >             ''         causes dramatic slow-down !'')') iek,mek
+c
+        if(bulk) then
+c    calculate g2d only for the first CPA iteration
+          nocalcstr=itcpa-1
+        else
+c    calculate g2d only for the first scf and CPA iteration
+          nocalcstr=itscf+itcpa-2
+        end if
+c    do not store g2d for iek.gt.mek
+        if(iek.gt.mek) nocalcstr=0
+c
+        if(bulk) then
+c    always calculate SSPO
+          sgf=.true.
+        else
+c    calculate SSPO only for the first scf and CPA iteration
+c    or for iek.gt.mek
+          sgf=(itcpa.eq.1.and.itscf.eq.1).or.(iek.gt.mek)
+        end if
+        sgfy=sgf
+        sgfx=sgf
+c    if vacuum, recalculate R SSPO after every tenth step
+        if(rightm.eq.'V')
+     >   sgfx=((mod(itscf,10).eq.1).and.(itcpa.eq.1)).or.(iek.gt.mek)
+c
+c ********************************************
+c k-resolved layer-indexed structure constants
+c ********************************************
+c
+        if(nocalcstr.ne.0) then
+c         ------------------------
+          iread=iwrite
+          if(iwrite.eq.1) iread=-1
+c         ------------------------
+          call getg2d(g2d(1,1,-minprc,1,0,iekuse),gg2d,
+     >                bulkgeo,lmax,nintfc,iread)
+        else
+c         -------------------------------------------------
+          call gstore(park,ce,eta,bulkgeo,lmax,nintfc,gg2d)   
+c         -------------------------------------------------
+          call getg2d(gg2d,g2d(1,1,-minprc,1,0,iekuse),
+     >                bulkgeo,lmax,nintfc,iwrite)
+        end if
+c
+c ********************************
+c loop over point group operations
+c ********************************
+c
+        do ig=1,ngeff
+          ige=ieqg(ig)
+          igel=ieqgl(ig)
+          iger=ieqgr(ig)
+          ig1=invg(ig)
+c
+c **********************
+c surface Green function
+c **********************
+c
+          if((igel.eq.ig).and.sgfy) then
+c           ----------------------------------------------------
+            call dugo(lmax,kmymax,ttmpl(1,1,1,igel),kmymaxp,
+     >                gg2d(1,1,-minprc,1,0),
+     >                gg2d(1,1,-minprc,1,1),
+     >                yy,mdim,'L',bulkgeo,irel)
+c           ----------------------------------------------------
+            call getsfg(yy,ysave(1,1,iekuse,igordl(igel)),
+     >                  ndiml,mdim,iwrite)
+          else
+c           ------------------------
+            iread=iwrite
+            if(iwrite.eq.1) iread=-1
+c           ------------------------
+            call getsfg(ysave(1,1,iekuse,igordl(igel)),yy,
+     >                  ndiml,mdim,iread)
+          end if 
+c
+          if((iger.eq.ig).and.sgfx) then
+c           ----------------------------------------------------
+            call dugo(lmax,kmymax,ttmpr(1,1,1,iger),kmymaxp,
+     >                gg2d(1,1,-minprc,1,nprc1+1),
+     >                gg2d(1,1,-minprc,1,nprc1),
+     >                xx,mdim,'R',bulkgeo,irel)
+c           ----------------------------------------------------
+            call getsfg(xx,xsave(1,1,iekuse,igordr(iger)),
+     >                  ndimr,mdim,iwrite)
+          else
+c           ------------------------
+            iread=iwrite
+            if(iwrite.eq.1) iread=-1
+c           ------------------------
+            call getsfg(xsave(1,1,iekuse,igordr(iger)),xx,
+     >                  ndimr,mdim,iread)
+          end if 
+c
+          if(ige.eq.ig) then
+c
+c         ***********************************
+c         k-resolved tau matrix for interface
+c         ***********************************
+c
+            wgeff = wk(ik)/ngeff
+c           ----------------------------------------------------
+c           call tau2d(irel,wgeff,bulkgeo,lmax,kmymax,kmymaxp,nintfc,
+c    >                 ttmp(1,1,1,ig),gg2d,xx,yy,tau11(1,1,1,ig),mdim)
+c           ----------------------------------------------------
+c           ----------------------------------------------------
+            call tau2dgod(irel,wgeff,bulkgeo,lmax,kmymax,kmymaxp,nintfc,
+     >                  ttmp(1,1,1,ig),gg2d,xx,yy,tau1(1,1,1,1,ig),mdim)
+c           ----------------------------------------------------
+c
+            if(itest.gt.3) then
+              write(6,*) '<cpacoord>: after tau2d_god' 
+              do li=1,nintfc
+                write(6,*) '<cpacoord>: TAU_before BZ sum layer=',li
+                call replms(taudiag,tau1(1,1,li,li,ige),lmax)
+                do kk=1,kmymax
+                   write(6,'(i3,2d20.10)') kk,taudiag(kk)
+                end do
+              end do
+            end if
+
+c DEBUG BEGINN
+c           write(6,*) '<cpacoord>: after tau2d_god' 
+c           do li=3,3
+c             write(6,*) '<cpacoord>: TAU_before BZ sum layer=',li
+c             do kk=1,kmymax
+c                write(6,'(i3,2d20.10)') kk,wgeff*tau1(kk,kk,li,li,ige)
+c                write(6,'(i3,2d20.10)') kk,tau11(kk,kk,li,ige)
+c             end do
+c           end do
+c DEBUG BEGINN
+          end if
+c
+c **************************************
+c BZ sum for layer diagonal tau matrices
+c **************************************
+c -old version beginn
+c         do li=1,nintfc
+c           --------------------------------------------------
+c           call repl(tau2,tau11(1,1,li,ige),kmymax,kmymaxp)
+c           --------------------------------------------------
+c           call tripmt(rmatp(1,1,ig1),tau2,rmat(1,1,ig1),
+c    >                  kmymax,kmymax,kmymaxp)        
+c           -----------------------------------------------
+c           call addmat(tau(1,1,li),tau2,kmymax,kmymaxp)
+c           -----------------------------------------------
+c         end do
+c -old version end
+          do li=1,nintfc
+c           --------------------------------------------------
+            call repl(tau2,tau1(1,1,li,li,ige),kmymax,kmymaxp)
+c           --------------------------------------------------
+            call tripmt(rmatp(1,1,ig1),tau2,rmat(1,1,ig1),
+     >                  kmymax,kmymax,kmymaxp)        
+c           -----------------------------------------------
+            call addmata(tau(1,1,li),tau2,wgeff,kmymax,kmymaxp)
+c           -----------------------------------------------
+          end do
+c
+
+c ----------- off diagonal elements of tau matrix ----------
+c
+          do li = 1,nintfc
+            do lj = 1,nintfc
+              call repl(tauij(1,1,li,lj),tau1(1,1,li,lj,ige),
+     >                  kmymax,kmymaxp)
+              call tripmt(rmatp(1,1,ig1),tauij(1,1,li,lj),rmat(1,1,ig1),
+     >                     kmymax,kmymax,kmymaxp)
+            end do
+          end do
+c
+          do ipair = 1,npair
+            li = kpair(3,ipair)
+            lj = kpair(4,ipair)
+c
+            bvec(1) = kpair(1,ipair)*a1(1) + kpair(2,ipair)*a2(1) +
+     >                (cvec(lj+n0,1) - cvec(li+n0,1))
+            bvec(2) = kpair(1,ipair)*a1(2) + kpair(2,ipair)*a2(2) +
+     >                (cvec(lj+n0,2) - cvec(li+n0,2))
+            dvec(1) = a0mat(1,1,ig1)*bvec(1) + a0mat(1,2,ig1)*bvec(2)-
+     >                (cvec(lj+n0,1)-cvec(li+n0,1))
+            dvec(2) = a0mat(2,1,ig1)*bvec(1) + a0mat(2,2,ig1)*bvec(2)-
+     >                (cvec(lj+n0,2)-cvec(li+n0,2))
+c
+            kx = park(1)*dvec(1) + park(2)*dvec(2)
+            ffacx = dcmplx(dcos(kx),-dsin(kx))
+            ffacxp= dcmplx(dcos(kx),dsin(kx))
+c
+            do k1 = 1,kmymax
+            do k2 = 1,kmymax
+              tau_ij(k1,k2,ipair) = tau_ij(k1,k2,ipair) +
+     >                ffacx*wgeff*tauij(k1,k2,li,lj)
+              tau_ji(k1,k2,ipair) = tau_ji(k1,k2,ipair) +
+     >                ffacxp*wgeff*tauij(k1,k2,lj,li)
+            end do
+            end do
+          end do
+c
+        end do
+c *********************************
+c end of loop over point operations
+c *********************************
+c
+      end do
+c *************************
+c end of loop over k points
+c *************************
+c
+c **********
+c CPA solver
+c **********
+c     -----------------------------------------------------------------
+      call cpacor(conc,tminv,tminva,tminvb,tau,taua,taub,kmymax,nintfc,
+     >            itcpa,itcpam,cpatol,cpacon,concpa,cpatest,cpaerr)
+c     -----------------------------------------------------------------
+c
+      if(concpa.and.cpacon) goto 100
+      if(itest.ge.1) write(6,'('' CPA iterations:'',i3,2x,
+     >'' ERROR:'',d15.6)') itcpa-1,cpaerr
+c
+c                        *************************
+c                        * ending CPA iterations *
+c                        *************************
+c
+c - the off-diagonal elements of tau
+      do ipair = 1,npair
+        li = kpair(3,ipair)
+        lj = kpair(4,ipair)
+        idiag = 0
+c       if(li.eq.lj) idiag=1
+c       call phystau2(tau_ij,tminva(1,1,li),tminva(1,1,lj),
+c    >                alphaintkkr(0,li),alphaintkkr(0,lj),lmax,idiag)
+        call phystau2(tau_ij,tminv(1,1,li),tminv(1,1,lj),
+     >                alphaintkkr(0,li),alphaintkkr(0,lj),lmax,idiag)
+        call phystau2(tau_ji,tminv(1,1,lj),tminv(1,1,li),
+     >                alphaintkkr(0,lj),alphaintkkr(0,li),lmax,idiag)
+      end do
+c - the diagonal elements of tau
+      do li=1,nintfc
+         call repl(tau_ii(1,1,li),tau(1,1,li),kmymax,kmymaxp)
+c        --------------------------------------------------------
+         call phystau(tau_ii(1,1,li),tminv(1,1,li),tminv(1,1,li),
+     >                alphaintkkr(0,li),lmax,1)
+c        --------------------------------------------------------
+      end do
+c
+c
+c *************************************************************
+c * loop over layers to transform layer diagonal tau matrices *
+c * into physical representation and rotate to the local      *
+c * frame of reference                                        *
+c *************************************************************
+c 
+      do li=1,nintfc
+         cpalay=(1.d0-conc(li)).gt.tiny
+c
+c        --------------------------------------------------------
+         call phystau(taua(1,1,li),tminva(1,1,li),tminva(1,1,li),
+     >                alphaintkkr(0,li),lmax,1)
+c        --------------------------------------------------------
+c
+c rotate tau-matrix to local frame of reference
+c
+         call repl(gtaua(1,1,li),taua(1,1,li),kmymax,kmymaxp)
+c        ------------------------------------------------------
+         call tripmt(dmatpa(1,1,li),taua(1,1,li),dmata(1,1,li),
+     >               kmymax,kmymax,kmymaxp)
+c        ------------------------------------------------------
+c
+         if(itest.gt.2) then
+            write(6,'(/'' tau -A '',i2)') li
+            call outmat1(taua(1,1,li),kmymax,kmymax,kmymaxp,tol,6)
+         end if
+c
+         if(cpalay) then
+c+------------+
+c+ BIG CPA IF +
+c+------------+
+c
+c        --------------------------------------------------------
+         call phystau(taub(1,1,li),tminvb(1,1,li),tminvb(1,1,li),
+     >                alphaintkkr(0,li),lmax,1)
+c        --------------------------------------------------------
+c
+c rotate tau-matrix to local frame of reference
+c
+         call repl(gtaub(1,1,li),taub(1,1,li),kmymax,kmymaxp)
+c        ---------------------------------------------------
+         call tripmt(dmatpb(1,1,li),taub(1,1,li),dmatb(1,1,li),
+     >               kmymax,kmymax,kmymaxp)
+c        ---------------------------------------------------
+c
+         if(itest.gt.2) then
+            write(6,'(/'' tau -B '',i2)') li
+            call outmat1(taub(1,1,li),kmymax,kmymax,kmymaxp,tol,6)
+         end if
+c
+         end if
+c+----------------+
+c+ END BIG CPA IF +
+c+----------------+
+      end do
+c *** end loop over layers ***
+c
+      return
+      end

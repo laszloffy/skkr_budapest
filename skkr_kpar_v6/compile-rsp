@@ -1,0 +1,14 @@
+#!/bin/bash
+#
+VER=PL8L2
+RUNNAME=rsp-scf_save.run-$VER
+echo "Compiling ${RUNNAME}..."
+#
+make del-all.o
+cp param.h-$VER param.h
+make rsp-scf.run
+#
+if [ $? -eq 0 ]; then
+  mv rsp-scf.run $RUNNAME
+  echo "Compiled ${RUNNAME} ."
+fi

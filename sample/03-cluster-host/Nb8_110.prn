@@ -1,0 +1,1097 @@
+ 
+  routine READINI>
+
+ controll and test output is in file     : Nb8_110.prn                   
+ new potentials are in file              : Nb8_110.pot                   
+ densities of states are in file         : Nb8_110.dos                   
+ effective t-matrices are in file        : Nb8_110.tcpa                  
+ potential for lhs bulk from             : Nbb_110.pot0                  
+ potential for interfacial layers from   : Nb8_110.pot0                  
+ potential for rhs bulk from             : none                          
+ core charge densities for layers from   : core.in                       
+ effective t-matrices for lhs bulk       : none                          
+ effective t-matrices for interface      : none                          
+ effective t-matrices for rhs bulk       : none                          
+ moments of charge density for lhs bulk  : Nbb_110.mom                   
+ moments of charge density for rhs bulk  : none                          
+ No weak relativistic approach (deleted)!!!
+ Dos and magnetization in (kappa,my) representation on output
+
+ lmax= 2
+
+ ixch=  4
+ Exchange-correlation type:VWN
+
+ eta:   1.0000     sigma:   1.0000
+
+ Calculate bulk Madelung constants by means of 2D Ewald method
+
+ Screening with square well potentials !
+ Height of potential:  3.00 ry
+ from the right is: V
+ Constant potential on the vacuum side :   0.33133 ryd
+ Vacuum potential level will be updated
+
+ Charge and position(a.u.) of external capacitor  0.0000  0.0000
+
+ Add magnetic field:    0.00000 ryd at all layers
+
+ Calculation of surface greens function:
+  itermaxl=  50  itermaxr=  50  errmax=  1.00D-08
+
+ Maximum number of CPA iterations:  50
+ CPA tolerance:   0.1000D-04
+
+ Mixing factors:   0.05000   1.50000
+
+ Broyden moduls: 15 15 15 15 15 15 15 15 15 15 15 15 15 15 15
+
+ Total number of iterations:  225
+
+ Mixing parameters for scf-spin reorientation:    0.00000   1.50000    1
+
+ Relative accuracy for scf potentials 0.100D-09
+
+ Panel: 1
+ Semicircle contour
+ energy range:                      -1.0000000000  -0.0183132794
+ epsilon     :                     150.0000000000
+ No. of energy points:            16
+
+ Point group operations applied
+
+ Running on 80 parallel processes.
+
+ lattice type is: centered rectangular            (Point group=C2v )
+
+  routine VECTOR2D>
+
+ diagonals of 2D real and rec. unit cells:   13.59290   3.10510
+ max. length of 2D real and rec. vectors :  399.69416  91.30441
+
+nr in 2d:    82  133
+nk in 2d:   133   82
+
+ unit cell area:     27.50526991
+
+ real lattice unit cell in 2D: 
+
+    8.8202410100    0.0000000000
+    4.4101205050    3.1184261150
+
+ reciprocal lattice unit cell in 2D: 
+
+    0.7123598210   -1.0074289201
+    0.0000000000    2.0148578403
+
+  max-r in 2d:        19525
+  max-k in 2d:        19525
+
+  routine GENLATT2D>
+
+ distr :  399.6941628
+ maxshr: 3526
+ maxr:   19525
+ distk :   91.3044118
+ maxshk: 2573
+ maxk:   19525
+
+  routine GENLATT3D>
+
+  Left semi-infinite bulk:
+  ------------------------
+
+ diagonals of real and rec. unit cells:   18.44886   3.76945
+ max. length of real and rec. vectors :   64.81527  17.09664
+
+nr:    19   27   19
+nk:    30   18   21
+
+ unit cell volume :     121.301554808824
+ average ws-radius:       3.070854592688
+ real lattice unit cell: 
+
+    8.8202410100    0.0000000000    0.0000000000
+    4.4101205050    3.1184261150    0.0000000000
+    4.4101205050    0.0000000000    4.4101205050
+
+ reciprocal lattice unit cell: 
+
+    0.7123598210   -1.0074289201   -0.7123598210
+    0.0000000000    2.0148578403    0.0000000000
+    0.0000000000    0.0000000000    1.4247196420
+
+  max-r:        19891
+  max-k:        18605
+
+  Right semi-infinite bulk:
+  -------------------------
+
+ diagonals of real and rec. unit cells:   18.44886   3.76945
+ max. length of real and rec. vectors :   64.81527  17.09664
+
+nr:    19   27   19
+nk:    30   18   21
+
+ unit cell volume :     121.301554808824
+ average ws-radius:       3.070854592688
+ real lattice unit cell: 
+
+    8.8202410100    0.0000000000    0.0000000000
+    4.4101205050    3.1184261150    0.0000000000
+    4.4101205050    0.0000000000    4.4101205050
+
+ reciprocal lattice unit cell: 
+
+    0.7123598210   -1.0074289201   -0.7123598210
+    0.0000000000    2.0148578403    0.0000000000
+    0.0000000000    0.0000000000    1.4247196420
+
+  max-r:        19891
+  max-k:        18605
+
+ Volumen of interface region     1455.618658
+ Volumen of WS spheres           1455.618657
+ Volumen mismatch                0.383795D-09
+
+
+ ======================================= 
+               2D  STRUCTURE 
+ ======================================= 
+
+ Lattice constant:     8.82024101
+ Asymmetry ratios     0.70710678     0.50000000
+ cvec tolerance    0.10E-07
+
+ No. of principal layers:   3
+ No. of layers in each principal layer: 4 4 4
+ Total no. of layers in the I-region:  12
+
+ ntotal=  28  with
+  1 extra layers added for screening
+  4 layers in a Left  principal layer
+  4 layers in a Right principal layer
+
+ No. of layers in a Left/Right bulk unit= 1 1
+
+
+PL Lay  conc  cvec(x,y,z)  sws  smt  B(x,y,z)  SOC  
+===========================================================
+   Left region              
+ =============== 
+  1   1  1.000    17.64048   0.00000  17.64048   3.0709 3.0709    0.000  0.000  1.000   1.000     5
+  1   2  1.000    22.05060   0.00000  22.05060   3.0709 3.0709    0.000  0.000  1.000   1.000     6
+  1   3  1.000    26.46072   0.00000  26.46072   3.0709 3.0709    0.000  0.000  1.000   1.000     7
+  1   4  1.000    30.87084   0.00000  30.87084   3.0709 3.0709    0.000  0.000  1.000   1.000     8
+
+   Intermediate region              
+ ======================= 
+  1   1  1.000    35.28096   0.00000  35.28096   3.0709 3.0709    0.000  0.000  1.000   1.000     9
+  1   2  1.000    39.69108   0.00000  39.69108   3.0709 3.0709    0.000  0.000  1.000   1.000    10
+  1   3  1.000    44.10121   0.00000  44.10121   3.0709 3.0709    0.000  0.000  1.000   1.000    11
+  1   4  1.000    48.51133   0.00000  48.51133   3.0709 3.0709    0.000  0.000  1.000   1.000    12
+  2   5  1.000    52.92145   0.00000  52.92145   3.0709 3.0709    0.000  0.000  1.000   1.000    13
+  2   6  1.000    57.33157   0.00000  57.33157   3.0709 3.0709    0.000  0.000  1.000   1.000    14
+  2   7  1.000    61.74169   0.00000  61.74169   3.0709 3.0709    0.000  0.000  1.000   1.000    15
+  2   8  1.000    66.15181   0.00000  66.15181   3.0709 3.0709    0.000  0.000  1.000   1.000    16
+  3   9  1.000    70.56193   0.00000  70.56193   3.0709 3.0709    0.000  0.000  1.000   1.000    17
+  3  10  1.000    74.97205   0.00000  74.97205   3.0709 3.0709    0.000  0.000  1.000   1.000    18
+  3  11  1.000    79.38217   0.00000  79.38217   3.0709 3.0709    0.000  0.000  1.000   1.000    19
+  3  12  1.000    83.79229   0.00000  83.79229   3.0709 3.0709    0.000  0.000  1.000   1.000    20
+
+   Right region              
+ ================ 
+  1   1  1.000    88.20241   0.00000  88.20241   3.0709 3.0709    0.000  0.000  1.000   1.000    21
+  1   2  1.000    92.61253   0.00000  92.61253   3.0709 3.0709    0.000  0.000  1.000   1.000    22
+  1   3  1.000    97.02265   0.00000  97.02265   3.0709 3.0709    0.000  0.000  1.000   1.000    23
+  1   4  1.000   101.43277   0.00000 101.43277   3.0709 3.0709    0.000  0.000  1.000   1.000    24
+ bulkgeo test           3           2
+  0.000000000000000E+000
+ bulkgeo test           4           2
+  0.000000000000000E+000
+ bulkgeo test           5           2
+  0.000000000000000E+000
+ bulkgeo test           6           2
+  0.000000000000000E+000
+ bulkgeo test           7           2
+  0.000000000000000E+000
+ bulkgeo test           8           2
+  0.000000000000000E+000
+ bulkgeo test           9           2
+  0.000000000000000E+000
+ bulkgeo test          10           2
+  0.000000000000000E+000
+ bulkgeo test          11           2
+  0.000000000000000E+000
+ bulkgeo test          12           2
+  0.000000000000000E+000
+ bulkgeo test          13           2
+  0.000000000000000E+000
+ bulkgeo test          14           2
+  0.000000000000000E+000
+ bulkgeo test          15           2
+  0.000000000000000E+000
+ bulkgeo test          16           2
+  0.000000000000000E+000
+ bulkgeo test          17           2
+  0.000000000000000E+000
+ bulkgeo test          18           2
+  0.000000000000000E+000
+ bulkgeo test          19           2
+  0.000000000000000E+000
+ bulkgeo test          20           2
+  0.000000000000000E+000
+ bulkgeo test          21           2
+  0.000000000000000E+000
+ bulkgeo test          22           2
+  0.000000000000000E+000
+ bulkgeo test          23           2
+  0.000000000000000E+000
+ bulkgeo test          24           2
+  0.000000000000000E+000
+ bulkgeo test          25           2
+  0.000000000000000E+000
+ bulkgeo test          26           2
+  0.000000000000000E+000
+
+ *************************************************
+ Ideal bulk geometry applies over the whole system
+ *************************************************
+
+ THE POSITIONS OF THE CLUSTER SITES
+
+ In relative coordinates:
+ 
+  Imp.  1  :   0  0  9
+  Imp.  2  :   2 -2  7
+  Imp.  3  :   1 -1  7
+  Imp.  4  :   2 -1  7
+  Imp.  5  :   1  0  7
+  Imp.  6  :   0  1  7
+  Imp.  7  :   1  1  7
+  Imp.  8  :   0  2  7
+  Imp.  9  :   2 -3  8
+  Imp. 10  :   1 -2  8
+  Imp. 11  :   2 -2  8
+  Imp. 12  :   0 -1  8
+  Imp. 13  :   1 -1  8
+  Imp. 14  :   2 -1  8
+  Imp. 15  :   0  0  8
+  Imp. 16  :   1  0  8
+  Imp. 17  :  -1  1  8
+  Imp. 18  :   0  1  8
+  Imp. 19  :   1  1  8
+  Imp. 20  :  -1  2  8
+  Imp. 21  :   0  2  8
+  Imp. 22  :  -1  3  8
+  Imp. 23  :   1 -3  9
+  Imp. 24  :   2 -3  9
+  Imp. 25  :   0 -2  9
+  Imp. 26  :   1 -2  9
+  Imp. 27  :   2 -2  9
+  Imp. 28  :   0 -1  9
+  Imp. 29  :   1 -1  9
+  Imp. 30  :  -1  0  9
+  Imp. 31  :   1  0  9
+  Imp. 32  :  -1  1  9
+  Imp. 33  :   0  1  9
+  Imp. 34  :  -2  2  9
+  Imp. 35  :  -1  2  9
+  Imp. 36  :   0  2  9
+  Imp. 37  :  -2  3  9
+  Imp. 38  :  -1  3  9
+  Imp. 39  :   1 -3 10
+  Imp. 40  :   0 -2 10
+  Imp. 41  :   1 -2 10
+  Imp. 42  :  -1 -1 10
+  Imp. 43  :   0 -1 10
+  Imp. 44  :   1 -1 10
+  Imp. 45  :  -1  0 10
+  Imp. 46  :   0  0 10
+  Imp. 47  :  -2  1 10
+  Imp. 48  :  -1  1 10
+  Imp. 49  :   0  1 10
+  Imp. 50  :  -2  2 10
+  Imp. 51  :  -1  2 10
+  Imp. 52  :  -2  3 10
+ 
+
+ In absolute coordinates:
+ 
+  Imp.  1:     70.56192808     0.00000000    70.56192808
+  Imp.  2:     70.56192808    -6.23685223    61.74168707
+  Imp.  3:     66.15180758    -3.11842611    61.74168707
+  Imp.  4:     74.97204859    -3.11842611    61.74168707
+  Imp.  5:     70.56192808     0.00000000    61.74168707
+  Imp.  6:     66.15180758     3.11842611    61.74168707
+  Imp.  7:     74.97204859     3.11842611    61.74168707
+  Imp.  8:     70.56192808     6.23685223    61.74168707
+  Imp.  9:     70.56192808    -9.35527834    66.15180758
+  Imp. 10:     66.15180758    -6.23685223    66.15180758
+  Imp. 11:     74.97204859    -6.23685223    66.15180758
+  Imp. 12:     61.74168707    -3.11842611    66.15180758
+  Imp. 13:     70.56192808    -3.11842611    66.15180758
+  Imp. 14:     79.38216909    -3.11842611    66.15180758
+  Imp. 15:     66.15180758     0.00000000    66.15180758
+  Imp. 16:     74.97204859     0.00000000    66.15180758
+  Imp. 17:     61.74168707     3.11842611    66.15180758
+  Imp. 18:     70.56192808     3.11842611    66.15180758
+  Imp. 19:     79.38216909     3.11842611    66.15180758
+  Imp. 20:     66.15180758     6.23685223    66.15180758
+  Imp. 21:     74.97204859     6.23685223    66.15180758
+  Imp. 22:     70.56192808     9.35527834    66.15180758
+  Imp. 23:     66.15180758    -9.35527834    70.56192808
+  Imp. 24:     74.97204859    -9.35527834    70.56192808
+  Imp. 25:     61.74168707    -6.23685223    70.56192808
+  Imp. 26:     70.56192808    -6.23685223    70.56192808
+  Imp. 27:     79.38216909    -6.23685223    70.56192808
+  Imp. 28:     66.15180758    -3.11842611    70.56192808
+  Imp. 29:     74.97204859    -3.11842611    70.56192808
+  Imp. 30:     61.74168707     0.00000000    70.56192808
+  Imp. 31:     79.38216909     0.00000000    70.56192808
+  Imp. 32:     66.15180758     3.11842611    70.56192808
+  Imp. 33:     74.97204859     3.11842611    70.56192808
+  Imp. 34:     61.74168707     6.23685223    70.56192808
+  Imp. 35:     70.56192808     6.23685223    70.56192808
+  Imp. 36:     79.38216909     6.23685223    70.56192808
+  Imp. 37:     66.15180758     9.35527834    70.56192808
+  Imp. 38:     74.97204859     9.35527834    70.56192808
+  Imp. 39:     70.56192808    -9.35527834    74.97204859
+  Imp. 40:     66.15180758    -6.23685223    74.97204859
+  Imp. 41:     74.97204859    -6.23685223    74.97204859
+  Imp. 42:     61.74168707    -3.11842611    74.97204859
+  Imp. 43:     70.56192808    -3.11842611    74.97204859
+  Imp. 44:     79.38216909    -3.11842611    74.97204859
+  Imp. 45:     66.15180758     0.00000000    74.97204859
+  Imp. 46:     74.97204859     0.00000000    74.97204859
+  Imp. 47:     61.74168707     3.11842611    74.97204859
+  Imp. 48:     70.56192808     3.11842611    74.97204859
+  Imp. 49:     79.38216909     3.11842611    74.97204859
+  Imp. 50:     66.15180758     6.23685223    74.97204859
+  Imp. 51:     74.97204859     6.23685223    74.97204859
+  Imp. 52:     70.56192808     9.35527834    74.97204859
+ 
+
+ The different pairs
+ 
+  ipair.     1  :  -2  2  9  7
+  ipair.     2  :  -1  1  9  7
+  ipair.     3  :  -2  1  9  7
+  ipair.     4  :  -1  0  9  7
+  ipair.     5  :   0 -1  9  7
+  ipair.     6  :  -1 -1  9  7
+  ipair.     7  :   0 -2  9  7
+  ipair.     8  :  -2  3  9  8
+  ipair.     9  :  -1  2  9  8
+  ipair.    10  :  -2  2  9  8
+  ipair.    11  :   0  1  9  8
+  ipair.    12  :  -1  1  9  8
+  ipair.    13  :  -2  1  9  8
+  ipair.    14  :   0  0  9  8
+  ipair.    15  :  -1  0  9  8
+  ipair.    16  :   1 -1  9  8
+  ipair.    17  :   0 -1  9  8
+  ipair.    18  :  -1 -1  9  8
+  ipair.    19  :   1 -2  9  8
+  ipair.    20  :   0 -2  9  8
+  ipair.    21  :   1 -3  9  8
+  ipair.    22  :  -1  3  9  9
+  ipair.    23  :  -2  3  9  9
+  ipair.    24  :   0  2  9  9
+  ipair.    25  :  -1  2  9  9
+  ipair.    26  :  -2  2  9  9
+  ipair.    27  :   0  1  9  9
+  ipair.    28  :  -1  1  9  9
+  ipair.    29  :   1  0  9  9
+  ipair.    30  :  -1  3  9 10
+  ipair.    31  :   0  2  9 10
+  ipair.    32  :  -1  2  9 10
+  ipair.    33  :   1  1  9 10
+  ipair.    34  :   0  1  9 10
+  ipair.    35  :  -1  1  9 10
+  ipair.    36  :   1  0  9 10
+  ipair.    37  :   0  0  9 10
+  ipair.    38  :   2 -1  9 10
+  ipair.    39  :   1 -1  9 10
+  ipair.    40  :   0 -1  9 10
+  ipair.    41  :   2 -2  9 10
+  ipair.    42  :   1 -2  9 10
+  ipair.    43  :   2 -3  9 10
+  ipair.    44  :   1 -1  7  7
+  ipair.    45  :   0 -1  7  7
+  ipair.    46  :   1 -2  7  7
+  ipair.    47  :   2 -3  7  7
+  ipair.    48  :   1 -3  7  7
+  ipair.    49  :   2 -4  7  7
+  ipair.    50  :   0  1  7  8
+  ipair.    51  :   1  0  7  8
+  ipair.    52  :   0  0  7  8
+  ipair.    53  :   2 -1  7  8
+  ipair.    54  :   1 -1  7  8
+  ipair.    55  :   0 -1  7  8
+  ipair.    56  :   2 -2  7  8
+  ipair.    57  :   1 -2  7  8
+  ipair.    58  :   3 -3  7  8
+  ipair.    59  :   2 -3  7  8
+  ipair.    60  :   1 -3  7  8
+  ipair.    61  :   3 -4  7  8
+  ipair.    62  :   2 -4  7  8
+  ipair.    63  :   3 -5  7  8
+  ipair.    64  :   2  0  7  9
+  ipair.    65  :   0  0  7  9
+  ipair.    66  :   3 -2  7  9
+  ipair.    67  :   1 -2  7  9
+  ipair.    68  :   3 -3  7  9
+  ipair.    69  :   2 -3  7  9
+  ipair.    70  :   4 -4  7  9
+  ipair.    71  :   3 -4  7  9
+  ipair.    72  :   2 -4  7  9
+  ipair.    73  :   4 -5  7  9
+  ipair.    74  :   3 -5  7  9
+  ipair.    75  :   1  1  7 10
+  ipair.    76  :   2  0  7 10
+  ipair.    77  :   1  0  7 10
+  ipair.    78  :   3 -1  7 10
+  ipair.    79  :   2 -1  7 10
+  ipair.    80  :   1 -1  7 10
+  ipair.    81  :   3 -2  7 10
+  ipair.    82  :   2 -2  7 10
+  ipair.    83  :   4 -3  7 10
+  ipair.    84  :   3 -3  7 10
+  ipair.    85  :   2 -3  7 10
+  ipair.    86  :   4 -4  7 10
+  ipair.    87  :   3 -4  7 10
+  ipair.    88  :   4 -5  7 10
+  ipair.    89  :  -1  0  7  7
+  ipair.    90  :   0 -2  7  7
+  ipair.    91  :  -1  2  7  8
+  ipair.    92  :  -1  1  7  8
+  ipair.    93  :  -1  0  7  8
+  ipair.    94  :   0 -2  7  8
+  ipair.    95  :  -1  2  7  9
+  ipair.    96  :  -1  1  7  9
+  ipair.    97  :   0 -1  7  9
+  ipair.    98  :   1 -3  7  9
+  ipair.    99  :   0  2  7 10
+  ipair.   100  :   0  1  7 10
+  ipair.   101  :   0  0  7 10
+  ipair.   102  :   1 -2  7 10
+  ipair.   103  :   2 -2  7  7
+  ipair.   104  :   0  2  7  8
+  ipair.   105  :   1  1  7  8
+  ipair.   106  :   2  0  7  8
+  ipair.   107  :   3 -2  7  8
+  ipair.   108  :   1  2  7  9
+  ipair.   109  :   2  1  7  9
+  ipair.   110  :   3 -1  7  9
+  ipair.   111  :   4 -3  7  9
+  ipair.   112  :   1  2  7 10
+  ipair.   113  :   2  1  7 10
+  ipair.   114  :   3  0  7 10
+  ipair.   115  :   4 -2  7 10
+  ipair.   116  :  -1  3  7  8
+  ipair.   117  :   0  3  7  9
+  ipair.   118  :  -1  3  7  9
+  ipair.   119  :   0  3  7 10
+  ipair.   120  :  -2  4  7  8
+  ipair.   121  :  -2  3  7  8
+  ipair.   122  :  -2  2  7  8
+  ipair.   123  :  -1  4  7  9
+  ipair.   124  :  -2  4  7  9
+  ipair.   125  :  -2  3  7  9
+  ipair.   126  :  -1  4  7 10
+  ipair.   127  :  -1  3  7 10
+  ipair.   128  :  -1  2  7 10
+  ipair.   129  :  -1  4  7  8
+  ipair.   130  :   0  3  7  8
+  ipair.   131  :   1  2  7  8
+  ipair.   132  :   0  4  7  9
+  ipair.   133  :   1  3  7  9
+  ipair.   134  :   0  4  7 10
+  ipair.   135  :   1  3  7 10
+  ipair.   136  :   2  2  7 10
+  ipair.   137  :  -2  5  7  8
+  ipair.   138  :  -1  5  7  9
+  ipair.   139  :  -2  5  7  9
+  ipair.   140  :  -1  5  7 10
+  ipair.   141  :   1 -1  8  8
+  ipair.   142  :   0 -1  8  8
+  ipair.   143  :   2 -2  8  8
+  ipair.   144  :   1 -2  8  8
+  ipair.   145  :   0 -2  8  8
+  ipair.   146  :   2 -3  8  8
+  ipair.   147  :   1 -3  8  8
+  ipair.   148  :   3 -4  8  8
+  ipair.   149  :   2 -4  8  8
+  ipair.   150  :   1 -4  8  8
+  ipair.   151  :   3 -5  8  8
+  ipair.   152  :   2 -5  8  8
+  ipair.   153  :   3 -6  8  8
+  ipair.   154  :   3 -3  8  9
+  ipair.   155  :   1 -3  8  9
+  ipair.   156  :   3 -4  8  9
+  ipair.   157  :   2 -4  8  9
+  ipair.   158  :   4 -5  8  9
+  ipair.   159  :   3 -5  8  9
+  ipair.   160  :   2 -5  8  9
+  ipair.   161  :   4 -6  8  9
+  ipair.   162  :   3 -6  8  9
+  ipair.   163  :   1  0  8 10
+  ipair.   164  :   2 -1  8 10
+  ipair.   165  :   1 -1  8 10
+  ipair.   166  :   3 -2  8 10
+  ipair.   167  :   2 -2  8 10
+  ipair.   168  :   1 -2  8 10
+  ipair.   169  :   3 -3  8 10
+  ipair.   170  :   2 -3  8 10
+  ipair.   171  :   4 -4  8 10
+  ipair.   172  :   3 -4  8 10
+  ipair.   173  :   2 -4  8 10
+  ipair.   174  :   4 -5  8 10
+  ipair.   175  :   3 -5  8 10
+  ipair.   176  :   4 -6  8 10
+  ipair.   177  :  -1  0  8  8
+  ipair.   178  :  -1 -1  8  8
+  ipair.   179  :   0 -3  8  8
+  ipair.   180  :  -1  0  8  9
+  ipair.   181  :   0 -2  8  9
+  ipair.   182  :   1 -4  8  9
+  ipair.   183  :   0  1  8 10
+  ipair.   184  :   0  0  8 10
+  ipair.   185  :   0 -1  8 10
+  ipair.   186  :   1 -3  8 10
+  ipair.   187  :   2 -1  8  8
+  ipair.   188  :   3 -3  8  8
+  ipair.   189  :   2  0  8  9
+  ipair.   190  :   3 -2  8  9
+  ipair.   191  :   4 -4  8  9
+  ipair.   192  :   1  1  8 10
+  ipair.   193  :   2  0  8 10
+  ipair.   194  :   3 -1  8 10
+  ipair.   195  :   4 -3  8 10
+  ipair.   196  :  -2  0  8  8
+  ipair.   197  :  -1 -2  8  8
+  ipair.   198  :  -2  2  8  9
+  ipair.   199  :  -2  1  8  9
+  ipair.   200  :  -1 -1  8  9
+  ipair.   201  :   0 -3  8  9
+  ipair.   202  :  -1  2  8 10
+  ipair.   203  :  -1  1  8 10
+  ipair.   204  :  -1  0  8 10
+  ipair.   205  :   0 -2  8 10
+  ipair.   206  :   0  2  8 10
+  ipair.   207  :   3 -2  8  8
+  ipair.   208  :   1  2  8  9
+  ipair.   209  :   2  1  8  9
+  ipair.   210  :   3 -1  8  9
+  ipair.   211  :   4 -3  8  9
+  ipair.   212  :   1  2  8 10
+  ipair.   213  :   2  1  8 10
+  ipair.   214  :   3  0  8 10
+  ipair.   215  :   4 -2  8 10
+  ipair.   216  :  -2  3  8  9
+  ipair.   217  :  -1  3  8 10
+  ipair.   218  :   0  3  8  9
+  ipair.   219  :   0  3  8 10
+  ipair.   220  :  -2  4  8  9
+  ipair.   221  :  -3  4  8  9
+  ipair.   222  :  -3  3  8  9
+  ipair.   223  :  -2  4  8 10
+  ipair.   224  :  -2  3  8 10
+  ipair.   225  :  -2  2  8 10
+  ipair.   226  :  -1  4  8  9
+  ipair.   227  :  -1  4  8 10
+  ipair.   228  :   0  4  8  9
+  ipair.   229  :   1  3  8  9
+  ipair.   230  :   0  4  8 10
+  ipair.   231  :   1  3  8 10
+  ipair.   232  :   2  2  8 10
+  ipair.   233  :  -2  5  8  9
+  ipair.   234  :  -3  5  8  9
+  ipair.   235  :  -2  5  8 10
+  ipair.   236  :  -1  5  8  9
+  ipair.   237  :  -1  5  8 10
+  ipair.   238  :  -2  6  8  9
+  ipair.   239  :  -3  6  8  9
+  ipair.   240  :  -2  6  8 10
+  ipair.   241  :  -1 -1  9  9
+  ipair.   242  :   0 -3  9  9
+  ipair.   243  :   2 -4  9  9
+  ipair.   244  :   1 -4  9  9
+  ipair.   245  :   3 -5  9  9
+  ipair.   246  :   2 -5  9  9
+  ipair.   247  :   1 -5  9  9
+  ipair.   248  :   3 -6  9  9
+  ipair.   249  :   2 -6  9  9
+  ipair.   250  :   0 -2  9 10
+  ipair.   251  :   1 -3  9 10
+  ipair.   252  :   3 -4  9 10
+  ipair.   253  :   2 -4  9 10
+  ipair.   254  :   1 -4  9 10
+  ipair.   255  :   3 -5  9 10
+  ipair.   256  :   2 -5  9 10
+  ipair.   257  :   3 -6  9 10
+  ipair.   258  :   2 -1  9  9
+  ipair.   259  :   3 -3  9  9
+  ipair.   260  :   3 -4  9  9
+  ipair.   261  :   4 -5  9  9
+  ipair.   262  :   4 -6  9  9
+  ipair.   263  :   3 -2  9 10
+  ipair.   264  :   3 -3  9 10
+  ipair.   265  :   4 -4  9 10
+  ipair.   266  :   4 -5  9 10
+  ipair.   267  :   4 -6  9 10
+  ipair.   268  :  -2  0  9  9
+  ipair.   269  :  -1 -2  9  9
+  ipair.   270  :   0 -4  9  9
+  ipair.   271  :  -1  0  9 10
+  ipair.   272  :  -1 -1  9 10
+  ipair.   273  :   0 -3  9 10
+  ipair.   274  :   3 -2  9  9
+  ipair.   275  :   4 -4  9  9
+  ipair.   276  :   2  0  9 10
+  ipair.   277  :   3 -1  9 10
+  ipair.   278  :   4 -3  9 10
+  ipair.   279  :  -2  3  9 10
+  ipair.   280  :  -2  2  9 10
+  ipair.   281  :  -2  1  9 10
+  ipair.   282  :   0  3  9 10
+  ipair.   283  :   1  2  9 10
+  ipair.   284  :   2  1  9 10
+  ipair.   285  :  -2  4  9 10
+  ipair.   286  :  -1  4  9 10
+  ipair.   287  :  -3  5  9 10
+  ipair.   288  :  -3  4  9 10
+  ipair.   289  :  -3  3  9 10
+  ipair.   290  :  -2  5  9 10
+  ipair.   291  :  -1  5  9 10
+  ipair.   292  :   0  4  9 10
+  ipair.   293  :   1  3  9 10
+  ipair.   294  :  -3  6  9 10
+  ipair.   295  :  -2  6  9 10
+  ipair.   296  :   1 -1 10 10
+  ipair.   297  :   0 -1 10 10
+  ipair.   298  :   2 -2 10 10
+  ipair.   299  :   1 -2 10 10
+  ipair.   300  :   0 -2 10 10
+  ipair.   301  :   2 -3 10 10
+  ipair.   302  :   1 -3 10 10
+  ipair.   303  :   3 -4 10 10
+  ipair.   304  :   2 -4 10 10
+  ipair.   305  :   1 -4 10 10
+  ipair.   306  :   3 -5 10 10
+  ipair.   307  :   2 -5 10 10
+  ipair.   308  :   3 -6 10 10
+  ipair.   309  :  -1  0 10 10
+  ipair.   310  :  -1 -1 10 10
+  ipair.   311  :   0 -3 10 10
+  ipair.   312  :   2 -1 10 10
+  ipair.   313  :   3 -3 10 10
+  ipair.   314  :  -2  0 10 10
+  ipair.   315  :  -1 -2 10 10
+  ipair.   316  :   3 -2 10 10
+
+ Orientation of magnetic fields in the cluster:
+ 
+  1     0.00000000     0.00000000     1.00000000
+  2     0.00000000     0.00000000     1.00000000
+  3     0.00000000     0.00000000     1.00000000
+  4     0.00000000     0.00000000     1.00000000
+  5     0.00000000     0.00000000     1.00000000
+  6     0.00000000     0.00000000     1.00000000
+  7     0.00000000     0.00000000     1.00000000
+  8     0.00000000     0.00000000     1.00000000
+  9     0.00000000     0.00000000     1.00000000
+ 10     0.00000000     0.00000000     1.00000000
+ 11     0.00000000     0.00000000     1.00000000
+ 12     0.00000000     0.00000000     1.00000000
+ 13     0.00000000     0.00000000     1.00000000
+ 14     0.00000000     0.00000000     1.00000000
+ 15     0.00000000     0.00000000     1.00000000
+ 16     0.00000000     0.00000000     1.00000000
+ 17     0.00000000     0.00000000     1.00000000
+ 18     0.00000000     0.00000000     1.00000000
+ 19     0.00000000     0.00000000     1.00000000
+ 20     0.00000000     0.00000000     1.00000000
+ 21     0.00000000     0.00000000     1.00000000
+ 22     0.00000000     0.00000000     1.00000000
+ 23     0.00000000     0.00000000     1.00000000
+ 24     0.00000000     0.00000000     1.00000000
+ 25     0.00000000     0.00000000     1.00000000
+ 26     0.00000000     0.00000000     1.00000000
+ 27     0.00000000     0.00000000     1.00000000
+ 28     0.00000000     0.00000000     1.00000000
+ 29     0.00000000     0.00000000     1.00000000
+ 30     0.00000000     0.00000000     1.00000000
+ 31     0.00000000     0.00000000     1.00000000
+ 32     0.00000000     0.00000000     1.00000000
+ 33     0.00000000     0.00000000     1.00000000
+ 34     0.00000000     0.00000000     1.00000000
+ 35     0.00000000     0.00000000     1.00000000
+ 36     0.00000000     0.00000000     1.00000000
+ 37     0.00000000     0.00000000     1.00000000
+ 38     0.00000000     0.00000000     1.00000000
+ 39     0.00000000     0.00000000     1.00000000
+ 40     0.00000000     0.00000000     1.00000000
+ 41     0.00000000     0.00000000     1.00000000
+ 42     0.00000000     0.00000000     1.00000000
+ 43     0.00000000     0.00000000     1.00000000
+ 44     0.00000000     0.00000000     1.00000000
+ 45     0.00000000     0.00000000     1.00000000
+ 46     0.00000000     0.00000000     1.00000000
+ 47     0.00000000     0.00000000     1.00000000
+ 48     0.00000000     0.00000000     1.00000000
+ 49     0.00000000     0.00000000     1.00000000
+ 50     0.00000000     0.00000000     1.00000000
+ 51     0.00000000     0.00000000     1.00000000
+ 52     0.00000000     0.00000000     1.00000000
+ TAUPATH= cluster        
+
+<readclu>: readclu processed!
+
+  routine MAIN>
+
+ leftpot=Nbb_110.pot0                  
+ leftmom=Nbb_110.mom                   
+   1  Nb (1.000) - Nb (0.000)
+   2  Nb (1.000) - Nb (0.000)
+   3  Nb (1.000) - Nb (0.000)
+   4  Nb (1.000) - Nb (0.000)
+ rightpot=  Vacuum
+  Vac(1.000) - Vac(0.000)
+  Vac(1.000) - Vac(0.000)
+  Vac(1.000) - Vac(0.000)
+  Vac(1.000) - Vac(0.000)
+ laypot=Nb8_110.pot0                  
+  Nb (1.000) - Nb (0.000)
+  Nb (1.000) - Nb (0.000)
+  Nb (1.000) - Nb (0.000)
+  Nb (1.000) - Nb (0.000)
+  Nb (1.000) - Nb (0.000)
+  Nb (1.000) - Nb (0.000)
+  Nb (1.000) - Nb (0.000)
+  Nb (1.000) - Nb (0.000)
+  Vac(1.000) - Vac(0.000)
+  Vac(1.000) - Vac(0.000)
+  Vac(1.000) - Vac(0.000)
+  Vac(1.000) - Vac(0.000)
+ 
+  etop=  -0.0183132794260
+ v0=    0.331332473800000     
+
+  routine TCPA_MAIN> 
+ cpal F     cpar F     cpai F
+ cpamatinl F
+ cpamatinr F
+ cpamatin  F
+ 
+ Calculation of the off-diagonal elements of tau
+ mainly for TESTS!!!!!!!
+
+ Selfconsistent iteration:   1
+
+ nbulkl           1
+  routine CHCORE> 
+ I   1  L   1     Ec   -0.455333082546D+04
+ I   1  L   2     Ec   -0.455331871817D+04
+ I   1  L   3     Ec   -0.455331770631D+04
+ I   1  L   4     Ec   -0.455331270223D+04
+ I   1  L   5     Ec   -0.455327982650D+04
+ I   1  L   6     Ec   -0.455327726732D+04
+ I   1  L   7     Ec   -0.455355077050D+04
+ I   1  L   8     Ec   -0.455472134499D+04
+ I   1  L   9     Ec    0.000000000000D+00
+ I   1  L  10     Ec    0.000000000000D+00
+ I   1  L  11     Ec    0.000000000000D+00
+ I   1  L  12     Ec    0.000000000000D+00
+ 
+ ie=  1   e= -0.99749486  0.04952768  nk=  253
+ CPA iterations:  1   ERROR:   0.000000D+00
+ +1 CPA iterations:  2   ERROR:   0.000000D+00
+ <tauhout>: the unscreined tau is written
+ cluster0001.tau                                   
+ <thout>: unscreened cpa tm is writen           1 
+ cluster0001.tm                                    
+ ie=  2   e= -0.94134408  0.23268266  nk=  253
+ CPA iterations:  1   ERROR:   0.000000D+00
+ +1 CPA iterations:  2   ERROR:   0.000000D+00
+ <tauhout>: the unscreined tau is written
+ cluster0002.tau                                   
+ <thout>: unscreened cpa tm is writen           2 
+ cluster0002.tm                                    
+ ie=  3   e= -0.74628271  0.42976555  nk=  253
+ CPA iterations:  1   ERROR:   0.000000D+00
+ +1 CPA iterations:  2   ERROR:   0.000000D+00
+ <tauhout>: the unscreined tau is written
+ cluster0003.tau                                   
+ <thout>: unscreened cpa tm is writen           3 
+ cluster0003.tm                                    
+ ie=  4   e= -0.46266760  0.48863685  nk=  253
+ CPA iterations:  1   ERROR:   0.000000D+00
+ +1 CPA iterations:  2   ERROR:   0.000000D+00
+ <tauhout>: the unscreined tau is written
+ cluster0004.tau                                   
+ <thout>: unscreened cpa tm is writen           4 
+ cluster0004.tm                                    
+ ie=  5   e= -0.22932190  0.40326136  nk=  253
+ CPA iterations:  1   ERROR:   0.000000D+00
+ +1 CPA iterations:  2   ERROR:   0.000000D+00
+ <tauhout>: the unscreined tau is written
+ cluster0005.tau                                   
+ <thout>: unscreened cpa tm is writen           5 
+ cluster0005.tm                                    
+ ie=  6   e= -0.10042268  0.27177887  nk=  253
+ CPA iterations:  1   ERROR:   0.000000D+00
+ +1 CPA iterations:  2   ERROR:   0.000000D+00
+ <tauhout>: the unscreined tau is written
+ cluster0006.tau                                   
+ <thout>: unscreened cpa tm is writen           6 
+ cluster0006.tm                                    
+ ie=  7   e= -0.04610044  0.16280713  nk=  253
+ CPA iterations:  1   ERROR:   0.000000D+00
+ +1 CPA iterations:  2   ERROR:   0.000000D+00
+ <tauhout>: the unscreined tau is written
+ cluster0007.tau                                   
+ <thout>: unscreened cpa tm is writen           7 
+ cluster0007.tm                                    
+ ie=  8   e= -0.02691018  0.09146342  nk=  253
+ CPA iterations:  1   ERROR:   0.000000D+00
+ +1 CPA iterations:  2   ERROR:   0.000000D+00
+ <tauhout>: the unscreined tau is written
+ cluster0008.tau                                   
+ <thout>: unscreened cpa tm is writen           8 
+ cluster0008.tm                                    
+ ie=  9   e= -0.02083773  0.04971768  nk=  253
+ CPA iterations:  1   ERROR:   0.000000D+00
+ +1 CPA iterations:  2   ERROR:   0.000000D+00
+ <tauhout>: the unscreined tau is written
+ cluster0009.tau                                   
+ <thout>: unscreened cpa tm is writen           9 
+ cluster0009.tm                                    
+ ie= 10   e= -0.01903437  0.02659641  nk=  253
+ CPA iterations:  1   ERROR:   0.000000D+00
+ +1 CPA iterations:  2   ERROR:   0.000000D+00
+ <tauhout>: the unscreined tau is written
+ cluster0010.tau                                   
+ <thout>: unscreened cpa tm is writen          10 
+ cluster0010.tm                                    
+ ie= 11   e= -0.01851541  0.01408487  nk=  528
+ CPA iterations:  1   ERROR:   0.000000D+00
+ +1 CPA iterations:  2   ERROR:   0.000000D+00
+ <tauhout>: the unscreined tau is written
+ cluster0011.tau                                   
+ <thout>: unscreened cpa tm is writen          11 
+ cluster0011.tm                                    
+ ie= 12   e= -0.01836815  0.00733907  nk=  528
+ CPA iterations:  1   ERROR:   0.000000D+00
+ +1 CPA iterations:  2   ERROR:   0.000000D+00
+ <tauhout>: the unscreined tau is written
+ cluster0012.tau                                   
+ <thout>: unscreened cpa tm is writen          12 
+ cluster0012.tm                                    
+ ie= 13   e= -0.01832705  0.00367625  nk=  903
+ CPA iterations:  1   ERROR:   0.000000D+00
+ +1 CPA iterations:  2   ERROR:   0.000000D+00
+ <tauhout>: the unscreined tau is written
+ cluster0013.tau                                   
+ <thout>: unscreened cpa tm is writen          13 
+ cluster0013.tm                                    
+ ie= 14   e= -0.01831614  0.00167666  nk=  903
+ CPA iterations:  1   ERROR:   0.000000D+00
+ +1 CPA iterations:  2   ERROR:   0.000000D+00
+ <tauhout>: the unscreined tau is written
+ cluster0014.tau                                   
+ <thout>: unscreened cpa tm is writen          14 
+ cluster0014.tm                                    
+ ie= 15   e= -0.01831366  0.00060885  nk= 1378
+ CPA iterations:  1   ERROR:   0.000000D+00
+ +1 CPA iterations:  2   ERROR:   0.000000D+00
+ <tauhout>: the unscreined tau is written
+ cluster0015.tau                                   
+ <thout>: unscreened cpa tm is writen          15 
+ cluster0015.tm                                    
+ ie= 16   e= -0.01831329  0.00010854  nk= 1953
+ CPA iterations:  1   ERROR:   0.000000D+00
+ +1 CPA iterations:  2   ERROR:   0.000000D+00
+ <tauhout>: the unscreined tau is written
+ cluster0016.tau                                   
+ <thout>: unscreened cpa tm is writen          16 
+ cluster0016.tm                                    
+
+            Eb A                  Eb B              Eb
+  1 -0.719543977570D+00 -0.719543977570D+00 -0.719543977570D+00
+  2 -0.718726312049D+00 -0.718726312049D+00 -0.718726312049D+00
+  3 -0.718217407446D+00 -0.718217407446D+00 -0.718217407446D+00
+  4 -0.716580831086D+00 -0.716580831086D+00 -0.716580831086D+00
+  5 -0.715281722902D+00 -0.715281722902D+00 -0.715281722902D+00
+  6 -0.713266251736D+00 -0.713266251736D+00 -0.713266251736D+00
+  7 -0.737908525518D+00 -0.737908525518D+00 -0.737908525518D+00
+  8 -0.624079476886D+00 -0.624079476886D+00 -0.624079476886D+00
+  9 -0.263105705981D-01 -0.263105705981D-01 -0.263105705981D-01
+ 10 -0.185169442749D-03 -0.185169442749D-03 -0.185169442749D-03
+ 11 -0.574205320868D-06 -0.574205320868D-06 -0.574205320868D-06
+ 12  0.121042706111D-06  0.121042706111D-06  0.121042706111D-06
+---------------------------------------------------------------
+                                            -0.569010069840D+01
+
+            DEb A                DEb B  
+  1  0.000000000000D+00  0.000000000000D+00
+  2  0.000000000000D+00  0.000000000000D+00
+  3  0.000000000000D+00  0.000000000000D+00
+  4  0.000000000000D+00  0.000000000000D+00
+  5  0.000000000000D+00  0.000000000000D+00
+  6  0.000000000000D+00  0.000000000000D+00
+  7  0.000000000000D+00  0.000000000000D+00
+  8  0.000000000000D+00  0.000000000000D+00
+  9  0.000000000000D+00  0.000000000000D+00
+ 10  0.000000000000D+00  0.000000000000D+00
+ 11  0.000000000000D+00  0.000000000000D+00
+ 12  0.000000000000D+00  0.000000000000D+00
+ 
+ I   1  L   1   Q     0.4999674471D+01
+ I   1  L   2   Q     0.5000201148D+01
+ I   1  L   3   Q     0.5000204182D+01
+ I   1  L   4   Q     0.4998724466D+01
+ I   1  L   5   Q     0.5001319763D+01
+ I   1  L   6   Q     0.5002846683D+01
+ I   1  L   7   Q     0.4984708271D+01
+ I   1  L   8   Q     0.4695291915D+01
+ I   1  L   9   Q     0.3124026913D+00
+ I   1  L  10   Q     0.4376085346D-02
+ I   1  L  11   Q     0.2165019507D-04
+ I   1  L  12   Q     0.7528505179D-07
+ 
+ I   1  L   1  Bth           0.00000        0.00000
+ I   1  L   2  Bth           0.00000        0.00000
+ I   1  L   3  Bth           0.00000        0.00000
+ I   1  L   4  Bth           0.00000        0.00000
+ I   1  L   5  Bth           0.00000        0.00000
+ I   1  L   6  Bth           0.00000        0.00000
+ I   1  L   7  Bth           0.00000        0.00000
+ I   1  L   8  Bth           0.00000        0.00000
+ I   1  L   9  Bth           0.00000        0.00000
+ I   1  L  10  Bth           0.00000        0.00000
+ I   1  L  11  Bth           0.00000        0.00000
+ I   1  L  12  Bth           0.00000        0.00000
+ 
+ I   1  L   1  Bph           0.00000        0.00000
+ I   1  L   2  Bph           0.00000        0.00000
+ I   1  L   3  Bph           0.00000        0.00000
+ I   1  L   4  Bph           0.00000        0.00000
+ I   1  L   5  Bph           0.00000        0.00000
+ I   1  L   6  Bph           0.00000        0.00000
+ I   1  L   7  Bph           0.00000        0.00000
+ I   1  L   8  Bph           0.00000        0.00000
+ I   1  L   9  Bph           0.00000        0.00000
+ I   1  L  10  Bph           0.00000        0.00000
+ I   1  L  11  Bph           0.00000        0.00000
+ I   1  L  12  Bph           0.00000        0.00000
+ 
+ I   1  L   1  MS    0.4187730891D-17
+ I   1  L   2  MS    0.6243649261D-16
+ I   1  L   3  MS    0.8792879619D-16
+ I   1  L   4  MS    0.2436744383D-16
+ I   1  L   5  MS    0.2846030703D-16
+ I   1  L   6  MS    0.4011548038D-17
+ I   1  L   7  MS    0.1301042607D-17
+ I   1  L   8  MS    0.1553797238D-16
+ I   1  L   9  MS    0.1739583412D-13
+ I   1  L  10  MS    0.6139457432D-14
+ I   1  L  11  MS    0.6029519332D-16
+ I   1  L  12  MS    0.4680636304D-15
+ 
+ I   1  L   1  MO    0.2347568754D-15
+ I   1  L   2  MO    0.1978668965D-16
+ I   1  L   3  MO    0.4770489559D-17
+ I   1  L   4  MO    0.5274643569D-16
+ I   1  L   5  MO    0.5675798373D-16
+ I   1  L   6  MO    0.1261469228D-15
+ I   1  L   7  MO    0.4835541689D-16
+ I   1  L   8  MO    0.1427386041D-15
+ I   1  L   9  MO    0.1195953601D-13
+ I   1  L  10  MO    0.4191579809D-14
+ I   1  L  11  MO    0.1048965602D-15
+ I   1  L  12  MO    0.1904157170D-14
+
+  routine NEWPOT>
+
+ I  1  Interf.  q=  -0.0002285985
+
+ Madelung potentials for bulk
+ Sublattice 1 :    0.9456515D-08    0.0000000D+00
+ <newpot>: fullmad= T
+ <newpot>: vmadih           1  1.670861831123651E-002
+ <newpot>: vmadih           2 -8.806645168950736E-002
+ <newpot>: vmadih           3 -8.600676146797420E-002
+ <newpot>: vmadih           4 -8.600676146797412E-002
+ <newpot>: vmadih           5 -7.368142539529723E-002
+ <newpot>: vmadih           6 -8.600676146797394E-002
+ <newpot>: vmadih           7 -8.600676146797376E-002
+ <newpot>: vmadih           8 -8.806645168950775E-002
+ <newpot>: vmadih           9 -9.008663679651330E-002
+ <newpot>: vmadih          10 -0.104050747248831     
+ <newpot>: vmadih          11 -0.104050747248831     
+ <newpot>: vmadih          12 -0.104204326885581     
+ <newpot>: vmadih          13 -5.307062087513204E-002
+ <newpot>: vmadih          14 -0.104204326885581     
+ <newpot>: vmadih          15 -5.721130042435188E-002
+ <newpot>: vmadih          16 -5.721130042435207E-002
+ <newpot>: vmadih          17 -0.104204326885581     
+ <newpot>: vmadih          18 -5.307062087513217E-002
+ <newpot>: vmadih          19 -0.104204326885582     
+ <newpot>: vmadih          20 -0.104050747248832     
+ <newpot>: vmadih          21 -0.104050747248832     
+ <newpot>: vmadih          22 -9.008663679651374E-002
+ <newpot>: vmadih          23 -3.775639038386673E-003
+ <newpot>: vmadih          24 -3.775639038386576E-003
+ <newpot>: vmadih          25 -4.940198217705083E-003
+ <newpot>: vmadih          26  1.975279280336836E-002
+ <newpot>: vmadih          27 -4.940198217705610E-003
+ <newpot>: vmadih          28  1.122304149655174E-002
+ <newpot>: vmadih          29  1.122304149655148E-002
+ <newpot>: vmadih          30  3.757208773913116E-002
+ <newpot>: vmadih          31  3.757208773913032E-002
+ <newpot>: vmadih          32  1.122304149655197E-002
+ <newpot>: vmadih          33  1.122304149655200E-002
+ <newpot>: vmadih          34 -4.940198217705000E-003
+ <newpot>: vmadih          35  1.975279280336847E-002
+ <newpot>: vmadih          36 -4.940198217705895E-003
+ <newpot>: vmadih          37 -3.775639038386264E-003
+ <newpot>: vmadih          38 -3.775639038386777E-003
+ <newpot>: vmadih          39  0.126444293318997     
+ <newpot>: vmadih          40  0.106169495278589     
+ <newpot>: vmadih          41  0.106169495278589     
+ <newpot>: vmadih          42  0.124309563559993     
+ <newpot>: vmadih          43  9.414158873905529E-002
+ <newpot>: vmadih          44  0.124309563559992     
+ <newpot>: vmadih          45  9.761806252863225E-002
+ <newpot>: vmadih          46  9.761806252863206E-002
+ <newpot>: vmadih          47  0.124309563559992     
+ <newpot>: vmadih          48  9.414158873905529E-002
+ <newpot>: vmadih          49  0.124309563559992     
+ <newpot>: vmadih          50  0.106169495278589     
+ <newpot>: vmadih          51  0.106169495278589     
+ <newpot>: vmadih          52  0.126444293318997     
+ 
+ I  1  Mad. pot. 1  Vm=   0.0001873360
+ I  1  Mad. pot. 2  Vm=  -0.0001299798
+ I  1  Mad. pot. 3  Vm=  -0.0000692428
+ I  1  Mad. pot. 4  Vm=   0.0016277177
+ I  1  Mad. pot. 5  Vm=  -0.0009669402
+ I  1  Mad. pot. 6  Vm=  -0.0004091670
+ I  1  Mad. pot. 7  Vm=   0.0166412991
+ I  1  Mad. pot. 8  Vm=   0.1765698802
+ I  1  Mad. pot. 9  Vm=   0.0413570775
+ I  1  Mad. pot.10  Vm=   0.3287397593
+ I  1  Mad. pot.11  Vm=   0.3313319154
+ I  1  Mad. pot.12  Vm=   0.3313325824
+
+ Error for V(r) :     0.710658D-11     0.583500D+08     0.348987D-09
+ Error for Bsp(r) :     0.959053D-19     0.261172D-19     0.000000D+00
+ Error for Bop(r) :     0.000000D+00     0.000000D+00     0.000000D+00
+
+ itscf,ibrcase,ibrmax,ibr:   1   1  15   1
+
+ Vacuum potential level:    0.3313325198D+00    0.3313324738D+00    0.3313324761D+00
+ Work function:    0.4757280150D+01 eV
+

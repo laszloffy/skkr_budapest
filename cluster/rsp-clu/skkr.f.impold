@@ -1,0 +1,529 @@
+      program main
+      implicit real*8 (a-h,o-z)
+c
+      include '../param.h'
+c
+      logical bulk
+      logical dos
+      logical wrel
+      logical lms
+      logical orbpol
+      logical opot
+c
+      character*30 imppot 
+      character*10 idpota(mimp)
+      character*30 for006
+      character*30 for007
+      character*30 for008
+      character*30 for009
+      character*30 for010
+      character*30 laycore
+c
+      real*8 lza(2,mimp)
+c
+      integer nepanel(5)
+      integer ns(mimp)
+c
+      real*8 ebottom(5)
+      real*8 etop(5)
+      real*8 eps(5)
+c
+      real*8 vra(nrad,mimp)
+      real*8 bra(nrad,mimp)
+      real*8 bopra(nrad,2,mimp)
+      real*8 rs(mimp)
+      real*8 dx(mimp)
+      real*8 rmt(mimp)
+c
+      real*8 za(mimp)
+      real*8 sxa(mimp)
+      real*8 qca(mimp)
+      real*8 qva(mimp)
+      real*8 qvpa(kmymaxp,mimp)
+c
+      real*8 zb(mimp)
+      real*8 qcb(mimp)
+      real*8 encb(mimp)
+      real*8 rhocb(nrad,mimp)
+c
+      real*8 vecna(3,mimp)
+      real*8 rba(3,mimp)
+      real*8 phia(mimp)
+c
+      complex*16 dmata(kmymaxp,kmymaxp,mimp)
+      complex*16 dmatpa(kmymaxp,kmymaxp,mimp)
+      complex*16 rmata(lmsup,lmsup,mimp)
+      complex*16 rmatpa(lmsup,lmsup,mimp)
+c
+      complex*16 ddpha(kmymaxp,kmymaxp,mimp)
+      complex*16 ddphpa(kmymaxp,kmymaxp,mimp)
+      complex*16 ddtha(kmymaxp,kmymaxp,mimp)
+      complex*16 ddthpa(kmymaxp,kmymaxp,mimp)
+c
+      real*8 dosa(kmymaxp,mimp,me)
+      real*8 dosmaga(kmymaxp,mimp,me)
+      real*8 enbdiffa(mimp,me)
+      real*8 qvdiffa(mimp,me)
+c
+      real*8 spin_magvpa(kmymaxp,mimp,3)
+      real*8 spin_magva(mimp,3)
+      real*8 orb_magvpa(kmymaxp,mimp,3)
+      real*8 orb_magva(mimp,3)
+      real*8 enba(mimp)
+      real*8 denba(mimp)
+      real*8 enca(mimp)
+      real*8 enela(mimp)
+      real*8 enxca(mimp)
+      real*8 enpota(mimp)
+      real*8 enmaga(mimp)
+      real*8 enorba(mimp)
+      real*8 entota(mimp)
+      real*8 entot(mimp)
+      real*8 rhoca(nrad,mimp)
+      real*8 rhova(nrad,mimp)
+      real*8 rhospa(nrad,2,mimp)
+      real*8 rhodspa(nrad,2,mimp)
+      real*8 rhomaga(nrad,mimp)
+c
+      real*8 spinmoma(mimp)
+      real*8 orbmoma(mimp)
+      real*8 th0a(mimp)
+      real*8 th1a(mimp)
+      real*8 ph0a(mimp)
+      real*8 ph1a(mimp)
+c
+      complex*16 cear(me)
+      complex*16 we(me)
+      complex*16 ce
+c
+      complex*16 tminva(kmymaxp,kmymaxp,mimp)
+      complex*16 ptminva(kmymaxp,kmymaxp,mimp)
+      complex*16 taua(kmymaxp,kmymaxp,mimp)
+      complex*16 gtaua(kmymaxp,kmymaxp,mimp)
+c
+      complex*16 qmoma(lmsup,mimp)
+      complex*16 qmomla(lmsup,minprc)
+      complex*16 qmomra(lmsup,minprc)
+c
+c -----------immpurities----------
+      character*30 imppot
+      character*15 taupath
+c
+      integer nposimp(3,mimp)
+      integer kpairind(mimp,mimp)
+      integer kpair(4,mpair)
+      integer npair
+c
+      real*8 rbcl(3,mimp)
+      real*8 bthcl(mimp)
+      real*8 bphcl(mimp)
+      real*8 sxcl(mimp)
+c
+      real*8 vmadih(mimp)
+      real*8 vmadid(mimp)
+      real*8 vmadiq(mimp)
+c
+      complex*16 tau_ii(kmymaxp,kmymaxp,mintfc,net)
+      complex*16 tminvh(kmymaxp,kmymaxp,mintfc,net)
+c
+      complex*16 tau_ij(kmymaxp,kmymaxp,mpair,net)
+      complex*16 tau_ji(kmymaxp,kmymaxp,mpair,net)
+      complex*16 taucl(kmymaxp,kmymaxp,mimp)
+c
+      real*8 vscreen
+      real*8 vscreen0
+c---------------------------------
+c
+      common/test/itest
+      common/lay2d/cvec(mtotal,3),nextra,nbulkl,nbulkr,
+     &             nprc,ninprc(0:mprc+1) 
+c
+c
+      data tiny/1.0d-6/
+      data rnul/0.d0/
+c     data tolerr,tolef,tolen,tolv0/1.0d-10,1.0d-10,1.0d-9,1.0d-08/
+c
+c
+c     ***************************************************************
+c                            INITIALIZE
+c     ***************************************************************
+c
+      open(unit=5,file='input_rsp.in',status='old')
+c     ---------------------------------------------------------------
+      call readini(
+     > imesh,ne,npanel,nepanel,ne1,ne2,ne3,ebottom,etop,eps,lmax,
+     > eta,sigma,!park,kset,ksetmax,itcpam,cpatol,cpatest,
+     > for006,for007,for008,for009,!for010,iwrite,
+c    > leftpot,rightpot,laypot,
+     > laycore,!leftmat,rightmat,laymat,
+     > wrel,lms,!bulk,
+     > dos,!rightm,newvac,ivacpot,v0,v00,
+     > vscreen,iscreen,itscfmax,tolerr,tolef,tolen,!intbz,kunning,
+     > orbpol,!opotl,opotr,
+     > opot,lliter)
+c     ---------------------------------------------------------------
+      close(5)
+c
+      open(unit=5,file='input_geo.in',status='old')
+c     ---------------------------------------------------------------
+      call readgeom(bulk,bulkgeo,rightm,intbz,nintfc,arot,
+     > rsl,concl,rbl,sxl,
+     > rs,conc,rba,rbb,sxa,sxb,
+     > rsr,concr,rbr,sxr,
+     > lfix1,lfix2,linbw,igraph,iesublatt,lsublatt)    
+c     ---------------------------------------------------------------
+      close(5)
+c
+c     ---------------------------------------------------------------
+      call readclu(nintfc,nimp,nposimp,npair,kpair,kpairind,
+     >             bthcl,bphcl,rbcl,sxcl,taupath,imppot)
+c     ---------------------------------------------------------------
+c
+      write(6,'(/2x,''routine MAIN>''/)')
+c
+      nl=lmax+1
+      kmymax=2*nl*nl
+      ntotal=nintfc+ninprc(0)*(nextra+1)+ninprc(nprc+1)*(nextra+1)
+c
+c -read Left,Right and Layer potentials
+c
+c     ---------------------------------------------------------------
+c     call pothandle(
+c    > bulk,linbw,rightm,lmax,nintfc,ninprc(0),ninprc(nprc+1),
+c    > v00,ivacpot,for006,opotl,opotr,opot,
+c    > leftpot,concl,qmomla,qmomlb,dxl,nsl,rsl,
+c    > idpotla,vrla,brla,boprla,zla,idpotlb,vrlb,brlb,boprlb,zlb,
+c    > rightpot,concr,qmomra,qmomrb,dxr,nsr,rsr,
+c    > idpotra,vrra,brra,boprra,zra,idpotrb,vrrb,boprrb,brrb,zrb,
+c    > laypot,conc,dx,ns,rs,
+c    > idpota,vra,bra,bopra,za,idpotb,vrb,brb,boprb,zb,igraph)
+      call pothandleimp(
+     > lmax,nintfc,v00,ivacpot,for006,opot,imppot,dx,ns,rs,idpota,
+     > vra,bra,bopra,za)
+c     ---------------------------------------------------------------
+c
+c -read in data from update file if exists
+c    ----------------------------------------------------------------
+      call restart_in1(itscf0,etop(npanel),v0,opot,
+     >                vra,bra,bopra,rba,
+     >                nintfc,idpota,za,laycore,for006)
+c    ----------------------------------------------------------------
+      write(6,*)
+      write(6,'(2x,''etop= '',f17.13)') etop(npanel)
+      write(6,*) 'v0=  ',v0
+c
+c -fix manipulations with files containing inverse cpa t-matrices
+c     --------------------------------------------------------------
+c     call tcpa_main(
+c    > leftmat,rightmat,laymat,bulk,dos,ksetmax,nintfc,ninprc(0),
+c    > ninprc(nprc+1),conc,concl,concr,cpamatin,cpamatinl,cpamatinr)
+c     --------------------------------------------------------------
+c
+c -initialize common blocks
+c
+      call initia
+c
+c -generate energy mesh (fix energy contour)
+c
+c     ---------------------------------------------------------
+      call zmesh(imesh,npanel,nepanel,ne1,ne2,ne3,ebottom,etop,
+     >           eps,cear,we)
+c     ---------------------------------------------------------
+      if(itest.ge.2) then 
+        write(6,*)
+        do ie=1,ne
+          write(6,'('' ie='',i2,'' e='',2f12.8,'' w='',2f12.8)')
+     >          ie,cear(ie),we(ie)
+        end do
+        write(6,*) 'CROSSCHECK!!!!!!!!!'
+!       write(6,*) 'READ V0!!!!!!!!!!!!'
+!       write(6,*) 'SCRPAR!!!!!!!!!!!!!'
+        write(6,*) 'GIVE MADMAX!!!!!!!!!!!!!'
+!       write(6,*) 'RESTART!!!!!!!!!!!!!'
+!       write(6,*) 'last time: printres1!!!!!!!!!!!!!'
+      end if
+c
+c =====================================================================
+c - read in the host t and tau matrices
+      do ie=1,ne
+        ze=cear(ie)
+        call tauhin(ie,ze,npair,nintfc,kmymax,
+     >                  tau_ij(1,1,1,ie),
+     >                  tau_ji(1,1,1,ie),
+     >                  tau_ii(1,1,1,ie),taupath)
+        call thin(ie,ze,nintfc,kmymax,tminvh(1,1,1,ie),taupath)
+      end do
+c
+      call vhin(nimp,vmadih,v0,iscreen,vscreen,kpairind,taupath)
+c =====================================================================
+c     *************************************************************
+c               START SELFCONSISTENT ITERATIONS 
+c     *************************************************************
+c
+      itscf=0
+      istop=0
+      efermi=etop(npanel)
+  100 continue
+      itscf=itscf+1
+      itscfcont=itscf0+itscf
+      write(6,'(/'' Selfconsistent iteration: '',i3/)') itscf
+c
+c     if(bulk) then
+c        ---------------------------------------------------------
+c        call averagebpot(nsl,nintfc,nbulkl,vra,vrla,vrra)
+c        call averagebpot(nsl,nintfc,nbulkl,vrb,vrlb,vrrb)
+c        call averagebpot(nsl,nintfc,nbulkl,bra,brla,brra)
+c        call averagebpot(nsl,nintfc,nbulkl,brb,brlb,brrb)
+c        if(orbpol) then
+c        call averagebpotsp(nsl,nintfc,nbulkl,bopra,boprla,boprra)
+c        call averagebpotsp(nsl,nintfc,nbulkl,boprb,boprlb,boprrb)
+c        end if
+c        ---------------------------------------------------------
+c     end if
+c
+c -solve Diraq equation for core states
+c  (non spin-polarized!)
+c
+c     ------------------------------------------------------------
+      call chcore(itscfcont,nintfc,1.d0,idpota,vra,za,
+     >idpota,vra,za,dx,ns,rs,qca,qcb,rhoca,rhocb,enca,encb,for006)
+c     ------------------------------------------------------------
+c
+c
+c
+c -open binary files containing (inverse of) effective t-matrices
+c     -------------------------------------------------------------
+c     call tcpa_open(
+c    > for010,leftmat,rightmat,laymat,cpamatin,cpamatinl,cpamatinr)
+c     -------------------------------------------------------------
+c
+c - set quantities for contour integration to zero
+c
+c     -----------------------------------------------------------
+      call initzero1(qvpa,qva,vmadid,vmadiq,
+     & spin_magvpa,spin_magva,
+     & orb_magvpa,orb_magva,
+     & enba,denba,enorba,qmoma,
+     & rhova,rhospa,rhodspa,rhomaga,
+     & enbifc,qvifc,omifc) 
+c     -----------------------------------------------------------
+c
+c Rotation matrices between local and global frames of reference
+c
+c     -------------------------------------------------------------
+c     call localrot2(
+c    > lmax,nintfc,rbl,rbr,rba,rbb,vecna,vecnb,phia,phib,
+c    > dmatl,dmatlp,dmatr,dmatrp,dmata,dmatb,dmatpa,dmatpb,
+c    > ddpha,ddphb,ddphpa,ddphpb,ddtha,ddthb,ddthpa,ddthpb,
+c    > rmata,rmatpa,rmatb,rmatpb)
+      call localrot2imp(
+     > lmax,nimp,rba,vecna,phia,dmata,dmatpa,
+     > ddpha,ddphpa,ddtha,ddthpa,mata,rmatpa)
+c     -------------------------------------------------------------
+c
+c                 *************************
+c                 *** Start energy loop ***
+c                 *************************
+c
+      ie0=1
+      iek=0
+      do 10 ie=1,ne
+c
+      ce=cear(ie)
+c
+c -read in (inverse of) effective t-matrices if necessary
+c     -----------------------------------------------
+c     call tcpa_in(leftmat,rightmat,laymat,ce,nintfc,
+c    & ninprc(0),ninprc(nprc+1),conc,concl,concr,
+c    > cpamatin,cpamatinl,cpamatinr,kmymax,
+c    & tminv,tminvl,tminvr,kmymaxp)
+c     -----------------------------------------------
+c
+c  generate k-mesh in irreducible Brillouin-zone
+c
+c     if(kset(ie).eq.0) itcpam=0
+c     ------------------------------------------------------------------
+c     call kmesh2d(intbz,kunning,kset(ie),park,xk(1,1),xk(1,2),wk,nk,
+c    &             mkpar)
+c     ------------------------------------------------------------------
+c
+c     if(itest.ge.1) then
+c       write(6,'('' ie='',i3,''   e='',2f12.8,''  nk='',i5)') ie,ce,nk
+c       call flush(6)
+c     end if
+c     if(itest.ge.2) then
+c       if(ie.gt.1) ie0=ie-1
+c       if((kset(ie).ne.kset(ie0)).or.(ie.eq.1)) then
+c         do ik=1,nk
+c           write(6,'(i5,3f14.10)') ik,xk(ik,1),xk(ik,2),wk(ik)
+c         end do
+c       end if
+c     end if
+c
+c  t-matrices to start CPA
+c     ------------------------------------------------------
+c     call tmatini(
+c    > ce,lmax,nintfc,iscreen,vscreen,v0,
+c    > bulk,wrel,sxl,sxr,sxa,sxb,
+c    > concl,concr,conc,cpamatin,cpamatinl,cpamatinr,
+c    > idpotla,vrla,brla,boprla,
+c    > idpotlb,vrlb,brlb,boprlb,rsl,dxl,nsl,
+c    > idpotra,vrra,brra,boprra,
+c    > idpotrb,vrrb,brrb,boprrb,rsr,dxr,nsr,
+c    > idpota,vra,bra,bopra,idpotb,vrb,brb,boprb,dx,ns,rs,
+c    > dmatl,dmatlp,dmatr,dmatrp,dmata,dmatb,dmatpa,dmatpb,
+c    > tminvl,tminvr,tminv,tminva,tminvb,ptminva,ptminvb)
+      call tmatiniimp(
+     > ce,lmax,nintfc,nimp,nposimp,iscreen,vscreen,v0,
+     > wrel,sxcl,idpota,vra,bra,bopra,dx,ns,rs,
+     > dmata,dmatpa,tminva,ptminva)
+c     ------------------------------------------------------
+c       write(6,'('' tmat'')')
+c       call flush(6)
+c
+c  perform CPA, BZ integration & calculate tau-matices
+c     ---------------------------------------------
+c     call cpacoordimp(
+c    > iwrite,itscf,ie,ce,lmax,nintfc,eta,rightm,bulk,bulkgeo,wrel,
+c    > kset(ie),xk,wk,nk,intbz,iek,
+c    > conc,itcpam,cpatol,cpatest,
+c    > dmata,dmatb,dmatpa,dmatpb,
+c    > tminvl,tminvr,tminv,tminva,tminvb,taua,taub,gtaua,gtaub)
+c     --------------------------------------------- 
+c =====================================================================
+      call ecoreimp(nimp,tau_ij,tau_ji,tau_ii,tminvcl,
+     > tminvh,lmax,nposimp,kpairind,taucl)
+c =====================================================================
+c       write(6,'('' cpa'')')
+c       call flush(6)
+c
+c -write out (inverse of) effective t-matrices
+c     --------------------------------------------------
+c     call tcpa_out(ce,nintfc,conc,kmymax,tminv,kmymaxp)
+c     --------------------------------------------------
+c
+c  calculate local physical quantities
+c  integrate with respect to energy
+c     --------------------------------------------------------------
+      call locquant1(
+     > ie,ce,we(ie),lmax,nintfc,wrel,lms,sxa,v0,
+     > idpota,vra,bra,bopra,dx,ns,rs,
+     > dmata,dmatpa,ddpha,ddphpa,ddtha,ddthpa,rmata,rmatpa,
+     > taucl,gtaua,ptminva,
+     > dosa(1,1,ie),qvpa,qva,qvdiffa(1,ie),
+     > vmadid,vmdiq,enba,enbdiffa(1,ie),denba,enorba,qmoma,
+     > rhova,rhospa,rhodspa,rhomaga,
+     > dosmaga(1,1,ie),spin_magvpa,spin_magva,orb_magvpa,orb_magva,
+     > lliter,efermi,enbifc,qvifc,omifc)
+c     --------------------------------------------------------------  
+c                                    
+ 10   continue
+c
+c                 **************************
+c                 *** End of energy loop ***
+c                 **************************
+c 
+c -close binary files containing (inverse of) effective t-matrices
+c     -----------------------------------------------------
+c     call tcpa_close(
+c    >leftmat,rightmat,laymat,cpamatin,cpamatinl,cpamatinr)
+c     -----------------------------------------------------
+c
+c for DOS calculation print out results and stop
+      if(dos) goto 99
+c
+c  update spin-quantization axes
+c     -----------------------------------------------
+      call newdir1(
+     > itscf,itscfcont,nimp,lfix1,lfix2,rba,vecna,phia,
+     > lmax,spin_magvpa,spin_magva,orb_magvpa,orb_magva,
+     > lza,spinmoma,orbmoma,th0a,th1a,ph0a,ph1a)
+c     -----------------------------------------------    
+c
+c  write out results
+c     ---------------------------------------------------
+      call printscf1(
+     > nimp,itscfcont,enbifc,qvifc,omifc,
+     > qva,qca,za,enba,denba,efermi,
+     > rba,spin_magva,orb_magva,
+     > spinmoma,orbmoma,th0a,th1a,ph0a,ph1a)
+c     ---------------------------------------------------
+c     if(linbw) goto 200
+c
+c -find new Fermi level
+c
+c     if(bulk) then
+c       -----------------------------------------------------------
+c       kmy0=1
+c       call newfl(itscfcont,kmy0,kmymax,kmymaxp,ne,nbulkl,conc,
+c    >             dosa,dosb,qca,qcb,qva,qvb,za,zb,efermi,defermi)
+c       -----------------------------------------------------------
+c     end if
+c
+c -Generate new layer potentials 
+c
+c     -----------------------------------------------------------
+      call vgen1(
+     > itscf,itscfcont,nimp,nposimp,
+     > orbpol,opot,lquad,
+     > za,qca,qva,qmoma,
+     > rhoca,rhova,rhospa,rhodspa,dx,ns,rs,
+     > vra,bra,bopra,lza,
+     > ferr1,
+     > enpota,enela,enxca,enmaga,
+     > vmadih,vmadich,vmadid,vmadiq)
+c     -----------------------------------------------------------
+c
+c
+c -calculate and print out energies
+c     -------------------------------------------------------
+      call enprint1(itscfcont,nimp,enca,enba,
+     >  enela,enxca,enpota,enmaga,
+     >  enorba,entota,entot,entotifc)
+c     -------------------------------------------------------
+      if(itscf.eq.1) then
+        dentotifc=10.0d0*tolen
+      else
+        dentotifc=entotifc-entotifc0
+      end if
+      entotifc0=entotifc
+c
+c -update output necessary for restart
+c     --------------------------------------------------------------
+      call restart_out1(itscfcont,efermi,v0,orbpol,
+     >                 vra,bra,bopra,rba,
+     >                 nintfc,for006)
+c     --------------------------------------------------------------
+c     if(bulk) etop(npanel)=efermi
+c
+      if(ferr1.lt.tolerr) istop=1
+!     if(bulk.and.(dabs(defermi).gt.tolef)) istop=0
+!     if(bulk.and.(dabs(dentotifc).gt.nintfc*tolen)) istop=0
+c     if(rightm.eq.'V'.and.dv0.gt.tolv0) istop=0
+c
+c
+c -Print results
+c
+   99 continue
+c     ---------------------------------------------------------------
+      call printres1(
+     >     for007,for008,itscfcont,lmax,nimp,ne,cear,efermi,
+     >     dosa,qvpa,qva,dosmaga,
+     >     spin_magvpa,spin_magva,
+     >     orb_magvpa,orb_magva,
+     >     arot,qmoma,za,qca,
+     >     qvdiffa,enbdiffa,
+     >     entota,entot,entotifc,
+     >     idpota,vra,bra,bopra,
+     >     rs,dx,ns,lms,orbpol)
+c     ---------------------------------------------------------------
+      if(itscf.lt.itscfmax.and.istop.eq.0) goto 100
+c
+c
+c     ****************************************************************
+c                    END OF SELFCONSISTENT ITERATIONS 
+c     ****************************************************************
+c   
+! 200 close(6)
+      stop
+      end

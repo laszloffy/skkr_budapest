@@ -1,0 +1,39 @@
+Mn1_Nb110                                      JOBNAME FOR LAYER
+Nbb_110.pot0                                   LEFT POTENTIAL 
+Nb8_110.pot0                                   LAYER POTENTIAL
+none                                           RIGHT POTENTIAL
+core.in                                        LAYER CORE CHARGE DENSITIES
+none                                           LEFTMAT
+none                                           LAYMAT
+none                                           RIGHTMAT
+Nbb_110.mom                                    LEFTMOM
+none                                           RIGHTMOM
+1     0                                        ITEST,IWRITE
+.true.                                         LMS
+.false.   .true.   .false.                     BULK,DOS,NSPHERES
+2                                              LMAX
+ 4                                             IXCH
+1.00  1.00                                     ETA,SIGMA
+1  3.0                                         ISCREEN,VSCREEN
+.false.  .false.  .false.  .false.             orbpol,opotl,opotr,opot
+'V'  0.3313324738    1                         RIGHTM (V=Vacuum),V0,NEWVAC
+0.0   0.0                                      qc,cpc
+0     0.200     0.0                            IVACPOT,V00,VRSH
+0 0 0.0                                        LAYSHIFTi-f,POTSHIFT
+0   0.000   0                                  IB0,B0,NOMAG 
+0 0                                            LAYB0i-f
+ 50 50  1.0d-8  0                              ITERMAXL,ITERMAXR,ERRMAX,ICHK
+50   1.0d-5   .false.  .false.                 ITCPAM,CPATOL,CPATEST,CPAIN
+ 0.05     1.5   1                              CMIX,WBR,NBRCASE
+1  15 15 15 15 15 15 15 15 15 15 15 15 15 15   NBRMAX(1:nbrcase)
+ 0.0     1.5   1                               DMIX,WBRDIR,NBRDIR 
+1.0d-10   1.0d-08   1.0d-08                    tolerr,tolef,tolen
+0  1                                           IMESH,NPANEL
+ 11  0  0 0  -0.00015   0.00015       1.0d-6   NEPANEL,EBOTTOM,ETOP,EPS
+1   0       0.000000 0.000000                  INTBZ,KUNNING,PARK
+1                                              NTAB
+21    11                                       KSETTAB(),INTAB()
+-0.0183132794260  274.072d0                    E_FERMI, SPEED OF LIGHT
+.false. .false.                                SINGLESITE, ONLYREG
+.true.  .true.                                 CLUCALC,HOSTPRINT
+

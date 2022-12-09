@@ -1,0 +1,4 @@
+make nrsp-scf.run
+make nrdlm-scf.run
+mv nrsp-scf.run nrsp-scf.run-PL12L2
+mv nrdlm-scf.run nrdlm-scf.run-PL12L2

@@ -1,0 +1,6 @@
+POST=`head -1 compile-layer_mpi | awk -F= '{print $2}'`
+cp -f ./main/chcore.f.lay ./main/chcore.f
+cp -f param.h-save-lay$POST param.h
+cp -f ./rel/readpot.f.lay ./rel/readpot.f
+make rsp-lay_save_mpi.run
+mv rsp-lay_save_mpi.run rsp-lay_save_mpi.run$POST

@@ -1,0 +1,78 @@
+**++ Symbol table for subprogram LOCQUANT_DOS in file locquant_dos.f
+     produced by SPAG     6.50Rc-40 at 15:23:20 on  6 Mar 2014
+   0         X             K             locquant_dos.f,0000001,0000124
+   1         D           U              +../param.h
+   2         C     / 1/ ??     129600   /RGGAUNT/RGACOEFF
+   3   38  11 R*8  ( 3)A?? E            BOPRA(nrad,2,mmax)*8
+   4   38  10 R*8  ( 2)A?? E            BRA(nrad,mmax)*8
+   5          R*8       MU I            C
+   6   38   1 X*16     A?U E            CE*16
+   7          R*8      I   I            CIH
+   8         I?    ( 1)  U I            DIMAG
+   9   38  16 R*8  ( 2)AMU E            DOSA(kmymaxp,mmax)*8
+  10         I?    ( 1)  U I            DREAL
+  11   38  12 R*8  ( 1)A?? E            DX(mmax)*8
+  12          X*16 ( 3) ?? E    14400   FJ(nrad,nuzp,kmymaxp)*16
+  13          C*30         E            FOR006*30
+  14          X*16 ( 3) ?? E    14400   FZ(nrad,nuzp,kmymaxp)*16
+  15          X*16 ( 3) ?? E    14400   GJ(nrad,nuzp,kmymaxp)*16
+  16          X*16 ( 3) ?? E    14400   GZ(nrad,nuzp,kmymaxp)*16
+  17          I         MU I            I
+  18   38   8 C*10 ( 1)A?? E            IDPOTA(mmax)*10
+  19          I    ( 2) ?? E       36   INDZ(nuzp,kmymaxp)
+  21          I         MU I            K
+  22          I         M  I            KMAX
+  24          I         MU I            KMY
+  25          I         MU I            KMYMAX
+  26    1    PI          U E       18   KMYMAXP=2*lmmaxp
+  28          I         MU I            LAM
+  29          I         MU I            LI
+  30   38   2 I        A?U I            LMAX
+  31    1    PI          U E        2   LMAXP=2
+  32          I         MU I            LMAXS
+  33    1    PI          U E        9   LMMAXP=(lmaxp+1)**2
+  34          I         M  I            LMMAXS
+  35   38   5 L        A?? E            LMS
+  37    1    PI          U E       25   LMSUP=(lsup+1)**2
+  38         S     (16) MU         36   LOCQUANT_DOS(CE,LMAX,NINTFC,WREL,LMS,SXA,V0,IDPOTA,VRA,BRA,BOPRA,DX,NS,RS,TAUA,DOSA)
+  39    1    PI          U E        8   LSHAPE=4*lmaxp
+  40    1    PI          U E        4   LSUP=2*lmaxp
+  41          I         MU I            M
+  45    1    PI          U E    20000   MDIR=20000
+  51    1    PI          U E        1   MEXTRA=1
+  52    1    PI          U E      145   MIMP=145
+  53    1    PI          U E        3   MINPRC=3
+  54    1    PI          U E       24   MINTFC=mprc*minprc
+  57         PI          U E      145   MMAX=mimp
+  59         s     (16)                 MOMENT
+     (I4V,R8L,R8L,I4L,XGA,XGA,XGA,XGA,I4A,I4A,XGL,I4E,XGL,XGL,L4V,I4E)
+  61          I    ( 1) MU E        9   MPAR(-lsup:lsup)
+  62    1    PI          U E        8   MPRC=8
+  63    1    PI          U E        8   MPRC1=8
+  65    1    PI          U E    20000   MREC=20000
+  68          I         MU I            MU
+  70   38   3 I        A U I            NINTFC
+  71          I         MU I            NL
+  72          I         MU I            NL2
+  73    1    PI          U E      400   NRAD=400
+  74   38  13 I    ( 1)A?? E            NS(mmax)
+  75          I    ( 1) ?? E       18   NUZ(kmymaxp)
+  76    1    PI          U E        2   NUZP=2
+  77          X*16      M? E            PSQ*16
+  78    2   1 X*16 ( 3)C?? E     8100   RGACOEFF(kmymaxp,kmymaxp,lmsup)*16
+  79   38  14 R*8  ( 1)A?? E            RS(mmax)*8
+  80   38   6 R*8  ( 1)A?? E            SXA(mmax)*8
+  81   38  15 X*16 ( 3)A?? E            TAUA(kmymaxp,kmymaxp,mmax)*16
+  82          R*8      I   I            TINY
+  83          X*16 ( 2) ?? E      324   TM(kmymaxp,kmymaxp)*16
+  84          R*8      I   I            TOL
+  85   38   7 R*8      A?? I            V0
+  86   38   9 R*8  ( 2)A?? E            VRA(nrad,mmax)*8
+  87         s     (20)                 WAFU
+     (XGV,XGV,I4V,CAL,R8V,R8L,R8L,R8L,R8L,I4L,R8L,XGA,XGA,XGA,XGA,XGA,I4A,I4A
+     ,I4E,R8L)
+  88   38   4 L        A U E            WREL
+  89          X*16 ( 1) MU E       18   ZDOS(kmymaxp)*16
+  90          X*16 ( 2) ?U E      450   ZQMOM(kmymaxp,lmsup)*16
+**-- END OF SYMBOL TABLE
+**+-!*--LOCQUANT_DOS7 locquant_dos.spg

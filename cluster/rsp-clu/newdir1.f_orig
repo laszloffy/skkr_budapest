@@ -1,0 +1,147 @@
+      subroutine newdir1(
+c     =================
+     > nimp,rba,vecna,phia,lmax,spin_magva,orb_magva,
+     > spinmoma,orbmoma,
+     > rotind,spinorb,dmmin)
+c
+      implicit real*8 (a-h,o-z)
+c
+      include '../param.h'
+c----------------------------------------------------------------------------
+c updates the direction of the exchange fields according to the spin
+c moments on the nonmagnetic atoms
+c----------------------------------------------------------------------------
+c
+      integer mmax
+      integer nimp
+      parameter(mmax=mimp)
+c
+      parameter(mbrdir=4*mmax)
+c
+      real*8 spin_magva(mmax,3),spin_magvb(mmax,3)
+      real*8 orb_magva(mmax,3)
+c
+      real*8 rba(3,mmax)
+      real*8 vecna(3,mmax)
+      real*8 phia(mmax)
+      real*8 vec1(3)
+      real*8 vec2(3)
+c
+      real*8 spinmoma(mmax)
+      real*8 orbmoma(mmax)
+c
+      real*8 dm,dmmin
+c
+      logical rotind,spinorb
+c     real*8 dmmin
+c
+      data tol/1.0d-10/
+c
+      lmmax=(lmax+1)*(lmax+1)
+c     dmmin=0.5d0
+c
+c calculate spin- and orbital moments in the global frame
+c of reference
+c
+c     write(6,'(''Spin moments in global frame of reference:'')')
+c     do li = 1,nimp
+c      write(6,'(2x,3e14.6)') (spin_magva(li,j),j=1,3) 
+c     enddo 
+      do li=1,nimp
+         spinmoma(li)=dsqrt(spin_magva(li,1)*spin_magva(li,1)
+     >                    +spin_magva(li,2)*spin_magva(li,2)
+     >                    +spin_magva(li,3)*spin_magva(li,3))
+         orbmoma(li)=dsqrt(orb_magva(li,1)*orb_magva(li,1)
+     >                    +orb_magva(li,2)*orb_magva(li,2)
+     >                    +orb_magva(li,3)*orb_magva(li,3))
+c
+         do i=1,3
+           vec1(i)=spin_magva(li,i)
+         end do
+         call rotvec(vec1,vec2,vecna(1,li),phia(li),1)
+         do i=1,3
+           spin_magva(li,i)=vec2(i)
+         end do
+c
+!        do i=1,3
+!          vec1(i)=spin_magvb(li,i)
+!        end do
+!        call rotvec(vec1,vec2,vecnb(1,li),phib(li),1)
+!        do i=1,3
+!          spin_magvb(li,i)=vec2(i)
+!        end do
+c
+         do i=1,3
+           vec1(i)=orb_magva(li,i)
+         end do
+         call rotvec(vec1,vec2,vecna(1,li),phia(li),1)
+         do i=1,3
+           orb_magva(li,i)=vec2(i)
+         end do
+c
+!        do i=1,3
+!          vec1(i)=orb_magvb(li,i)
+!        end do
+!        call rotvec(vec1,vec2,vecnb(1,li),phib(li),1)
+!        do i=1,3
+!          orb_magvb(li,i)=vec2(i)
+!        end do
+      end do
+      write(6,'(''Spin and orbital moments:'')')
+      do li = 1,nimp
+       write(6,'(2x,2e14.6)') spinmoma(li),orbmoma(li)
+      enddo 
+c
+      write(6,'(''Orbital moments in global frame of reference:'')')
+      do li = 1,nimp
+       write(6,'(2x,3e14.6)') (orb_magva(li,j),j=1,3) 
+      enddo 
+c
+      write(6,'(''Spin moments in global frame of reference:'')')
+      do li = 1,nimp
+       write(6,'(2x,3e14.6)') (spin_magva(li,j),j=1,3) 
+      enddo 
+c
+c
+      if(rotind) then
+      if(.not.spinorb) then
+      do li=1,nimp
+        dm = dsqrt(spin_magva(li,1)**2+spin_magva(li,2)**2+
+     >             spin_magva(li,3)**2)
+c       dm = dsqrt((spin_magva(li,1)+orb_magva(li,1))**2+
+c    >             (spin_magva(li,2)+orb_magva(li,2))**2+
+c    >             (spin_magva(li,3)+orb_magva(li,3))**2)
+        if((dm.lt.dmmin).and.(dm.gt.1.d-5)) then
+         rba(1,li) = spin_magva(li,1)/dm
+         rba(2,li) = spin_magva(li,2)/dm
+         rba(3,li) = spin_magva(li,3)/dm
+c        rba(1,li) = (spin_magva(li,1)+orb_magva(li,1))/dm
+c        rba(2,li) = (spin_magva(li,2)+orb_magva(li,2))/dm
+c        rba(3,li) = (spin_magva(li,3)+orb_magva(li,3))/dm
+        endif
+      end do
+      else
+      do li=1,nimp
+c       dm = dsqrt(spin_magva(li,1)**2+spin_magva(li,2)**2+
+c    >             spin_magva(li,3)**2)
+        dm = dsqrt((spin_magva(li,1)+orb_magva(li,1))**2+
+     >             (spin_magva(li,2)+orb_magva(li,2))**2+
+     >             (spin_magva(li,3)+orb_magva(li,3))**2)
+        if((dm.lt.dmmin).and.(dm.gt.1.d-5)) then
+c        rba(1,li) = spin_magva(li,1)/dm
+c        rba(2,li) = spin_magva(li,2)/dm
+c        rba(3,li) = spin_magva(li,3)/dm
+         rba(1,li) = (spin_magva(li,1)+orb_magva(li,1))/dm
+         rba(2,li) = (spin_magva(li,2)+orb_magva(li,2))/dm
+         rba(3,li) = (spin_magva(li,3)+orb_magva(li,3))/dm
+        endif
+      end do
+      end if
+      end if
+      write(6,'(''rba on different sites:'')')
+      do li = 1,nimp
+       write(6,'(2x,3e14.6)') (rba(j,li),j=1,3) 
+      enddo 
+c
+      return
+      end

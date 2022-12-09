@@ -1,0 +1,1594 @@
+ 
+  routine READINI>
+
+ control and test output      : Mn1_Nb110.prn                 
+ new potentials                : Mn1_Nb110.pot                 
+ densities of states           : Mn1_Nb110.dos                 
+ partial densities of states   : Mn1_Nb110.pdos                
+ effective t-matrices          : Mn1_Nb110.tcpa                
+ moments of charge density     : Mn1_Nb110.mom                 
+ potential for lhs bulk from             : Nbb_110.pot0                  
+ potential for interfacial layers from   : Nb8_110.pot0                  
+ potential for rhs bulk from             : none                          
+ core charge densities for layers from   : core.in                       
+ effective t-matrices for lhs bulk       : none                          
+ effective t-matrices for interface      : none                          
+ effective t-matrices for rhs bulk       : none                          
+ moments of charge density for lhs bulk  : Nbb_110.mom                   
+ moments of charge density for rhs bulk  : none                          
+
+ Global coordinate systems in use.
+ No weak relativistic approach (deleted)!!!
+ Dos and magnetization in (lms) representation on output
+ Only DOS will be calculated !!!
+
+ lmax= 2
+
+ ixch=  4
+ Exchange-correlation type:VWN
+
+ eta:   1.0000     sigma:   1.0000
+
+ Calculate bulk Madelung constants by means of 2D Ewald method
+
+ Screening with square well potentials !
+ Height of potential:  3.00 ry
+ from the right is: V
+ Constant potential on the vacuum side :   0.33133 ryd
+ Vacuum potential level will be updated
+
+ Charge and position(a.u.) of external capacitor  0.0000  0.0000
+
+ Add magnetic field:    0.00000 ryd at all layers
+
+ Calculation of surface greens function:
+  itermaxl=  50  itermaxr=  50  errmax=  1.00D-08
+
+ Maximum number of CPA iterations:  50
+ CPA tolerance:   0.1000D-04
+
+ Relative accuracy for scf potentials 0.100D-09
+
+ Panel: 1
+ Paralell to real axis
+ energy range:                      -0.0001500000   0.0001500000
+ imaginary part:                    0.00000100
+ No. of energy points:             11
+
+ Point group operations applied
+
+ Fermi Energy = -0.0183
+
+ Speed of light =274.0720
+
+ Irregular wavefunctions are calculated!
+
+ Embedded cluster calculations <-- clucalc is .true. For     52 impurities 
+
+   host t and tau matrices will be read from files <-- hostprint is .true.
+ lattice type is: centered rectangular            (Point group=C2v )
+
+  routine VECTOR2D>
+
+ diagonals of 2D real and rec. unit cells:   13.59290   3.10510
+ max. length of 2D real and rec. vectors :  399.69416  91.30441
+
+nr in 2d:    82  133
+nk in 2d:   133   82
+
+ unit cell area:     27.50526991
+
+ real lattice unit cell in 2D: 
+
+    8.8202410100    0.0000000000
+    4.4101205050    3.1184261150
+
+ reciprocal lattice unit cell in 2D: 
+
+    0.7123598210   -1.0074289201
+    0.0000000000    2.0148578403
+
+  max-r in 2d:        19525
+  max-k in 2d:        19525
+
+  routine GENLATT2D>
+
+ distr :  399.6941628
+ maxshr: 3526
+ maxr:   19525
+ distk :   91.3044118
+ maxshk: 2573
+ maxk:   19525
+
+  routine GENLATT3D>
+
+  Left semi-infinite bulk:
+  ------------------------
+
+ diagonals of real and rec. unit cells:   18.44886   3.76945
+ max. length of real and rec. vectors :   64.81527  17.09664
+
+nr:    19   27   19
+nk:    30   18   21
+
+ unit cell volume :     121.301554808824
+ average ws-radius:       3.070854592688
+ real lattice unit cell: 
+
+    8.8202410100    0.0000000000    0.0000000000
+    4.4101205050    3.1184261150    0.0000000000
+    4.4101205050    0.0000000000    4.4101205050
+
+ reciprocal lattice unit cell: 
+
+    0.7123598210   -1.0074289201   -0.7123598210
+    0.0000000000    2.0148578403    0.0000000000
+    0.0000000000    0.0000000000    1.4247196420
+
+  max-r:        19891
+  max-k:        18605
+
+  Right semi-infinite bulk:
+  -------------------------
+
+ diagonals of real and rec. unit cells:   18.44886   3.76945
+ max. length of real and rec. vectors :   64.81527  17.09664
+
+nr:    19   27   19
+nk:    30   18   21
+
+ unit cell volume :     121.301554808824
+ average ws-radius:       3.070854592688
+ real lattice unit cell: 
+
+    8.8202410100    0.0000000000    0.0000000000
+    4.4101205050    3.1184261150    0.0000000000
+    4.4101205050    0.0000000000    4.4101205050
+
+ reciprocal lattice unit cell: 
+
+    0.7123598210   -1.0074289201   -0.7123598210
+    0.0000000000    2.0148578403    0.0000000000
+    0.0000000000    0.0000000000    1.4247196420
+
+  max-r:        19891
+  max-k:        18605
+
+ Volumen of interface region     1455.618658
+ Volumen of WS spheres           1455.618657
+ Volumen mismatch                0.383795D-09
+
+
+ ======================================= 
+               2D  STRUCTURE 
+ ======================================= 
+
+ Lattice constant:     8.82024101
+ Asymmetry ratios     0.70710678     0.50000000
+ cvec tolerance    0.10E-07
+
+ No. of principal layers:   3
+ No. of layers in each principal layer: 4 4 4
+ Total no. of layers in the I-region:  12
+
+ ntotal=  28  with
+  1 extra layers added for screening
+  4 layers in a Left  principal layer
+  4 layers in a Right principal layer
+
+ No. of layers in a Left/Right bulk unit= 1 1
+
+
+PL Lay  conc  cvec(x,y,z)  sws  smt  B(x,y,z)  SOC  
+===========================================================
+   Left region              
+ =============== 
+  1   1  1.000    17.64048   0.00000  17.64048   3.0709 3.0709    0.000  0.000  1.000   1.000     5
+  1   2  1.000    22.05060   0.00000  22.05060   3.0709 3.0709    0.000  0.000  1.000   1.000     6
+  1   3  1.000    26.46072   0.00000  26.46072   3.0709 3.0709    0.000  0.000  1.000   1.000     7
+  1   4  1.000    30.87084   0.00000  30.87084   3.0709 3.0709    0.000  0.000  1.000   1.000     8
+
+   Intermediate region              
+ ======================= 
+  1   1  1.000    35.28096   0.00000  35.28096   3.0709 3.0709    0.000  0.000  1.000   1.000     9
+  1   2  1.000    39.69108   0.00000  39.69108   3.0709 3.0709    0.000  0.000  1.000   1.000    10
+  1   3  1.000    44.10121   0.00000  44.10121   3.0709 3.0709    0.000  0.000  1.000   1.000    11
+  1   4  1.000    48.51133   0.00000  48.51133   3.0709 3.0709    0.000  0.000  1.000   1.000    12
+  2   5  1.000    52.92145   0.00000  52.92145   3.0709 3.0709    0.000  0.000  1.000   1.000    13
+  2   6  1.000    57.33157   0.00000  57.33157   3.0709 3.0709    0.000  0.000  1.000   1.000    14
+  2   7  1.000    61.74169   0.00000  61.74169   3.0709 3.0709    0.000  0.000  1.000   1.000    15
+  2   8  1.000    66.15181   0.00000  66.15181   3.0709 3.0709    0.000  0.000  1.000   1.000    16
+  3   9  1.000    70.56193   0.00000  70.56193   3.0709 3.0709    0.000  0.000  1.000   1.000    17
+  3  10  1.000    74.97205   0.00000  74.97205   3.0709 3.0709    0.000  0.000  1.000   1.000    18
+  3  11  1.000    79.38217   0.00000  79.38217   3.0709 3.0709    0.000  0.000  1.000   1.000    19
+  3  12  1.000    83.79229   0.00000  83.79229   3.0709 3.0709    0.000  0.000  1.000   1.000    20
+
+   Right region              
+ ================ 
+  1   1  1.000    88.20241   0.00000  88.20241   3.0709 3.0709    0.000  0.000  1.000   1.000    21
+  1   2  1.000    92.61253   0.00000  92.61253   3.0709 3.0709    0.000  0.000  1.000   1.000    22
+  1   3  1.000    97.02265   0.00000  97.02265   3.0709 3.0709    0.000  0.000  1.000   1.000    23
+  1   4  1.000   101.43277   0.00000 101.43277   3.0709 3.0709    0.000  0.000  1.000   1.000    24
+
+ **************************
+ Ideal bulk geometry applies
+ ***************************
+
+
+ ======================================= 
+          CLUSTER CONFIGURATION 
+ ======================================= 
+
+
+ THE POSITIONS OF THE CLUSTER SITES
+
+ In relative coordinates:
+ 
+  Imp.  1  :   0  0  9
+  Imp.  2  :   2 -2  7
+  Imp.  3  :   1 -1  7
+  Imp.  4  :   2 -1  7
+  Imp.  5  :   1  0  7
+  Imp.  6  :   0  1  7
+  Imp.  7  :   1  1  7
+  Imp.  8  :   0  2  7
+  Imp.  9  :   2 -3  8
+  Imp. 10  :   1 -2  8
+  Imp. 11  :   2 -2  8
+  Imp. 12  :   0 -1  8
+  Imp. 13  :   1 -1  8
+  Imp. 14  :   2 -1  8
+  Imp. 15  :   0  0  8
+  Imp. 16  :   1  0  8
+  Imp. 17  :  -1  1  8
+  Imp. 18  :   0  1  8
+  Imp. 19  :   1  1  8
+  Imp. 20  :  -1  2  8
+  Imp. 21  :   0  2  8
+  Imp. 22  :  -1  3  8
+  Imp. 23  :   1 -3  9
+  Imp. 24  :   2 -3  9
+  Imp. 25  :   0 -2  9
+  Imp. 26  :   1 -2  9
+  Imp. 27  :   2 -2  9
+  Imp. 28  :   0 -1  9
+  Imp. 29  :   1 -1  9
+  Imp. 30  :  -1  0  9
+  Imp. 31  :   1  0  9
+  Imp. 32  :  -1  1  9
+  Imp. 33  :   0  1  9
+  Imp. 34  :  -2  2  9
+  Imp. 35  :  -1  2  9
+  Imp. 36  :   0  2  9
+  Imp. 37  :  -2  3  9
+  Imp. 38  :  -1  3  9
+  Imp. 39  :   1 -3 10
+  Imp. 40  :   0 -2 10
+  Imp. 41  :   1 -2 10
+  Imp. 42  :  -1 -1 10
+  Imp. 43  :   0 -1 10
+  Imp. 44  :   1 -1 10
+  Imp. 45  :  -1  0 10
+  Imp. 46  :   0  0 10
+  Imp. 47  :  -2  1 10
+  Imp. 48  :  -1  1 10
+  Imp. 49  :   0  1 10
+  Imp. 50  :  -2  2 10
+  Imp. 51  :  -1  2 10
+  Imp. 52  :  -2  3 10
+ 
+
+ In absolute coordinates:
+ 
+  Imp.  1:     70.56192808     0.00000000    70.56192808
+  Imp.  2:     70.56192808    -6.23685223    61.74168707
+  Imp.  3:     66.15180758    -3.11842611    61.74168707
+  Imp.  4:     74.97204859    -3.11842611    61.74168707
+  Imp.  5:     70.56192808     0.00000000    61.74168707
+  Imp.  6:     66.15180758     3.11842611    61.74168707
+  Imp.  7:     74.97204859     3.11842611    61.74168707
+  Imp.  8:     70.56192808     6.23685223    61.74168707
+  Imp.  9:     70.56192808    -9.35527834    66.15180758
+  Imp. 10:     66.15180758    -6.23685223    66.15180758
+  Imp. 11:     74.97204859    -6.23685223    66.15180758
+  Imp. 12:     61.74168707    -3.11842611    66.15180758
+  Imp. 13:     70.56192808    -3.11842611    66.15180758
+  Imp. 14:     79.38216909    -3.11842611    66.15180758
+  Imp. 15:     66.15180758     0.00000000    66.15180758
+  Imp. 16:     74.97204859     0.00000000    66.15180758
+  Imp. 17:     61.74168707     3.11842611    66.15180758
+  Imp. 18:     70.56192808     3.11842611    66.15180758
+  Imp. 19:     79.38216909     3.11842611    66.15180758
+  Imp. 20:     66.15180758     6.23685223    66.15180758
+  Imp. 21:     74.97204859     6.23685223    66.15180758
+  Imp. 22:     70.56192808     9.35527834    66.15180758
+  Imp. 23:     66.15180758    -9.35527834    70.56192808
+  Imp. 24:     74.97204859    -9.35527834    70.56192808
+  Imp. 25:     61.74168707    -6.23685223    70.56192808
+  Imp. 26:     70.56192808    -6.23685223    70.56192808
+  Imp. 27:     79.38216909    -6.23685223    70.56192808
+  Imp. 28:     66.15180758    -3.11842611    70.56192808
+  Imp. 29:     74.97204859    -3.11842611    70.56192808
+  Imp. 30:     61.74168707     0.00000000    70.56192808
+  Imp. 31:     79.38216909     0.00000000    70.56192808
+  Imp. 32:     66.15180758     3.11842611    70.56192808
+  Imp. 33:     74.97204859     3.11842611    70.56192808
+  Imp. 34:     61.74168707     6.23685223    70.56192808
+  Imp. 35:     70.56192808     6.23685223    70.56192808
+  Imp. 36:     79.38216909     6.23685223    70.56192808
+  Imp. 37:     66.15180758     9.35527834    70.56192808
+  Imp. 38:     74.97204859     9.35527834    70.56192808
+  Imp. 39:     70.56192808    -9.35527834    74.97204859
+  Imp. 40:     66.15180758    -6.23685223    74.97204859
+  Imp. 41:     74.97204859    -6.23685223    74.97204859
+  Imp. 42:     61.74168707    -3.11842611    74.97204859
+  Imp. 43:     70.56192808    -3.11842611    74.97204859
+  Imp. 44:     79.38216909    -3.11842611    74.97204859
+  Imp. 45:     66.15180758     0.00000000    74.97204859
+  Imp. 46:     74.97204859     0.00000000    74.97204859
+  Imp. 47:     61.74168707     3.11842611    74.97204859
+  Imp. 48:     70.56192808     3.11842611    74.97204859
+  Imp. 49:     79.38216909     3.11842611    74.97204859
+  Imp. 50:     66.15180758     6.23685223    74.97204859
+  Imp. 51:     74.97204859     6.23685223    74.97204859
+  Imp. 52:     70.56192808     9.35527834    74.97204859
+ 
+
+ The different pairs
+ 
+  ipair.  1  :  -2  2  9  7
+  ipair.  2  :  -1  1  9  7
+  ipair.  3  :  -2  1  9  7
+  ipair.  4  :  -1  0  9  7
+  ipair.  5  :   0 -1  9  7
+  ipair.  6  :  -1 -1  9  7
+  ipair.  7  :   0 -2  9  7
+  ipair.  8  :  -2  3  9  8
+  ipair.  9  :  -1  2  9  8
+  ipair. 10  :  -2  2  9  8
+  ipair. 11  :   0  1  9  8
+  ipair. 12  :  -1  1  9  8
+  ipair. 13  :  -2  1  9  8
+  ipair. 14  :   0  0  9  8
+  ipair. 15  :  -1  0  9  8
+  ipair. 16  :   1 -1  9  8
+  ipair. 17  :   0 -1  9  8
+  ipair. 18  :  -1 -1  9  8
+  ipair. 19  :   1 -2  9  8
+  ipair. 20  :   0 -2  9  8
+  ipair. 21  :   1 -3  9  8
+  ipair. 22  :  -1  3  9  9
+  ipair. 23  :  -2  3  9  9
+  ipair. 24  :   0  2  9  9
+  ipair. 25  :  -1  2  9  9
+  ipair. 26  :  -2  2  9  9
+  ipair. 27  :   0  1  9  9
+  ipair. 28  :  -1  1  9  9
+  ipair. 29  :   1  0  9  9
+  ipair. 30  :  -1  3  9 10
+  ipair. 31  :   0  2  9 10
+  ipair. 32  :  -1  2  9 10
+  ipair. 33  :   1  1  9 10
+  ipair. 34  :   0  1  9 10
+  ipair. 35  :  -1  1  9 10
+  ipair. 36  :   1  0  9 10
+  ipair. 37  :   0  0  9 10
+  ipair. 38  :   2 -1  9 10
+  ipair. 39  :   1 -1  9 10
+  ipair. 40  :   0 -1  9 10
+  ipair. 41  :   2 -2  9 10
+  ipair. 42  :   1 -2  9 10
+  ipair. 43  :   2 -3  9 10
+  ipair. 44  :   1 -1  7  7
+  ipair. 45  :   0 -1  7  7
+  ipair. 46  :   1 -2  7  7
+  ipair. 47  :   2 -3  7  7
+  ipair. 48  :   1 -3  7  7
+  ipair. 49  :   2 -4  7  7
+  ipair. 50  :   0  1  7  8
+  ipair. 51  :   1  0  7  8
+  ipair. 52  :   0  0  7  8
+  ipair. 53  :   2 -1  7  8
+  ipair. 54  :   1 -1  7  8
+  ipair. 55  :   0 -1  7  8
+  ipair. 56  :   2 -2  7  8
+  ipair. 57  :   1 -2  7  8
+  ipair. 58  :   3 -3  7  8
+  ipair. 59  :   2 -3  7  8
+  ipair. 60  :   1 -3  7  8
+  ipair. 61  :   3 -4  7  8
+  ipair. 62  :   2 -4  7  8
+  ipair. 63  :   3 -5  7  8
+  ipair. 64  :   2  0  7  9
+  ipair. 65  :   0  0  7  9
+  ipair. 66  :   3 -2  7  9
+  ipair. 67  :   1 -2  7  9
+  ipair. 68  :   3 -3  7  9
+  ipair. 69  :   2 -3  7  9
+  ipair. 70  :   4 -4  7  9
+  ipair. 71  :   3 -4  7  9
+  ipair. 72  :   2 -4  7  9
+  ipair. 73  :   4 -5  7  9
+  ipair. 74  :   3 -5  7  9
+  ipair. 75  :   1  1  7 10
+  ipair. 76  :   2  0  7 10
+  ipair. 77  :   1  0  7 10
+  ipair. 78  :   3 -1  7 10
+  ipair. 79  :   2 -1  7 10
+  ipair. 80  :   1 -1  7 10
+  ipair. 81  :   3 -2  7 10
+  ipair. 82  :   2 -2  7 10
+  ipair. 83  :   4 -3  7 10
+  ipair. 84  :   3 -3  7 10
+  ipair. 85  :   2 -3  7 10
+  ipair. 86  :   4 -4  7 10
+  ipair. 87  :   3 -4  7 10
+  ipair. 88  :   4 -5  7 10
+  ipair. 89  :  -1  0  7  7
+  ipair. 90  :   0 -2  7  7
+  ipair. 91  :  -1  2  7  8
+  ipair. 92  :  -1  1  7  8
+  ipair. 93  :  -1  0  7  8
+  ipair. 94  :   0 -2  7  8
+  ipair. 95  :  -1  2  7  9
+  ipair. 96  :  -1  1  7  9
+  ipair. 97  :   0 -1  7  9
+  ipair. 98  :   1 -3  7  9
+  ipair. 99  :   0  2  7 10
+  ipair.100  :   0  1  7 10
+  ipair.101  :   0  0  7 10
+  ipair.102  :   1 -2  7 10
+  ipair.103  :   2 -2  7  7
+  ipair.104  :   0  2  7  8
+  ipair.105  :   1  1  7  8
+  ipair.106  :   2  0  7  8
+  ipair.107  :   3 -2  7  8
+  ipair.108  :   1  2  7  9
+  ipair.109  :   2  1  7  9
+  ipair.110  :   3 -1  7  9
+  ipair.111  :   4 -3  7  9
+  ipair.112  :   1  2  7 10
+  ipair.113  :   2  1  7 10
+  ipair.114  :   3  0  7 10
+  ipair.115  :   4 -2  7 10
+  ipair.116  :  -1  3  7  8
+  ipair.117  :   0  3  7  9
+  ipair.118  :  -1  3  7  9
+  ipair.119  :   0  3  7 10
+  ipair.120  :  -2  4  7  8
+  ipair.121  :  -2  3  7  8
+  ipair.122  :  -2  2  7  8
+  ipair.123  :  -1  4  7  9
+  ipair.124  :  -2  4  7  9
+  ipair.125  :  -2  3  7  9
+  ipair.126  :  -1  4  7 10
+  ipair.127  :  -1  3  7 10
+  ipair.128  :  -1  2  7 10
+  ipair.129  :  -1  4  7  8
+  ipair.130  :   0  3  7  8
+  ipair.131  :   1  2  7  8
+  ipair.132  :   0  4  7  9
+  ipair.133  :   1  3  7  9
+  ipair.134  :   0  4  7 10
+  ipair.135  :   1  3  7 10
+  ipair.136  :   2  2  7 10
+  ipair.137  :  -2  5  7  8
+  ipair.138  :  -1  5  7  9
+  ipair.139  :  -2  5  7  9
+  ipair.140  :  -1  5  7 10
+  ipair.141  :   1 -1  8  8
+  ipair.142  :   0 -1  8  8
+  ipair.143  :   2 -2  8  8
+  ipair.144  :   1 -2  8  8
+  ipair.145  :   0 -2  8  8
+  ipair.146  :   2 -3  8  8
+  ipair.147  :   1 -3  8  8
+  ipair.148  :   3 -4  8  8
+  ipair.149  :   2 -4  8  8
+  ipair.150  :   1 -4  8  8
+  ipair.151  :   3 -5  8  8
+  ipair.152  :   2 -5  8  8
+  ipair.153  :   3 -6  8  8
+  ipair.154  :   3 -3  8  9
+  ipair.155  :   1 -3  8  9
+  ipair.156  :   3 -4  8  9
+  ipair.157  :   2 -4  8  9
+  ipair.158  :   4 -5  8  9
+  ipair.159  :   3 -5  8  9
+  ipair.160  :   2 -5  8  9
+  ipair.161  :   4 -6  8  9
+  ipair.162  :   3 -6  8  9
+  ipair.163  :   1  0  8 10
+  ipair.164  :   2 -1  8 10
+  ipair.165  :   1 -1  8 10
+  ipair.166  :   3 -2  8 10
+  ipair.167  :   2 -2  8 10
+  ipair.168  :   1 -2  8 10
+  ipair.169  :   3 -3  8 10
+  ipair.170  :   2 -3  8 10
+  ipair.171  :   4 -4  8 10
+  ipair.172  :   3 -4  8 10
+  ipair.173  :   2 -4  8 10
+  ipair.174  :   4 -5  8 10
+  ipair.175  :   3 -5  8 10
+  ipair.176  :   4 -6  8 10
+  ipair.177  :  -1  0  8  8
+  ipair.178  :  -1 -1  8  8
+  ipair.179  :   0 -3  8  8
+  ipair.180  :  -1  0  8  9
+  ipair.181  :   0 -2  8  9
+  ipair.182  :   1 -4  8  9
+  ipair.183  :   0  1  8 10
+  ipair.184  :   0  0  8 10
+  ipair.185  :   0 -1  8 10
+  ipair.186  :   1 -3  8 10
+  ipair.187  :   2 -1  8  8
+  ipair.188  :   3 -3  8  8
+  ipair.189  :   2  0  8  9
+  ipair.190  :   3 -2  8  9
+  ipair.191  :   4 -4  8  9
+  ipair.192  :   1  1  8 10
+  ipair.193  :   2  0  8 10
+  ipair.194  :   3 -1  8 10
+  ipair.195  :   4 -3  8 10
+  ipair.196  :  -2  0  8  8
+  ipair.197  :  -1 -2  8  8
+  ipair.198  :  -2  2  8  9
+  ipair.199  :  -2  1  8  9
+  ipair.200  :  -1 -1  8  9
+  ipair.201  :   0 -3  8  9
+  ipair.202  :  -1  2  8 10
+  ipair.203  :  -1  1  8 10
+  ipair.204  :  -1  0  8 10
+  ipair.205  :   0 -2  8 10
+  ipair.206  :   0  2  8 10
+  ipair.207  :   3 -2  8  8
+  ipair.208  :   1  2  8  9
+  ipair.209  :   2  1  8  9
+  ipair.210  :   3 -1  8  9
+  ipair.211  :   4 -3  8  9
+  ipair.212  :   1  2  8 10
+  ipair.213  :   2  1  8 10
+  ipair.214  :   3  0  8 10
+  ipair.215  :   4 -2  8 10
+  ipair.216  :  -2  3  8  9
+  ipair.217  :  -1  3  8 10
+  ipair.218  :   0  3  8  9
+  ipair.219  :   0  3  8 10
+  ipair.220  :  -2  4  8  9
+  ipair.221  :  -3  4  8  9
+  ipair.222  :  -3  3  8  9
+  ipair.223  :  -2  4  8 10
+  ipair.224  :  -2  3  8 10
+  ipair.225  :  -2  2  8 10
+  ipair.226  :  -1  4  8  9
+  ipair.227  :  -1  4  8 10
+  ipair.228  :   0  4  8  9
+  ipair.229  :   1  3  8  9
+  ipair.230  :   0  4  8 10
+  ipair.231  :   1  3  8 10
+  ipair.232  :   2  2  8 10
+  ipair.233  :  -2  5  8  9
+  ipair.234  :  -3  5  8  9
+  ipair.235  :  -2  5  8 10
+  ipair.236  :  -1  5  8  9
+  ipair.237  :  -1  5  8 10
+  ipair.238  :  -2  6  8  9
+  ipair.239  :  -3  6  8  9
+  ipair.240  :  -2  6  8 10
+  ipair.241  :  -1 -1  9  9
+  ipair.242  :   0 -3  9  9
+  ipair.243  :   2 -4  9  9
+  ipair.244  :   1 -4  9  9
+  ipair.245  :   3 -5  9  9
+  ipair.246  :   2 -5  9  9
+  ipair.247  :   1 -5  9  9
+  ipair.248  :   3 -6  9  9
+  ipair.249  :   2 -6  9  9
+  ipair.250  :   0 -2  9 10
+  ipair.251  :   1 -3  9 10
+  ipair.252  :   3 -4  9 10
+  ipair.253  :   2 -4  9 10
+  ipair.254  :   1 -4  9 10
+  ipair.255  :   3 -5  9 10
+  ipair.256  :   2 -5  9 10
+  ipair.257  :   3 -6  9 10
+  ipair.258  :   2 -1  9  9
+  ipair.259  :   3 -3  9  9
+  ipair.260  :   3 -4  9  9
+  ipair.261  :   4 -5  9  9
+  ipair.262  :   4 -6  9  9
+  ipair.263  :   3 -2  9 10
+  ipair.264  :   3 -3  9 10
+  ipair.265  :   4 -4  9 10
+  ipair.266  :   4 -5  9 10
+  ipair.267  :   4 -6  9 10
+  ipair.268  :  -2  0  9  9
+  ipair.269  :  -1 -2  9  9
+  ipair.270  :   0 -4  9  9
+  ipair.271  :  -1  0  9 10
+  ipair.272  :  -1 -1  9 10
+  ipair.273  :   0 -3  9 10
+  ipair.274  :   3 -2  9  9
+  ipair.275  :   4 -4  9  9
+  ipair.276  :   2  0  9 10
+  ipair.277  :   3 -1  9 10
+  ipair.278  :   4 -3  9 10
+  ipair.279  :  -2  3  9 10
+  ipair.280  :  -2  2  9 10
+  ipair.281  :  -2  1  9 10
+  ipair.282  :   0  3  9 10
+  ipair.283  :   1  2  9 10
+  ipair.284  :   2  1  9 10
+  ipair.285  :  -2  4  9 10
+  ipair.286  :  -1  4  9 10
+  ipair.287  :  -3  5  9 10
+  ipair.288  :  -3  4  9 10
+  ipair.289  :  -3  3  9 10
+  ipair.290  :  -2  5  9 10
+  ipair.291  :  -1  5  9 10
+  ipair.292  :   0  4  9 10
+  ipair.293  :   1  3  9 10
+  ipair.294  :  -3  6  9 10
+  ipair.295  :  -2  6  9 10
+  ipair.296  :   1 -1 10 10
+  ipair.297  :   0 -1 10 10
+  ipair.298  :   2 -2 10 10
+  ipair.299  :   1 -2 10 10
+  ipair.300  :   0 -2 10 10
+  ipair.301  :   2 -3 10 10
+  ipair.302  :   1 -3 10 10
+  ipair.303  :   3 -4 10 10
+  ipair.304  :   2 -4 10 10
+  ipair.305  :   1 -4 10 10
+  ipair.306  :   3 -5 10 10
+  ipair.307  :   2 -5 10 10
+  ipair.308  :   3 -6 10 10
+  ipair.309  :  -1  0 10 10
+  ipair.310  :  -1 -1 10 10
+  ipair.311  :   0 -3 10 10
+  ipair.312  :   2 -1 10 10
+  ipair.313  :   3 -3 10 10
+  ipair.314  :  -2  0 10 10
+  ipair.315  :  -1 -2 10 10
+  ipair.316  :   3 -2 10 10
+
+ Orientation of magnetic fields in the cluster:
+ 
+  1     0.00000000     0.00000000     1.00000000
+  2     0.00000000    -0.02617695     0.99965732
+  3     0.01638432     0.03081443     0.99939083
+  4    -0.01638432     0.03081443     0.99939083
+  5     0.00000000     0.00000000     1.00000000
+  6     0.01638432    -0.03081443     0.99939083
+  7    -0.01638432    -0.03081443     0.99939083
+  8     0.00000000     0.02617695     0.99965732
+  9     0.00000000    -0.01221700     0.99992537
+ 10    -0.29276651     0.05214966    -0.95476080
+ 11     0.29276651     0.05214966    -0.95476080
+ 12    -0.19239335     0.05227211    -0.97992470
+ 13     0.00000000    -0.00174533    -0.99999848
+ 14     0.19239335     0.05227211    -0.97992470
+ 15    -0.00698126    -0.00000000    -0.99997563
+ 16     0.00698126     0.00000000    -0.99997563
+ 17    -0.19239335    -0.05227211    -0.97992470
+ 18     0.00000000     0.00174533    -0.99999848
+ 19     0.19239335    -0.05227211    -0.97992470
+ 20    -0.29276651    -0.05214966    -0.95476080
+ 21     0.29276651    -0.05214966    -0.95476080
+ 22     0.00000000     0.01221700     0.99992537
+ 23    -0.02930754    -0.04123971     0.99871936
+ 24     0.02930754    -0.04123971     0.99871936
+ 25    -0.12207974    -0.01933553     0.99233194
+ 26     0.00000000     0.00349065    -0.99999391
+ 27     0.12207974    -0.01933553     0.99233194
+ 28    -0.02331417     0.00730622     0.99970149
+ 29     0.02331417     0.00730622     0.99970149
+ 30     0.03664371     0.00000000    -0.99932839
+ 31    -0.03664371     0.00000000    -0.99932839
+ 32    -0.02331417    -0.00730622     0.99970149
+ 33     0.02331417    -0.00730622     0.99970149
+ 34    -0.12207974     0.01933553     0.99233194
+ 35     0.00000000    -0.00349065    -0.99999391
+ 36     0.12207974     0.01933553     0.99233194
+ 37    -0.02930754     0.04123971     0.99871936
+ 38     0.02930754     0.04123971     0.99871936
+ 39     0.00000000    -0.15126082    -0.98849389
+ 40    -0.74279068    -0.60150003     0.29404033
+ 41     0.74279068    -0.60150003     0.29404033
+ 42    -0.19563654     0.02819166     0.98027117
+ 43     0.00000000    -0.01221700     0.99992537
+ 44     0.19563654     0.02819166     0.98027117
+ 45    -0.01221700     0.00000000     0.99992537
+ 46     0.01221700     0.00000000     0.99992537
+ 47    -0.19563654    -0.02819166     0.98027117
+ 48     0.00000000     0.01221700     0.99992537
+ 49     0.19563654    -0.02819166     0.98027117
+ 50    -0.74279068     0.60150003     0.29404033
+ 51     0.74279068     0.60150003     0.29404033
+ 52     0.00000000     0.15126082    -0.98849389
+
+ No screening in cluster calculation !
+ Name of the output tau files: cluster                                                                                                                                                                                                                                                                                                     
+ Maximal momentum of the Madelung expansion:     2
+
+  routine MAIN>
+
+  Dynamical arrays sizes:
+    nintfc=          12
+    nimp=          52
+    npair=         316
+    npair0=        2652
+    npair1=         316
+ imppot=Mn1_Nb110.pot0                
+ potin= F
+ Normal mode! > delta=0
+    1    Mn l900   
+ Constant delta potential
+    2    Nb l72-2  
+ Constant delta potential
+    3    Nb l71-1  
+ Constant delta potential
+    4    Nb l72-1  
+ Constant delta potential
+    5    Nb l710   
+ Constant delta potential
+    6    Nb l701   
+ Constant delta potential
+    7    Nb l711   
+ Constant delta potential
+    8    Nb l702   
+ Constant delta potential
+    9    Nb l82-3  
+ Constant delta potential
+   10    Nb l81-2  
+ Constant delta potential
+   11    Nb l82-2  
+ Constant delta potential
+   12    Nb l80-1  
+ Constant delta potential
+   13    Nb l81-1  
+ Constant delta potential
+   14    Nb l82-1  
+ Constant delta potential
+   15    Nb l800   
+ Constant delta potential
+   16    Nb l810   
+ Constant delta potential
+   17    Nb l8-11  
+ Constant delta potential
+   18    Nb l801   
+ Constant delta potential
+   19    Nb l811   
+ Constant delta potential
+   20    Nb l8-12  
+ Constant delta potential
+   21    Nb l802   
+ Constant delta potential
+   22    Nb l8-13  
+ Normal mode! > delta=0
+   23    Vac l91-3 
+ Normal mode! > delta=0
+   24    Vac l92-3 
+ Normal mode! > delta=0
+   25    Vac l90-2 
+ Normal mode! > delta=0
+   26    Vac l91-2 
+ Normal mode! > delta=0
+   27    Vac l92-2 
+ Normal mode! > delta=0
+   28    Vac l90-1 
+ Normal mode! > delta=0
+   29    Vac l91-1 
+ Normal mode! > delta=0
+   30    Vac l9-10 
+ Normal mode! > delta=0
+   31    Vac l910  
+ Normal mode! > delta=0
+   32    Vac l9-11 
+ Normal mode! > delta=0
+   33    Vac l901  
+ Normal mode! > delta=0
+   34    Vac l9-22 
+ Normal mode! > delta=0
+   35    Vac l9-12 
+ Normal mode! > delta=0
+   36    Vac l902  
+ Normal mode! > delta=0
+   37    Vac l9-23 
+ Normal mode! > delta=0
+   38    Vac l9-13 
+ Normal mode! > delta=0
+   39    Vac l101-3
+ Normal mode! > delta=0
+   40    Vac l100-2
+ Normal mode! > delta=0
+   41    Vac l101-2
+ Normal mode! > delta=0
+   42    Vac l10-1-
+ Normal mode! > delta=0
+   43    Vac l100-1
+ Normal mode! > delta=0
+   44    Vac l101-1
+ Normal mode! > delta=0
+   45    Vac l10-10
+ Normal mode! > delta=0
+   46    Vac l1000 
+ Normal mode! > delta=0
+   47    Vac l10-21
+ Normal mode! > delta=0
+   48    Vac l10-11
+ Normal mode! > delta=0
+   49    Vac l1001 
+ Normal mode! > delta=0
+   50    Vac l10-22
+ Normal mode! > delta=0
+   51    Vac l10-12
+ Normal mode! > delta=0
+   52    Vac l10-23
+
+ Selfconsistent iteration:   1
+
+ before tmatiniimp
+ after tmatiniimp
+ before ecoreimp
+ after ecoreimp
+ <locquant2> Ef= -1.831327942600000E-002
+ <locquant> li=           1
+ <locquant> li=           2
+ <locquant> li=           3
+ <locquant> li=           4
+ <locquant> li=           5
+ <locquant> li=           6
+ <locquant> li=           7
+ <locquant> li=           8
+ <locquant> li=           9
+ <locquant> li=          10
+ <locquant> li=          11
+ <locquant> li=          12
+ <locquant> li=          13
+ <locquant> li=          14
+ <locquant> li=          15
+ <locquant> li=          16
+ <locquant> li=          17
+ <locquant> li=          18
+ <locquant> li=          19
+ <locquant> li=          20
+ <locquant> li=          21
+ <locquant> li=          22
+ <locquant> li=          23
+ <locquant> li=          24
+ <locquant> li=          25
+ <locquant> li=          26
+ <locquant> li=          27
+ <locquant> li=          28
+ <locquant> li=          29
+ <locquant> li=          30
+ <locquant> li=          31
+ <locquant> li=          32
+ <locquant> li=          33
+ <locquant> li=          34
+ <locquant> li=          35
+ <locquant> li=          36
+ <locquant> li=          37
+ <locquant> li=          38
+ <locquant> li=          39
+ <locquant> li=          40
+ <locquant> li=          41
+ <locquant> li=          42
+ <locquant> li=          43
+ <locquant> li=          44
+ <locquant> li=          45
+ <locquant> li=          46
+ <locquant> li=          47
+ <locquant> li=          48
+ <locquant> li=          49
+ <locquant> li=          50
+ <locquant> li=          51
+ <locquant> li=          52
+ End of energy loop for cluster, collecting data
+ idat:      202956      202956
+
+ MPI sync idle time =     0.126 s
+0
+ I   1  L   3  MO (electron)    0.0000000000D+00
+ I   1  L   4  MO (electron)    0.0000000000D+00
+ I   1  L   5  MO (electron)    0.0000000000D+00
+ I   1  L   6  MO (electron)    0.0000000000D+00
+ I   1  L   7  MO (electron)    0.0000000000D+00
+ I   1  L   8  MO (electron)    0.0000000000D+00
+ I   1  L   9  MO (electron)    0.0000000000D+00
+ I   1  L  10  MO (electron)    0.0000000000D+00
+ I   1  L  11  MO (electron)    0.0000000000D+00
+ I   1  L  12  MO (electron)    0.0000000000D+00
+ 
+ I   1  L   1 Delta  0.0000000000E+00 meV
+ I   1  L   2 Delta  0.0000000000E+00 meV
+ I   1  L   3 Delta  0.0000000000E+00 meV
+ I   1  L   4 Delta  0.0000000000E+00 meV
+ I   1  L   5 Delta  0.0000000000E+00 meV
+ I   1  L   6 Delta  0.0000000000E+00 meV
+ I   1  L   7 Delta  0.0000000000E+00 meV
+ I   1  L   8 Delta  0.0000000000E+00 meV
+ I   1  L   9 Delta  0.0000000000E+00 meV
+ I   1  L  10 Delta  0.0000000000E+00 meV
+ I   1  L  11 Delta  0.0000000000E+00 meV
+ I   1  L  12 Delta  0.0000000000E+00 meV
+ 
+ <skkr> initialize cluster calculation
+ imppot=Mn1_Nb110.pot0                
+ potin= F
+ Normal mode! > delta=0
+    1    Mn l900   
+ Constant delta potential
+    2    Nb l72-2  
+ Constant delta potential
+    3    Nb l71-1  
+ Constant delta potential
+    4    Nb l72-1  
+ Constant delta potential
+    5    Nb l710   
+ Constant delta potential
+    6    Nb l701   
+ Constant delta potential
+    7    Nb l711   
+ Constant delta potential
+    8    Nb l702   
+ Constant delta potential
+    9    Nb l82-3  
+ Constant delta potential
+   10    Nb l81-2  
+ Constant delta potential
+   11    Nb l82-2  
+ Constant delta potential
+   12    Nb l80-1  
+ Constant delta potential
+   13    Nb l81-1  
+ Constant delta potential
+   14    Nb l82-1  
+ Constant delta potential
+   15    Nb l800   
+ Constant delta potential
+   16    Nb l810   
+ Constant delta potential
+   17    Nb l8-11  
+ Constant delta potential
+   18    Nb l801   
+ Constant delta potential
+   19    Nb l811   
+ Constant delta potential
+   20    Nb l8-12  
+ Constant delta potential
+   21    Nb l802   
+ Constant delta potential
+   22    Nb l8-13  
+ Normal mode! > delta=0
+   23    Vac l91-3 
+ Normal mode! > delta=0
+   24    Vac l92-3 
+ Normal mode! > delta=0
+   25    Vac l90-2 
+ Normal mode! > delta=0
+   26    Vac l91-2 
+ Normal mode! > delta=0
+   27    Vac l92-2 
+ Normal mode! > delta=0
+   28    Vac l90-1 
+ Normal mode! > delta=0
+   29    Vac l91-1 
+ Normal mode! > delta=0
+   30    Vac l9-10 
+ Normal mode! > delta=0
+   31    Vac l910  
+ Normal mode! > delta=0
+   32    Vac l9-11 
+ Normal mode! > delta=0
+   33    Vac l901  
+ Normal mode! > delta=0
+   34    Vac l9-22 
+ Normal mode! > delta=0
+   35    Vac l9-12 
+ Normal mode! > delta=0
+   36    Vac l902  
+ Normal mode! > delta=0
+   37    Vac l9-23 
+ Normal mode! > delta=0
+   38    Vac l9-13 
+ Normal mode! > delta=0
+   39    Vac l101-3
+ Normal mode! > delta=0
+   40    Vac l100-2
+ Normal mode! > delta=0
+   41    Vac l101-2
+ Normal mode! > delta=0
+   42    Vac l10-1-
+ Normal mode! > delta=0
+   43    Vac l100-1
+ Normal mode! > delta=0
+   44    Vac l101-1
+ Normal mode! > delta=0
+   45    Vac l10-10
+ Normal mode! > delta=0
+   46    Vac l1000 
+ Normal mode! > delta=0
+   47    Vac l10-21
+ Normal mode! > delta=0
+   48    Vac l10-11
+ Normal mode! > delta=0
+   49    Vac l1001 
+ Normal mode! > delta=0
+   50    Vac l10-22
+ Normal mode! > delta=0
+   51    Vac l10-12
+ Normal mode! > delta=0
+   52    Vac l10-23
+
+ Selfconsistent iteration:   1
+
+ Start energy loop for cluster
+ 
+ ie=  1 e= -0.00015000  0.00000100 w=  0.00001500  0.00000000  kset=   21
+ ie=  2 e= -0.00012000  0.00000100 w=  0.00003000  0.00000000  kset=   21
+ ie=  3 e= -0.00009000  0.00000100 w=  0.00003000  0.00000000  kset=   21
+ ie=  4 e= -0.00006000  0.00000100 w=  0.00003000  0.00000000  kset=   21
+ ie=  5 e= -0.00003000  0.00000100 w=  0.00003000  0.00000000  kset=   21
+ ie=  6 e=  0.00000000  0.00000100 w=  0.00003000  0.00000000  kset=   21
+ ie=  7 e=  0.00003000  0.00000100 w=  0.00003000  0.00000000  kset=   21
+ ie=  8 e=  0.00006000  0.00000100 w=  0.00003000  0.00000000  kset=   21
+ ie=  9 e=  0.00009000  0.00000100 w=  0.00003000  0.00000000  kset=   21
+ ie= 10 e=  0.00012000  0.00000100 w=  0.00003000  0.00000000  kset=   21
+ ie= 11 e=  0.00015000  0.00000100 w=  0.00001500  0.00000000  kset=   21
+ 
+ energy point           1 on process           0 cnet           1
+ before tmatiniimp
+ after tmatiniimp
+ before ecoreimp
+ after ecoreimp
+ <locquant2> Ef= -1.831327942600000E-002
+ <locquant> li=           1
+ <locquant> li=           2
+ <locquant> li=           3
+ <locquant> li=           4
+ <locquant> li=           5
+ <locquant> li=           6
+ <locquant> li=           7
+ <locquant> li=           8
+ <locquant> li=           9
+ <locquant> li=          10
+ <locquant> li=          11
+ <locquant> li=          12
+ <locquant> li=          13
+ <locquant> li=          14
+ <locquant> li=          15
+ <locquant> li=          16
+ <locquant> li=          17
+ <locquant> li=          18
+ <locquant> li=          19
+ <locquant> li=          20
+ <locquant> li=          21
+ <locquant> li=          22
+ <locquant> li=          23
+ <locquant> li=          24
+ <locquant> li=          25
+ <locquant> li=          26
+ <locquant> li=          27
+ <locquant> li=          28
+ <locquant> li=          29
+ <locquant> li=          30
+ <locquant> li=          31
+ <locquant> li=          32
+ <locquant> li=          33
+ <locquant> li=          34
+ <locquant> li=          35
+ <locquant> li=          36
+ <locquant> li=          37
+ <locquant> li=          38
+ <locquant> li=          39
+ <locquant> li=          40
+ <locquant> li=          41
+ <locquant> li=          42
+ <locquant> li=          43
+ <locquant> li=          44
+ <locquant> li=          45
+ <locquant> li=          46
+ <locquant> li=          47
+ <locquant> li=          48
+ <locquant> li=          49
+ <locquant> li=          50
+ <locquant> li=          51
+ <locquant> li=          52
+ End of energy loop for cluster, collecting data
+ idat:      202956      202956
+ 
+ I   1  imp   1  electron,  Q    0.9647189644D-02
+ I   1  imp   2  electron,  Q    0.4040669952D-02
+ I   1  imp   3  electron,  Q    0.4609491730D-02
+ I   1  imp   4  electron,  Q    0.4609491728D-02
+ I   1  imp   5  electron,  Q    0.4276077196D-02
+ I   1  imp   6  electron,  Q    0.4609491728D-02
+ I   1  imp   7  electron,  Q    0.4609491730D-02
+ I   1  imp   8  electron,  Q    0.4040669953D-02
+ I   1  imp   9  electron,  Q    0.4875253651D-02
+ I   1  imp  10  electron,  Q    0.5668384524D-02
+ I   1  imp  11  electron,  Q    0.5668384525D-02
+ I   1  imp  12  electron,  Q    0.4539862054D-02
+ I   1  imp  13  electron,  Q    0.6965866098D-02
+ I   1  imp  14  electron,  Q    0.4539862055D-02
+ I   1  imp  15  electron,  Q    0.5970904377D-02
+ I   1  imp  16  electron,  Q    0.5970904377D-02
+ I   1  imp  17  electron,  Q    0.4539862055D-02
+ I   1  imp  18  electron,  Q    0.6965866099D-02
+ I   1  imp  19  electron,  Q    0.4539862054D-02
+ I   1  imp  20  electron,  Q    0.5668384526D-02
+ I   1  imp  21  electron,  Q    0.5668384524D-02
+ I   1  imp  22  electron,  Q    0.4875253651D-02
+ I   1  imp  23  electron,  Q    0.7896838467D-03
+ I   1  imp  24  electron,  Q    0.7896838469D-03
+ I   1  imp  25  electron,  Q    0.8159307336D-03
+ I   1  imp  26  electron,  Q    0.1266159185D-02
+ I   1  imp  27  electron,  Q    0.8159307338D-03
+ I   1  imp  28  electron,  Q    0.1528771614D-02
+ I   1  imp  29  electron,  Q    0.1528771618D-02
+ I   1  imp  30  electron,  Q    0.7187545634D-03
+ I   1  imp  31  electron,  Q    0.7187545634D-03
+ I   1  imp  32  electron,  Q    0.1528771618D-02
+ I   1  imp  33  electron,  Q    0.1528771615D-02
+ I   1  imp  34  electron,  Q    0.8159307338D-03
+ I   1  imp  35  electron,  Q    0.1266159185D-02
+ I   1  imp  36  electron,  Q    0.8159307336D-03
+ I   1  imp  37  electron,  Q    0.7896838469D-03
+ I   1  imp  38  electron,  Q    0.7896838467D-03
+ I   1  imp  39  electron,  Q    0.2411145797D-04
+ I   1  imp  40  electron,  Q    0.3855398871D-04
+ I   1  imp  41  electron,  Q    0.3855398879D-04
+ I   1  imp  42  electron,  Q    0.2227155043D-04
+ I   1  imp  43  electron,  Q    0.1336210807D-03
+ I   1  imp  44  electron,  Q    0.2227155045D-04
+ I   1  imp  45  electron,  Q    0.7290382249D-04
+ I   1  imp  46  electron,  Q    0.7290382249D-04
+ I   1  imp  47  electron,  Q    0.2227155045D-04
+ I   1  imp  48  electron,  Q    0.1336210807D-03
+ I   1  imp  49  electron,  Q    0.2227155043D-04
+ I   1  imp  50  electron,  Q    0.3855398879D-04
+ I   1  imp  51  electron,  Q    0.3855398871D-04
+ I   1  imp  52  electron,  Q    0.2411145797D-04
+ 
+ I   1  imp   1  hole,   Q    0.9647189637D-02
+ I   1  imp   2  hole,   Q    0.4040669952D-02
+ I   1  imp   3  hole,   Q    0.4609491729D-02
+ I   1  imp   4  hole,   Q    0.4609491728D-02
+ I   1  imp   5  hole,   Q    0.4276077196D-02
+ I   1  imp   6  hole,   Q    0.4609491728D-02
+ I   1  imp   7  hole,   Q    0.4609491729D-02
+ I   1  imp   8  hole,   Q    0.4040669953D-02
+ I   1  imp   9  hole,   Q    0.4875253652D-02
+ I   1  imp  10  hole,   Q    0.5668384524D-02
+ I   1  imp  11  hole,   Q    0.5668384526D-02
+ I   1  imp  12  hole,   Q    0.4539862054D-02
+ I   1  imp  13  hole,   Q    0.6965866098D-02
+ I   1  imp  14  hole,   Q    0.4539862055D-02
+ I   1  imp  15  hole,   Q    0.5970904378D-02
+ I   1  imp  16  hole,   Q    0.5970904378D-02
+ I   1  imp  17  hole,   Q    0.4539862055D-02
+ I   1  imp  18  hole,   Q    0.6965866099D-02
+ I   1  imp  19  hole,   Q    0.4539862054D-02
+ I   1  imp  20  hole,   Q    0.5668384526D-02
+ I   1  imp  21  hole,   Q    0.5668384524D-02
+ I   1  imp  22  hole,   Q    0.4875253652D-02
+ I   1  imp  23  hole,   Q    0.7896838468D-03
+ I   1  imp  24  hole,   Q    0.7896838472D-03
+ I   1  imp  25  hole,   Q    0.8159307338D-03
+ I   1  imp  26  hole,   Q    0.1266159185D-02
+ I   1  imp  27  hole,   Q    0.8159307342D-03
+ I   1  imp  28  hole,   Q    0.1528771614D-02
+ I   1  imp  29  hole,   Q    0.1528771618D-02
+ I   1  imp  30  hole,   Q    0.7187545634D-03
+ I   1  imp  31  hole,   Q    0.7187545634D-03
+ I   1  imp  32  hole,   Q    0.1528771618D-02
+ I   1  imp  33  hole,   Q    0.1528771615D-02
+ I   1  imp  34  hole,   Q    0.8159307343D-03
+ I   1  imp  35  hole,   Q    0.1266159185D-02
+ I   1  imp  36  hole,   Q    0.8159307338D-03
+ I   1  imp  37  hole,   Q    0.7896838472D-03
+ I   1  imp  38  hole,   Q    0.7896838469D-03
+ I   1  imp  39  hole,   Q    0.2411145797D-04
+ I   1  imp  40  hole,   Q    0.3855398871D-04
+ I   1  imp  41  hole,   Q    0.3855398880D-04
+ I   1  imp  42  hole,   Q    0.2227155043D-04
+ I   1  imp  43  hole,   Q    0.1336210807D-03
+ I   1  imp  44  hole,   Q    0.2227155046D-04
+ I   1  imp  45  hole,   Q    0.7290382249D-04
+ I   1  imp  46  hole,   Q    0.7290382248D-04
+ I   1  imp  47  hole,   Q    0.2227155046D-04
+ I   1  imp  48  hole,   Q    0.1336210807D-03
+ I   1  imp  49  hole,   Q    0.2227155043D-04
+ I   1  imp  50  hole,   Q    0.3855398880D-04
+ I   1  imp  51  hole,   Q    0.3855398871D-04
+ I   1  imp  52  hole,   Q    0.2411145797D-04
+ 
+ I   1  imp   1 S,  Q    0.2870190892D-11
+ I   1  imp   2 S,  Q   -0.2951012188D-11
+ I   1  imp   3 S,  Q   -0.2651228001D-04
+ I   1  imp   4 S,  Q    0.2651227317D-04
+ I   1  imp   5 S,  Q   -0.2950599071D-11
+ I   1  imp   6 S,  Q    0.2651227317D-04
+ I   1  imp   7 S,  Q   -0.2651227989D-04
+ I   1  imp   8 S,  Q   -0.2972158746D-11
+ I   1  imp   9 S,  Q   -0.3323652021D-11
+ I   1  imp  10 S,  Q   -0.3135684913D-04
+ I   1  imp  11 S,  Q    0.3135684030D-04
+ I   1  imp  12 S,  Q   -0.6532800143D-05
+ I   1  imp  13 S,  Q   -0.5563160112D-11
+ I   1  imp  14 S,  Q    0.6532793460D-05
+ I   1  imp  15 S,  Q   -0.4656107118D-11
+ I   1  imp  16 S,  Q   -0.4568032369D-11
+ I   1  imp  17 S,  Q    0.6532793427D-05
+ I   1  imp  18 S,  Q   -0.5551864236D-11
+ I   1  imp  19 S,  Q   -0.6532800109D-05
+ I   1  imp  20 S,  Q    0.3135684030D-04
+ I   1  imp  21 S,  Q   -0.3135684903D-04
+ I   1  imp  22 S,  Q   -0.3253790058D-11
+ I   1  imp  23 S,  Q   -0.2428212731D-05
+ I   1  imp  24 S,  Q    0.2428211554D-05
+ I   1  imp  25 S,  Q   -0.1541271334D-04
+ I   1  imp  26 S,  Q   -0.1028225291D-11
+ I   1  imp  27 S,  Q    0.1541271211D-04
+ I   1  imp  28 S,  Q   -0.5724284329D-05
+ I   1  imp  29 S,  Q    0.5724281885D-05
+ I   1  imp  30 S,  Q   -0.5441046744D-12
+ I   1  imp  31 S,  Q   -0.5412330742D-12
+ I   1  imp  32 S,  Q    0.5724281781D-05
+ I   1  imp  33 S,  Q   -0.5724284334D-05
+ I   1  imp  34 S,  Q    0.1541271212D-04
+ I   1  imp  35 S,  Q   -0.9998926003D-12
+ I   1  imp  36 S,  Q   -0.1541271334D-04
+ I   1  imp  37 S,  Q    0.2428211564D-05
+ I   1  imp  38 S,  Q   -0.2428212719D-05
+ I   1  imp  39 S,  Q   -0.1852948278D-13
+ I   1  imp  40 S,  Q   -0.8197675345D-07
+ I   1  imp  41 S,  Q    0.8197668938D-07
+ I   1  imp  42 S,  Q   -0.4869082456D-08
+ I   1  imp  43 S,  Q   -0.7951836387D-13
+ I   1  imp  44 S,  Q    0.4869046950D-08
+ I   1  imp  45 S,  Q   -0.5111495979D-13
+ I   1  imp  46 S,  Q   -0.4344550135D-13
+ I   1  imp  47 S,  Q    0.4869046350D-08
+ I   1  imp  48 S,  Q   -0.7980553917D-13
+ I   1  imp  49 S,  Q   -0.4869082473D-08
+ I   1  imp  50 S,  Q    0.8197668783D-07
+ I   1  imp  51 S,  Q   -0.8197675281D-07
+ I   1  imp  52 S,  Q   -0.1803379709D-13
+ 
+ I   1  imp   1 T 0, Q   -0.1637635469D-02
+ I   1  imp   2 T 0, Q    0.9883793486D-04
+ I   1  imp   3 T 0, Q    0.3938248264D-03
+ I   1  imp   4 T 0, Q    0.3938248253D-03
+ I   1  imp   5 T 0, Q    0.1951211289D-03
+ I   1  imp   6 T 0, Q    0.3938248254D-03
+ I   1  imp   7 T 0, Q    0.3938248263D-03
+ I   1  imp   8 T 0, Q    0.9883793483D-04
+ I   1  imp   9 T 0, Q    0.2673863603D-03
+ I   1  imp  10 T 0, Q    0.8042638507D-03
+ I   1  imp  11 T 0, Q    0.8042638510D-03
+ I   1  imp  12 T 0, Q    0.2773159633D-03
+ I   1  imp  13 T 0, Q    0.1856037776D-02
+ I   1  imp  14 T 0, Q    0.2773159636D-03
+ I   1  imp  15 T 0, Q    0.1128231199D-02
+ I   1  imp  16 T 0, Q    0.1128231199D-02
+ I   1  imp  17 T 0, Q    0.2773159637D-03
+ I   1  imp  18 T 0, Q    0.1856037776D-02
+ I   1  imp  19 T 0, Q    0.2773159633D-03
+ I   1  imp  20 T 0, Q    0.8042638511D-03
+ I   1  imp  21 T 0, Q    0.8042638506D-03
+ I   1  imp  22 T 0, Q    0.2673863603D-03
+ I   1  imp  23 T 0, Q    0.4662458741D-04
+ I   1  imp  24 T 0, Q    0.4662458746D-04
+ I   1  imp  25 T 0, Q    0.6128988583D-04
+ I   1  imp  26 T 0, Q    0.3416117670D-03
+ I   1  imp  27 T 0, Q    0.6128988582D-04
+ I   1  imp  28 T 0, Q    0.4539964860D-03
+ I   1  imp  29 T 0, Q    0.4539964873D-03
+ I   1  imp  30 T 0, Q    0.4603655275D-04
+ I   1  imp  31 T 0, Q    0.4603655274D-04
+ I   1  imp  32 T 0, Q    0.4539964875D-03
+ I   1  imp  33 T 0, Q    0.4539964859D-03
+ I   1  imp  34 T 0, Q    0.6128988584D-04
+ I   1  imp  35 T 0, Q    0.3416117670D-03
+ I   1  imp  36 T 0, Q    0.6128988582D-04
+ I   1  imp  37 T 0, Q    0.4662458747D-04
+ I   1  imp  38 T 0, Q    0.4662458740D-04
+ I   1  imp  39 T 0, Q    0.4263346245D-05
+ I   1  imp  40 T 0, Q    0.1092847218D-04
+ I   1  imp  41 T 0, Q    0.1092847221D-04
+ I   1  imp  42 T 0, Q    0.3312904205D-05
+ I   1  imp  43 T 0, Q    0.3147937423D-04
+ I   1  imp  44 T 0, Q    0.3312904216D-05
+ I   1  imp  45 T 0, Q    0.1915416382D-04
+ I   1  imp  46 T 0, Q    0.1915416381D-04
+ I   1  imp  47 T 0, Q    0.3312904217D-05
+ I   1  imp  48 T 0, Q    0.3147937423D-04
+ I   1  imp  49 T 0, Q    0.3312904205D-05
+ I   1  imp  50 T 0, Q    0.1092847222D-04
+ I   1  imp  51 T 0, Q    0.1092847218D-04
+ I   1  imp  52 T 0, Q    0.4263346245D-05
+ 
+ I   1  imp   1 T 1,  Q    0.3506158440D-13
+ I   1  imp   2 T 1,  Q    0.4081400521D-13
+ I   1  imp   3 T 1,  Q    0.5092151964D-05
+ I   1  imp   4 T 1,  Q   -0.5092152021D-05
+ I   1  imp   5 T 1,  Q    0.1177783477D-13
+ I   1  imp   6 T 1,  Q    0.5092152048D-05
+ I   1  imp   7 T 1,  Q   -0.5092152013D-05
+ I   1  imp   8 T 1,  Q   -0.3935534238D-13
+ I   1  imp   9 T 1,  Q   -0.2698446482D-13
+ I   1  imp  10 T 1,  Q    0.9440256088D-05
+ I   1  imp  11 T 1,  Q   -0.9440255770D-05
+ I   1  imp  12 T 1,  Q   -0.3702937386D-05
+ I   1  imp  13 T 1,  Q    0.8569860835D-12
+ I   1  imp  14 T 1,  Q    0.3702937579D-05
+ I   1  imp  15 T 1,  Q   -0.6807743746D-04
+ I   1  imp  16 T 1,  Q    0.6807743743D-04
+ I   1  imp  17 T 1,  Q   -0.3702937586D-05
+ I   1  imp  18 T 1,  Q   -0.8700500467D-12
+ I   1  imp  19 T 1,  Q    0.3702937434D-05
+ I   1  imp  20 T 1,  Q    0.9440255681D-05
+ I   1  imp  21 T 1,  Q   -0.9440256035D-05
+ I   1  imp  22 T 1,  Q    0.3242111459D-13
+ I   1  imp  23 T 1,  Q    0.1029423776D-04
+ I   1  imp  24 T 1,  Q   -0.1029423777D-04
+ I   1  imp  25 T 1,  Q    0.6968504955D-05
+ I   1  imp  26 T 1,  Q    0.6399334458D-13
+ I   1  imp  27 T 1,  Q   -0.6968504920D-05
+ I   1  imp  28 T 1,  Q   -0.8735366097D-05
+ I   1  imp  29 T 1,  Q    0.8735366520D-05
+ I   1  imp  30 T 1,  Q   -0.1915672645D-05
+ I   1  imp  31 T 1,  Q    0.1915672641D-05
+ I   1  imp  32 T 1,  Q   -0.8735366530D-05
+ I   1  imp  33 T 1,  Q    0.8735366089D-05
+ I   1  imp  34 T 1,  Q    0.6968504918D-05
+ I   1  imp  35 T 1,  Q   -0.7015929441D-13
+ I   1  imp  36 T 1,  Q   -0.6968504926D-05
+ I   1  imp  37 T 1,  Q    0.1029423780D-04
+ I   1  imp  38 T 1,  Q   -0.1029423777D-04
+ I   1  imp  39 T 1,  Q   -0.3070452248D-15
+ I   1  imp  40 T 1,  Q    0.2807360171D-06
+ I   1  imp  41 T 1,  Q   -0.2807360107D-06
+ I   1  imp  42 T 1,  Q    0.1803997418D-07
+ I   1  imp  43 T 1,  Q   -0.4161319112D-13
+ I   1  imp  44 T 1,  Q   -0.1803997122D-07
+ I   1  imp  45 T 1,  Q   -0.7024180897D-06
+ I   1  imp  46 T 1,  Q    0.7024180881D-06
+ I   1  imp  47 T 1,  Q    0.1803997111D-07
+ I   1  imp  48 T 1,  Q    0.4134540189D-13
+ I   1  imp  49 T 1,  Q   -0.1803997419D-07
+ I   1  imp  50 T 1,  Q    0.2807360109D-06
+ I   1  imp  51 T 1,  Q   -0.2807360176D-06
+ I   1  imp  52 T 1,  Q    0.1969512747D-15
+ 
+ I   1  imp   1 T -1,  Q   0.1003272690D-13
+ I   1  imp   2 T -1,  Q   0.8215810655D-05
+ I   1  imp   3 T -1,  Q   0.1604460482D-04
+ I   1  imp   4 T -1,  Q   0.1604460501D-04
+ I   1  imp   5 T -1,  Q   0.2219736837D-12
+ I   1  imp   6 T -1,  Q  -0.1604460446D-04
+ I   1  imp   7 T -1,  Q  -0.1604460432D-04
+ I   1  imp   8 T -1,  Q  -0.8215810178D-05
+ I   1  imp   9 T -1,  Q  -0.2197218423D-04
+ I   1  imp  10 T -1,  Q  -0.4161652448D-05
+ I   1  imp  11 T -1,  Q  -0.4161652177D-05
+ I   1  imp  12 T -1,  Q  -0.6021645195D-05
+ I   1  imp  13 T -1,  Q  -0.4674758088D-04
+ I   1  imp  14 T -1,  Q  -0.6021645248D-05
+ I   1  imp  15 T -1,  Q   0.5567675520D-12
+ I   1  imp  16 T -1,  Q   0.9018022727D-13
+ I   1  imp  17 T -1,  Q   0.6021646027D-05
+ I   1  imp  18 T -1,  Q   0.4674758156D-04
+ I   1  imp  19 T -1,  Q   0.6021645996D-05
+ I   1  imp  20 T -1,  Q   0.4161653058D-05
+ I   1  imp  21 T -1,  Q   0.4161653205D-05
+ I   1  imp  22 T -1,  Q   0.2197218488D-04
+ I   1  imp  23 T -1,  Q  -0.2496282715D-05
+ I   1  imp  24 T -1,  Q  -0.2496282672D-05
+ I   1  imp  25 T -1,  Q  -0.1416074293D-04
+ I   1  imp  26 T -1,  Q  -0.1843082996D-04
+ I   1  imp  27 T -1,  Q  -0.1416074285D-04
+ I   1  imp  28 T -1,  Q  -0.4950839485D-04
+ I   1  imp  29 T -1,  Q  -0.4950839501D-04
+ I   1  imp  30 T -1,  Q   0.8651061922D-13
+ I   1  imp  31 T -1,  Q  -0.1474880361D-13
+ I   1  imp  32 T -1,  Q   0.4950839509D-04
+ I   1  imp  33 T -1,  Q   0.4950839489D-04
+ I   1  imp  34 T -1,  Q   0.1416074297D-04
+ I   1  imp  35 T -1,  Q   0.1843083006D-04
+ I   1  imp  36 T -1,  Q   0.1416074304D-04
+ I   1  imp  37 T -1,  Q   0.2496282766D-05
+ I   1  imp  38 T -1,  Q   0.2496282793D-05
+ I   1  imp  39 T -1,  Q  -0.3741868548D-06
+ I   1  imp  40 T -1,  Q  -0.1389078279D-05
+ I   1  imp  41 T -1,  Q  -0.1389078280D-05
+ I   1  imp  42 T -1,  Q  -0.6375593476D-06
+ I   1  imp  43 T -1,  Q  -0.4171365917D-05
+ I   1  imp  44 T -1,  Q  -0.6375593493D-06
+ I   1  imp  45 T -1,  Q  -0.1863358702D-14
+ I   1  imp  46 T -1,  Q   0.2574555673D-14
+ I   1  imp  47 T -1,  Q   0.6375593503D-06
+ I   1  imp  48 T -1,  Q   0.4171365920D-05
+ I   1  imp  49 T -1,  Q   0.6375593484D-06
+ I   1  imp  50 T -1,  Q   0.1389078282D-05
+ I   1  imp  51 T -1,  Q   0.1389078279D-05
+ I   1  imp  52 T -1,  Q   0.3741868555D-06
+ 
+ I   1  iimp   1 Delta  0.0000000000E+00 meV
+ I   1  iimp   2 Delta  0.1434499954E+01 meV
+ I   1  iimp   3 Delta  0.1431448287E+01 meV
+ I   1  iimp   4 Delta  0.1437551620E+01 meV
+ I   1  iimp   5 Delta  0.1434499954E+01 meV
+ I   1  iimp   6 Delta  0.1437551620E+01 meV
+ I   1  iimp   7 Delta  0.1431448287E+01 meV
+ I   1  iimp   8 Delta  0.1434499954E+01 meV
+ I   1  iimp   9 Delta  0.1434499954E+01 meV
+ I   1  iimp  10 Delta  0.1430890659E+01 meV
+ I   1  iimp  11 Delta  0.1438109249E+01 meV
+ I   1  iimp  12 Delta  0.1433748004E+01 meV
+ I   1  iimp  13 Delta  0.1434499954E+01 meV
+ I   1  iimp  14 Delta  0.1435251904E+01 meV
+ I   1  iimp  15 Delta  0.1434499954E+01 meV
+ I   1  iimp  16 Delta  0.1434499954E+01 meV
+ I   1  iimp  17 Delta  0.1435251904E+01 meV
+ I   1  iimp  18 Delta  0.1434499954E+01 meV
+ I   1  iimp  19 Delta  0.1433748004E+01 meV
+ I   1  iimp  20 Delta  0.1438109249E+01 meV
+ I   1  iimp  21 Delta  0.1430890659E+01 meV
+ I   1  iimp  22 Delta  0.1434499954E+01 meV
+ I   1  iimp  23 Delta  0.0000000000E+00 meV
+ I   1  iimp  24 Delta  0.0000000000E+00 meV
+ I   1  iimp  25 Delta  0.0000000000E+00 meV
+ I   1  iimp  26 Delta  0.0000000000E+00 meV
+ I   1  iimp  27 Delta  0.0000000000E+00 meV
+ I   1  iimp  28 Delta  0.0000000000E+00 meV
+ I   1  iimp  29 Delta  0.0000000000E+00 meV
+ I   1  iimp  30 Delta  0.0000000000E+00 meV
+ I   1  iimp  31 Delta  0.0000000000E+00 meV
+ I   1  iimp  32 Delta  0.0000000000E+00 meV
+ I   1  iimp  33 Delta  0.0000000000E+00 meV
+ I   1  iimp  34 Delta  0.0000000000E+00 meV
+ I   1  iimp  35 Delta  0.0000000000E+00 meV
+ I   1  iimp  36 Delta  0.0000000000E+00 meV
+ I   1  iimp  37 Delta  0.0000000000E+00 meV
+ I   1  iimp  38 Delta  0.0000000000E+00 meV
+ I   1  iimp  39 Delta  0.0000000000E+00 meV
+ I   1  iimp  40 Delta  0.0000000000E+00 meV
+ I   1  iimp  41 Delta  0.0000000000E+00 meV
+ I   1  iimp  42 Delta  0.0000000000E+00 meV
+ I   1  iimp  43 Delta  0.0000000000E+00 meV
+ I   1  iimp  44 Delta  0.0000000000E+00 meV
+ I   1  iimp  45 Delta  0.0000000000E+00 meV
+ I   1  iimp  46 Delta  0.0000000000E+00 meV
+ I   1  iimp  47 Delta  0.0000000000E+00 meV
+ I   1  iimp  48 Delta  0.0000000000E+00 meV
+ I   1  iimp  49 Delta  0.0000000000E+00 meV
+ I   1  iimp  50 Delta  0.0000000000E+00 meV
+ I   1  iimp  51 Delta  0.0000000000E+00 meV
+ I   1  iimp  52 Delta  0.0000000000E+00 meV
+ 
+ I   1  iimp   1 chi  0.5740381784E-11
+ I   1  iimp   2 chi -0.5902024377E-11
+ I   1  iimp   3 chi -0.5302456002E-04
+ I   1  iimp   4 chi  0.5302454634E-04
+ I   1  iimp   5 chi -0.5901198142E-11
+ I   1  iimp   6 chi  0.5302454634E-04
+ I   1  iimp   7 chi -0.5302455979E-04
+ I   1  iimp   8 chi -0.5944317493E-11
+ I   1  iimp   9 chi -0.6647304042E-11
+ I   1  iimp  10 chi -0.6271369826E-04
+ I   1  iimp  11 chi  0.6271368061E-04
+ I   1  iimp  12 chi -0.1306560029E-04
+ I   1  iimp  13 chi -0.1112632022E-10
+ I   1  iimp  14 chi  0.1306558692E-04
+ I   1  iimp  15 chi -0.9312214235E-11
+ I   1  iimp  16 chi -0.9136064739E-11
+ I   1  iimp  17 chi  0.1306558685E-04
+ I   1  iimp  18 chi -0.1110372847E-10
+ I   1  iimp  19 chi -0.1306560022E-04
+ I   1  iimp  20 chi  0.6271368061E-04
+ I   1  iimp  21 chi -0.6271369806E-04
+ I   1  iimp  22 chi -0.6507580116E-11
+ I   1  iimp  23 chi -0.4856425462E-05
+ I   1  iimp  24 chi  0.4856423108E-05
+ I   1  iimp  25 chi -0.3082542669E-04
+ I   1  iimp  26 chi -0.2056450581E-11
+ I   1  iimp  27 chi  0.3082542421E-04
+ I   1  iimp  28 chi -0.1144856866E-04
+ I   1  iimp  29 chi  0.1144856377E-04
+ I   1  iimp  30 chi -0.1088209349E-11
+ I   1  iimp  31 chi -0.1082466148E-11
+ I   1  iimp  32 chi  0.1144856356E-04
+ I   1  iimp  33 chi -0.1144856867E-04
+ I   1  iimp  34 chi  0.3082542423E-04
+ I   1  iimp  35 chi -0.1999785201E-11
+ I   1  iimp  36 chi -0.3082542668E-04
+ I   1  iimp  37 chi  0.4856423129E-05
+ I   1  iimp  38 chi -0.4856425438E-05
+ I   1  iimp  39 chi -0.3705896556E-13
+ I   1  iimp  40 chi -0.1639535069E-06
+ I   1  iimp  41 chi  0.1639533788E-06
+ I   1  iimp  42 chi -0.9738164912E-08
+ I   1  iimp  43 chi -0.1590367277E-12
+ I   1  iimp  44 chi  0.9738093901E-08
+ I   1  iimp  45 chi -0.1022299196E-12
+ I   1  iimp  46 chi -0.8689100271E-13
+ I   1  iimp  47 chi  0.9738092699E-08
+ I   1  iimp  48 chi -0.1596110783E-12
+ I   1  iimp  49 chi -0.9738164946E-08
+ I   1  iimp  50 chi  0.1639533757E-06
+ I   1  iimp  51 chi -0.1639535056E-06
+ I   1  iimp  52 chi -0.3606759418E-13
+ 
+ I   1  iimp   1 lambda  0.0000000000E+00 meV
+ I   1  iimp   2 lambda  0.1151039014E+04 meV
+ I   1  iimp   3 lambda  0.1151039014E+04 meV
+ I   1  iimp   4 lambda  0.1151039014E+04 meV
+ I   1  iimp   5 lambda  0.1151039014E+04 meV
+ I   1  iimp   6 lambda  0.1151039014E+04 meV
+ I   1  iimp   7 lambda  0.1151039014E+04 meV
+ I   1  iimp   8 lambda  0.1151039014E+04 meV
+ I   1  iimp   9 lambda  0.1151039014E+04 meV
+ I   1  iimp  10 lambda  0.1151039014E+04 meV
+ I   1  iimp  11 lambda  0.1151039014E+04 meV
+ I   1  iimp  12 lambda  0.1151039014E+04 meV
+ I   1  iimp  13 lambda  0.1151039014E+04 meV
+ I   1  iimp  14 lambda  0.1151039014E+04 meV
+ I   1  iimp  15 lambda  0.1151039014E+04 meV
+ I   1  iimp  16 lambda  0.1151039014E+04 meV
+ I   1  iimp  17 lambda  0.1151039014E+04 meV
+ I   1  iimp  18 lambda  0.1151039014E+04 meV
+ I   1  iimp  19 lambda  0.1151039014E+04 meV
+ I   1  iimp  20 lambda  0.1151039014E+04 meV
+ I   1  iimp  21 lambda  0.1151039014E+04 meV
+ I   1  iimp  22 lambda  0.1151039014E+04 meV
+ I   1  iimp  23 lambda  0.0000000000E+00 meV
+ I   1  iimp  24 lambda  0.0000000000E+00 meV
+ I   1  iimp  25 lambda  0.0000000000E+00 meV
+ I   1  iimp  26 lambda  0.0000000000E+00 meV
+ I   1  iimp  27 lambda  0.0000000000E+00 meV
+ I   1  iimp  28 lambda  0.0000000000E+00 meV
+ I   1  iimp  29 lambda  0.0000000000E+00 meV
+ I   1  iimp  30 lambda  0.0000000000E+00 meV
+ I   1  iimp  31 lambda  0.0000000000E+00 meV
+ I   1  iimp  32 lambda  0.0000000000E+00 meV
+ I   1  iimp  33 lambda  0.0000000000E+00 meV
+ I   1  iimp  34 lambda  0.0000000000E+00 meV
+ I   1  iimp  35 lambda  0.0000000000E+00 meV
+ I   1  iimp  36 lambda  0.0000000000E+00 meV
+ I   1  iimp  37 lambda  0.0000000000E+00 meV
+ I   1  iimp  38 lambda  0.0000000000E+00 meV
+ I   1  iimp  39 lambda  0.0000000000E+00 meV
+ I   1  iimp  40 lambda  0.0000000000E+00 meV
+ I   1  iimp  41 lambda  0.0000000000E+00 meV
+ I   1  iimp  42 lambda  0.0000000000E+00 meV
+ I   1  iimp  43 lambda  0.0000000000E+00 meV
+ I   1  iimp  44 lambda  0.0000000000E+00 meV
+ I   1  iimp  45 lambda  0.0000000000E+00 meV
+ I   1  iimp  46 lambda  0.0000000000E+00 meV
+ I   1  iimp  47 lambda  0.0000000000E+00 meV
+ I   1  iimp  48 lambda  0.0000000000E+00 meV
+ I   1  iimp  49 lambda  0.0000000000E+00 meV
+ I   1  iimp  50 lambda  0.0000000000E+00 meV
+ I   1  iimp  51 lambda  0.0000000000E+00 meV
+ I   1  iimp  52 lambda  0.0000000000E+00 meV
+ 
+ 
+ ie=  1 e= -0.00015000  0.00000100 w=  0.00001500  0.00000000  kset=   21
+ ie=  2 e= -0.00012000  0.00000100 w=  0.00003000  0.00000000  kset=   21
+ ie=  3 e= -0.00009000  0.00000100 w=  0.00003000  0.00000000  kset=   21
+ ie=  4 e= -0.00006000  0.00000100 w=  0.00003000  0.00000000  kset=   21
+ ie=  5 e= -0.00003000  0.00000100 w=  0.00003000  0.00000000  kset=   21
+ ie=  6 e=  0.00000000  0.00000100 w=  0.00003000  0.00000000  kset=   21
+ ie=  7 e=  0.00003000  0.00000100 w=  0.00003000  0.00000000  kset=   21
+ ie=  8 e=  0.00006000  0.00000100 w=  0.00003000  0.00000000  kset=   21
+ ie=  9 e=  0.00009000  0.00000100 w=  0.00003000  0.00000000  kset=   21
+ ie= 10 e=  0.00012000  0.00000100 w=  0.00003000  0.00000000  kset=   21
+ ie= 11 e=  0.00015000  0.00000100 w=  0.00001500  0.00000000  kset=   21
+ 
+
+ MPI sync idle time =     0.000 s

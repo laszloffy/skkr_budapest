@@ -1,0 +1,5 @@
+POST=`head -1 compile-cluster_mpi | awk -F= '{print $2}'`
+cp -f param.h-clu$POST param.h
+cp -f ./main/chcore.f.clu ./main/chcore.f
+make rsp-clu_mpi.run
+mv rsp-clu_mpi.run rsp-clu_mpi.run$POST

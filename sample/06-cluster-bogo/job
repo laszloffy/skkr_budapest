@@ -1,0 +1,19 @@
+#!/bin/bash
+#$ -N MnNb110 
+#####
+#SBATCH --job-name=Nbb110
+#SBATCH --partition=HD
+#SBATCH --ntasks=11
+#SBATCH -w c01
+NPROCS=`srun --nodes=${SLURM_NNODES} bash -c 'hostname' |wc -l`
+echo $NPROCS
+#The PMI library is necessary for srun
+
+ln -s ../05-layer-bogo-host/cluster*.t* .
+
+EXE=../../skkr_dbogo_bsf/rsp-scf-dbogo.run
+
+echo START calculation: `date`
+mpirun -np $NPROCS $EXE
+echo END of calculation: `date`   
+

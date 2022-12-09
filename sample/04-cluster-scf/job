@@ -1,0 +1,20 @@
+#!/bin/bash
+#$ -N MnNb110 
+#####
+#SBATCH --job-name=Nbb110
+#SBATCH --partition=HD
+#SBATCH --ntasks=16
+#SBATCH -w c01
+NPROCS=`srun --nodes=${SLURM_NNODES} bash -c 'hostname' |wc -l`
+echo $NPROCS
+#The PMI library is necessary for srun
+
+ln -s ../03-cluster-host/cluster*.t* .
+ln -s ../03-cluster-host/clustermad.vh .
+
+EXE=../../cluster/rsp-clu_mpi.run
+
+echo START calculation: `date`
+mpirun -np $NPROCS $EXE
+echo END of calculation: `date`   
+

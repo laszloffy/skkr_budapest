@@ -1,0 +1,25 @@
+fortcom: Error: gradm.f, line 66: This name does not have a type, and must have an explicit type.   [I]
+      do i = 1,nimp
+---------^
+fortcom: Error: gradm.f, line 66: An INTEGER or REAL data type is required in this context.   [I]
+      do i = 1,nimp
+---------^
+fortcom: Error: gradm.f, line 66: This name does not have a type, and must have an explicit type.   [NIMP]
+      do i = 1,nimp
+---------------^
+fortcom: Error: gradm.f, line 74: An INTEGER or REAL data type is required in this context.   [I]
+      do i = 1,nimp
+---------^
+fortcom: Error: gradm.f, line 75: This name does not have a type, and must have an explicit type.   [J]
+       do j = 1,nimp
+----------^
+fortcom: Error: gradm.f, line 75: An INTEGER or REAL data type is required in this context.   [J]
+       do j = 1,nimp
+----------^
+fortcom: Error: gradm.f, line 76: This name does not have a type, and must have an explicit type.   [K]
+        write(6,'(2i3,4e14.6)') i,j,(vij(k,i,j),k=1,4)
+-----------------------------------------^
+fortcom: Error: gradm.f, line 76: An INTEGER or REAL data type is required in this context.   [K]
+        write(6,'(2i3,4e14.6)') i,j,(vij(k,i,j),k=1,4)
+------------------------------------------------^
+compilation aborted for gradm.f (code 1)

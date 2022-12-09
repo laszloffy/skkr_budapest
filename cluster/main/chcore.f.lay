@@ -1,0 +1,137 @@
+      subroutine chcore(itscf,nintfc,conc,idpota,vra,za,
+     >idpotb,vrb,zb,dx,ns,rs,qca,qcb,rhoca,rhocb,enca,encb,for006)
+c
+c     ************************************
+c     * input subroutine for core-module *
+c     ************************************
+c
+c -------------------
+c     nuc      -  1 if nucleus size is taken into account
+c     nes      -  number of iterations to adjust one electron energies
+c     test     -  precision for one electron energies
+c     iskip    -  print level 
+c
+c     norb     -  number of (core) orbitals
+c     den      -  one electron energy [a.u.]
+c     nel      -  orbital occupation
+c     nqn      -  principal quantum number
+c     nk       -  kappa
+c     nql      -  angular momentum quantumnumbers
+c     dfl      -  kappa**2-(2z/c)**2
+c     dq1      -  (-)**(n-l)*S_kappa
+c     titre    -  identification for orbitals
+c
+c     qc       -  core charge
+c     rhoc     -  core charge density
+c     enc      -  core one electron energy       
+c -------------------
+c
+      implicit real*8(a-h,o-z)
+      include '../param.h'
+c
+      integer mmax
+      parameter (mmax=mintfc)
+c
+      logical cpalay
+      character*30 for006
+      character*10 idpota(mmax),idpotb(mmax)
+      character*3  idel
+      character*4  titrea(iorb,mmax),titreb(iorb,mmax)
+      character*4  oplus(4),ominus(3)
+c
+      dimension conc(mmax)
+      dimension za(mmax),zb(mmax)
+      dimension qca(mmax),qcb(mmax)
+      dimension enca(mmax),encb(mmax)
+      dimension vra(nrad,mmax),vrb(nrad,mmax)
+      dimension rhoca(nrad,mmax),rhocb(nrad,mmax)
+      dimension dx(mmax),ns(mmax),rs(mmax)
+c
+      dimension norba(mmax),norbb(mmax)
+      dimension dena(iorb,mmax),denb(iorb,mmax)
+      dimension nela(iorb,mmax),nelb(iorb,mmax)
+      dimension nqna(iorb,mmax),nqnb(iorb,mmax)
+      dimension nka(iorb,mmax),nkb(iorb,mmax)
+      dimension nqla(iorb,mmax),nqlb(iorb,mmax)
+      dimension dfla(iorb,mmax),dflb(iorb,mmax)
+      dimension dq1a(iorb,mmax),dq1b(iorb,mmax)
+c
+      common/core1a/dena,dfla,dq1a,norba,nela,nqna,nka,nqla
+      common/core1b/denb,dflb,dq1b,norbb,nelb,nqnb,nkb,nqlb
+      common/core2/test,nuc,nes,iskip
+      common/core3/titrea,titreb
+      common/test/itest
+c
+      data tiny/1.0d-6/
+c
+      if(itest.ge.1) write(6,'(''  routine CHCORE> '')')
+c
+      do 110 li=1,nintfc
+        cpalay=1.d0-conc(li).gt.tiny
+c
+        if((idpota(li)(1:3).eq.'Vac').or.(norba(li).eq.0)) then
+          do j=1,nrad
+            rhoca(j,li)=0.d0
+          end do
+          qca(li)=0.d0
+          enca(li)=0.d0
+        else  
+          if(iskip.ge.2) then
+            do i=1,norba(li)
+            write(6,'(2i3,1x,a4,2i3,3d20.10)')
+     >      nqna(i,li),nka(i,li),titrea(i,li),nela(i,li),nqla(i,li),
+     >      dfla(i,li),dq1a(i,li),dena(i,li)
+            end do
+          end if
+          call rcore(for006,idpota(li),za(li),vra(1,li),
+     >       ns(li),rs(li),dx(li),nuc,iskip,norba(li),
+     >       nes,test,dena(1,li),nqna(1,li),nka(1,li),nela(1,li),
+     >       qca(li),titrea(1,li),nqla(1,li),dfla(1,li),dq1a(1,li),
+     >       rhoca(1,li),enca(li))
+        end if
+c
+        if(.not.cpalay) then
+           qcb(li)=qca(li)
+           encb(li)=enca(li)
+           do i=1,nrad   
+             rhocb(i,li)=rhoca(i,li)
+           end do
+        else
+        if((idpotb(li)(1:3).eq.'Vac').or.(norbb(li).eq.0)) then
+          qcb(li)=0.d0
+          encb(li)=0.d0
+          do j=1,nrad
+            rhocb(j,li)=0.d0
+          end do
+        else  
+          if(iskip.ge.2) then
+            do i=1,norbb(li)
+            write(6,'(2i3,1x,a4,2i3,3d20.10)')
+     >      nqnb(i,li),nkb(i,li),titreb(i,li),nelb(i,li),nqlb(i,li),
+     >      dflb(i,li),dq1b(i,li),denb(i,li)
+            end do
+          end if
+          call rcore(for006,idpotb(li),zb(li),vrb(1,li),
+     >       ns(li),rs(li),dx(li),nuc,iskip,norbb(li),
+     >       nes,test,denb(1,li),nqnb(1,li),nkb(1,li),nelb(1,li),
+     >       qcb(li),titreb(1,li),nqlb(1,li),dflb(1,li),dq1b(1,li),
+     >       rhocb(1,li),encb(li))
+        end if
+        end if
+c
+        if(itest.ge.1) then
+        if(.not.cpalay) then
+          write(6,'('' I'',i4,''  L'',i4,5x,''Ec  '',d20.12)')
+     >    itscf,li,enca(li)
+        else
+          write(6,
+     >   '('' I'',i4,''  L'',i4,5x,''Ec_A'',d20.12,5x,''Ec_B'',d20.12)')
+     >    itscf,li,enca(li),encb(li)
+        end if
+        end if
+c
+  110 continue
+      write(6,*)
+c
+      return
+      end

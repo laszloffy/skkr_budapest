@@ -1,0 +1,210 @@
+c     Name of Copyright owners: Gabor Csire, Andras Laszloffy, Bendeguz Nyari, Laszlo Szunyogh, and Balazs Ujfalussy
+      subroutine ecoreimp(nimp,iscreen,tau_ij,tau_ji,tau_ii,tminvcl,
+     >                    tminvh,lmax,nposimp,kpairind,dmata,dmatpa,
+     >                    gtaucl,taucl,tauclij,detl)
+c
+c ============================================================
+      implicit none
+c
+      include '../param.h' 
+c
+      complex*16 tminvh(kmymaxp,kmymaxp,mintfc)
+      complex*16 tminvcl(kmymaxp,kmymaxp,mimp)
+      complex*16 tminvclscr(kmymaxp,kmymaxp,mimp)
+c
+      complex*16 deltat(kmymaxp,kmymaxp,mimp)
+c
+      complex*16 tau_ij(kmymaxp,kmymaxp,mpair)
+      complex*16 tau_ji(kmymaxp,kmymaxp,mpair)
+      complex*16 tau_ii(kmymaxp,kmymaxp,mintfc)
+c     complex*16 tauh(kmymaxp,kmymaxp,mimp,mimp)
+c
+c     complex*16 dttau(kmymaxp,kmymaxp,mimp,mimp)
+      complex*16 taucl(kmymaxp,kmymaxp,mimp)
+      complex*16 gtaucl(kmymaxp,kmymaxp,mimp)
+      complex*16 tauclij(kmymaxp,kmymaxp,mimp,mimp)
+c
+      complex*16 dmata(kmymaxp,kmymaxp,mimp)
+      complex*16 dmatpa(kmymaxp,kmymaxp,mimp)
+c
+      complex*16 detl
+c
+      integer nimp
+      integer iscreen
+c
+      integer nposimp(3,mimp)
+      integer kpairind(mimp,mimp)
+c
+      integer li
+      integer iimp
+      integer jimp
+      integer mipair
+      integer ipair
+      integer k1
+      integer k2
+      integer kmax
+      integer kmymax
+      integer lmax
+      integer l2
+      integer nl
+      integer nl2
+      integer AllocateStat
+c
+      logical tautest
+c ----- Allocatable arrays ----------------------------------------
+      complex*16, allocatable :: tauh(:,:,:,:)
+
+c
+      complex*16 alphaintkkr(0:lmaxp,mintfc)
+      common/scrpar/alphaintkkr
+c
+      integer itest
+      common/test/itest
+c
+      real*8 tol
+      data tol/1.0d-15/
+c ============================================================
+c
+      if(itest.ge.2) write(6,*) '<ecoreimp>: BEGINN'
+c
+      tautest=.false.
+c
+      nl=lmax+1
+      nl2=nl*nl
+      kmax=2*lmax+1
+      kmymax=2*nl2
+      l2=2*lmax
+c Allocata memories ------------------------------------------------
+      allocate(tauh(kmymaxp,kmymaxp,mimp,mimp), stat = AllocateStat)
+      call alloccheck( AllocateStat,'tauh in ecoreimp')
+c ------------------------------------------------------------------
+      do iimp=1,nimp-1
+        do jimp=(iimp+1),nimp
+          ipair=kpairind(iimp,jimp)
+          if(ipair.gt.0) then
+c           write(6,*) '<ecoreimp>: iimp=',iimp,' jimp=',jimp,' ipair=',
+c    >                  ipair
+            do k1=1,kmymax
+              do k2=1,kmymax
+                tauh(k1,k2,iimp,jimp)=tau_ij(k1,k2,ipair)
+                tauh(k1,k2,jimp,iimp)=tau_ji(k1,k2,ipair)
+              end do
+            end do
+          else
+            mipair=-1*ipair
+c           write(6,*) '<ecoreimp>: iimp=',iimp,' jimp=',jimp,' ipair=',
+c    >                  mipair
+            do k1=1,kmymax
+              do k2=1,kmymax
+                tauh(k1,k2,iimp,jimp)=tau_ji(k1,k2,mipair)
+                tauh(k1,k2,jimp,iimp)=tau_ij(k1,k2,mipair)
+              end do
+            end do
+          end if
+        end do
+      end do 
+c
+      do iimp=1,nimp
+        li=nposimp(3,iimp)
+        do k1=1,kmymax
+          do k2=1,kmymax
+            tauh(k1,k2,iimp,iimp)=tau_ii(k1,k2,li)
+          end do
+        end do
+      end do
+c ------------------------------------------
+c     do iimp=1,nimp
+c       ----------------------------------------------------------------
+c       call matrot(zdir,rb(1,iimp),lmax,dmat(1,1,iimp),dmatp(1,1,iimp),
+c    >              dz(1,iimp),vecn(1,iimp),phi(iimp))
+c       ----------------------------------------------------------------
+c     end do
+c --------------------------------------------
+c
+c *---------------------------Test------------------------------------
+c        do iimp=1,nimp
+c        if(tautest) then
+c          write(6,*) 'ecore > tauij host'
+c          write(6,*) 'IMP=',iimp,'  ie=',ie
+c         call outmat1(tauij(1,1,iimp,iimp),kmymax,kmymax,kmymaxp,tol,6)
+c        end if 
+c        end do
+c *---------------------------------------------------------------------
+c
+c        call gettcl(ce,psq,lmax,idpota,vra,bra,bopra,dx,ns,rs,
+c    >                  sxa,dmat,dmatp,nimp,tclinv)
+c
+      tautest=.false.
+      if(tautest) then
+       do iimp=1,nimp
+        write(6,*) ' <gettaucl> : tautest, tminvcl iimp=',iimp
+        call outmat1(tminvcl(1:kmymax,1:kmymax,iimp),
+     >               kmymax,kmymax,kmymax,
+     >               tol,6)
+       end do
+       do iimp=1,3
+        write(6,*) ' <gettaucl> : tautest, tminvh il=',iimp
+        call outmat1(tminvh(1:kmymax,1:kmymax,iimp),
+     >               kmymax,kmymax,kmymax,
+     >               tol,6)
+       end do
+      end if
+c
+         call dtat(tminvcl,tminvh,nposimp,lmax,deltat,nimp)
+c
+c ***---------------Test-------------------------------------------
+c     do iimp=1,nimp
+c       if(iimp.eq.5) then
+c       write(6,*) 'deltat ecore'
+c       write(6,*) 'iimp=',iimp
+c       do k1=1,kmymax
+c       do k2=1,kmymax
+c          deltat(k1,k2,iimp)=(0.0d0,0.d0)
+c          write(6,'(2d35.05)') deltat(k1,k2,iimp)
+c       end do
+c       end do
+c       end if
+c     end do 
+c *****------------------------------------------------------------
+c
+c        call gettaucl(tauh,dttau,taucl,nimp,lmax)
+         call gettaucl1(tauh,deltat,nimp,lmax,tauclij,taucl,detl)
+
+c
+c ****************************************************************
+c * loop over layers to transform impurity diagonal tau matrices *
+c * into physical representation and rotate to the local         *
+c * frame of reference                                           *
+c ****************************************************************
+c
+      do iimp=1,nimp
+c
+        if(iscreen.ne.0) then
+          li=nposimp(3,iimp)
+c         --------------------------------------------------------
+          call phystau(taucl(1,1,iimp),tminvcl(1,1,iimp),
+     >                 tminvcl(1,1,iimp),alphaintkkr(0,li),lmax,1)
+c         --------------------------------------------------------
+        end if
+c
+c rotate tau-matrix to local frame of reference
+c
+        call repl(gtaucl(1,1,iimp),taucl(1,1,iimp),kmymax,kmymaxp)
+c       ------------------------------------------------------
+        call tripmt(dmatpa(1,1,iimp),taucl(1,1,iimp),dmata(1,1,iimp),
+     >              kmymax,kmymax,kmymaxp)
+c       ------------------------------------------------------
+c
+        if(itest.gt.2) then
+          write(6,'(/'' tau -impurity '',i3)') iimp
+          call outmat1(taucl(1,1,iimp),kmymax,kmymax,kmymaxp,tol,6)
+        end if
+c
+      end do
+c
+      if(itest.ge.2) write(6,*) '<ecoreimp>: END'
+      deallocate(tauh,stat = AllocateStat)
+      call alloccheck( AllocateStat,'tauh dealloc in ecoreimp')
+c
+       return
+       end

@@ -1,0 +1,13 @@
+#!/bin/bash
+PART1=`head -2 compile_serial | tail -1 | awk -F= '{print $2}' | awk -F\$ '{print $1}'`
+PART2=`head -1 compile_serial | awk -F= '{print $2}'`
+RUNNAME=$PART1$PART2
+echo "Recomiling ${RUNNAME}..."
+
+make rsp-scf_ksave_serial.run
+
+if [ $? -eq 0 ]; then
+  mv rsp-scf_ksave_serial.run $RUNNAME
+  echo "Recompiled ${RUNNAME} ."
+fi
+

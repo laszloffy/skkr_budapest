@@ -1,0 +1,7 @@
+POST=
+cp -f param.h-clu$POST param.h
+cp -f ./main/chcore.f.clu ./main/chcore.f
+make del-all.o
+make rsp-clu_mpi.run
+mv rsp-clu_mpi.run rsp-clu_mpi.run$POST
+###make -f sce/makefile.cluster rsp-sce.run

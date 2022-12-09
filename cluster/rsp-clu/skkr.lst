@@ -1,0 +1,10 @@
+fortcom: Error: skkr.f, line 30: This name has already been assigned a data type.   [IIMP]
+      integer*4 IIMP,NL,KMYMAX,NTOTAL,NINPRC
+----------------^
+fortcom: Error: skkr.f, line 32: This name has already been assigned a data type.   [IE]
+      integer*4 IE,IE,IE,ITSCF,ISTOP
+-------------------^
+fortcom: Error: skkr.f, line 187: This name does not have a type, and must have an explicit type.   [NBULKR]
+      common/lay2d/cvec(mtotal,3),nextra,nbulkl,nbulkr,
+------------------------------------------------^
+compilation aborted for skkr.f (code 1)

@@ -1,0 +1,21 @@
+. /etc/profile.d/modules.sh 
+module purge
+module load openmpi/2.0.4-intel
+
+#
+NRSP_RUNNAME=nrsp-scf.run-PL4L3
+echo "Compiling ${NRSP_RUNNAME}..."
+NRDLM_RUNNAME=nrdlm-scf.run-PL4L3
+echo "Compiling ${NRDLM_RUNNAME}..."
+#
+make del-all.o
+cp param.h-PL4L3 param.h
+make nrsp-scf.run
+make nrdlm-scf.run
+#
+if [ $? -eq 0 ]; then
+  mv nrsp-scf.run $NRSP_RUNNAME
+  mv nrdlm-scf.run $NRDLM_RUNNAME
+  echo "Compiled ${NRSP_RUNNAME} ."
+  echo "Compiled ${NRDLM_RUNNAME} ."
+fi

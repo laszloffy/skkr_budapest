@@ -1,0 +1,35 @@
+## Change log for the bogo skkr for including cpa
+
+# Questions:
+  rsp-scf/tmatini.f
+     call tmat for species A and B, then 
+     tminv = tminva --> comment? Call tata? 
+  rsp-scf/locquant.f
+      The wafu and gf can be stored in the same variable?
+      What is rhova?
+  rsp-scf/dens.f
+      what happend with the different densities? 
+      Is the spin and magnetisation density in the code? 
+      what is zrhoeh?
+# Files and subroutinges changed:
+2019.10.11.
+  rsp-scf/tmatini.f: tmatini
+    - call tata is commented and the if condition
+      n=2*kmymax is added
+    - tminv = tminva is commented
+  rps-scf/cpacoord_ksave.f: cpacoord
+    - call cpacor is uncommented, n=2*kmymax
+    - taua = tau commented
+    - big cpa if uncommented
+  rsp-scf/fullcpa.f: cpacor.f:
+    - tata: kmymaxp --> dbogomaxp
+    - cpacor: kmymaxp --> dbogomaxp
+    - cpasol: kmymaxp --> dbogomaxp
+2019.10.14.
+  rsp-scf/qlobquant.f --> locquant.f
+  rsp-scf/locquant.f: locquant
+    - all physical quantities added for B
+2019.10.15.
+  rsp-scf/locquant.f
+    - Big CPA if is added
+    - The B type wavefunctions and GF is stored in the same variable

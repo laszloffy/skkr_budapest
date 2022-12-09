@@ -1,0 +1,128 @@
+!*==locquant_dos.spg  processed by SPAG 6.50Rc at 15:23 on  6 Mar 2014
+c     ===================
+      SUBROUTINE LOCQUANT_DOS(Ce,Lmax,Nintfc,Wrel,Lms,Sxa,V0,Idpota,Vra,
+     &                        Bra,Bopra,Dx,Ns,Rs,Taua,Dosa)
+c
+      IMPLICIT NONE
+!*--LOCQUANT_DOS7
+C*** Start of declarations inserted by SPAG
+      REAL*8 c , cih , tiny , tol , V0
+      INTEGER i , k , kmax , kmy , kmymax , lam , li , Lmax , lmaxs , 
+     &        lmmaxs , m , mu , Nintfc , nl , nl2
+C*** End of declarations inserted by SPAG
+c
+      INCLUDE '../param.h'
+c
+      INTEGER MMAX
+      PARAMETER (MMAX=MIMP)
+c
+      LOGICAL Wrel , Lms
+c
+      CHARACTER*10 Idpota(MMAX)
+      CHARACTER*30 for006
+c
+      INTEGER nuz(KMYMAXP)
+      INTEGER indz(NUZP,KMYMAXP)
+      INTEGER mpar(-LSUP:LSUP)
+      INTEGER Ns(MMAX)
+c
+      REAL*8 Vra(NRAD,MMAX)
+      REAL*8 Bra(NRAD,MMAX)
+      REAL*8 Bopra(NRAD,2,MMAX)
+      REAL*8 Rs(MMAX)
+      REAL*8 Dx(MMAX)
+c
+c
+      REAL*8 Dosa(KMYMAXP,MMAX)
+c
+      REAL*8 Sxa(MMAX)
+c
+      COMPLEX*16 Ce
+      COMPLEX*16 psq
+c
+c ======================================================================
+c
+      COMPLEX*16 Taua(KMYMAXP,KMYMAXP,MMAX)
+      COMPLEX*16 tm(KMYMAXP,KMYMAXP)
+c
+      COMPLEX*16 gz(NRAD,NUZP,KMYMAXP) , fz(NRAD,NUZP,KMYMAXP)
+      COMPLEX*16 gj(NRAD,NUZP,KMYMAXP) , fj(NRAD,NUZP,KMYMAXP)
+c
+      COMPLEX*16 zdos(KMYMAXP)
+      COMPLEX*16 zqmom(KMYMAXP,LMSUP)
+c
+      COMPLEX*16 RGAcoeff(KMYMAXP,KMYMAXP,LMSUP)
+      COMMON /RGGAUNT/ RGAcoeff
+c
+      DATA tol/1.0D-8/ , cih/(0.0D0,-0.5D0)/
+      DATA tiny/1.0D-6/
+c
+c ********************
+c initialize constants
+c ********************
+c
+c---> c in rydberg units:
+      c = 274.072D0
+      IF ( .NOT.Wrel ) THEN
+         psq = Ce + Ce*Ce/(c*c)
+      ELSE
+         psq = Ce
+      ENDIF
+c
+      nl = Lmax + 1
+      nl2 = nl*nl
+      kmax = 2*Lmax + 1
+      kmymax = 2*nl2
+      lmaxs = 2*Lmax
+      lmmaxs = (lmaxs+1)*(lmaxs+1)
+c
+      mpar(0) = 1
+      DO m = 1 , lmaxs
+         mpar(m) = -mpar(m-1)
+         mpar(-m) = mpar(m)
+      ENDDO
+c
+c ***************************************************
+c * loop over layers to compute physical quantities *
+c ***************************************************
+c
+      DO li = 1 , Nintfc
+!        cpalay=(1.d0-conc(li)).gt.tiny
+         WRITE (6,*) 'Impurity:' , li
+c
+c Compute scattering solutions
+c        --------------------------------------------------------
+         CALL WAFU(Ce,psq,Lmax,Idpota(li),V0,Vra(1,li),Bra(1,li),
+     &             Bopra(1,1,li),Dx(li),Ns(li),Rs(li),tm,gz,fz,gj,fj,
+     &             nuz,indz,1,Sxa(li))
+c        --------------------------------------------------------
+c
+c Density of multipole moments
+         i = 0
+         DO lam = 0 , lmaxs
+            DO mu = -lam , lam
+               i = i + 1
+c        --------------------------------------------
+               CALL MOMENT(Lmax,Rs(li),Dx(li),Ns(li),gz,fz,gj,fj,nuz,
+     &                     indz,RGAcoeff(1,1,i),lam,Taua(1,1,li),
+     &                     zqmom(1,i),Lms,1)
+c        --------------------------------------------
+            ENDDO
+         ENDDO
+         DO kmy = 1 , kmymax
+            zdos(kmy) = zqmom(kmy,1)
+         ENDDO
+c
+c        -------------------------------------------------
+c
+         DO k = 1 , kmymax
+            Dosa(k,li) = DIMAG(zdos(k))
+         ENDDO
+         WRITE (6,'(e14.6,2x,18e14.6)') DREAL(Ce) , 
+     &                                  (Dosa(k,li),k=1,kmymax)
+      ENDDO
+c ************************
+c * end loop over layers *
+c ************************
+c
+      END

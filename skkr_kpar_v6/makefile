@@ -1,0 +1,318 @@
+##################################################################
+#                                                                #
+# makefile for the SKKR programs                                 #
+#                                                                #
+# version 22.07.2003 by Laszlo Szunyogh                          #
+#                                                                #
+# usage                                                          #
+#         make nrdlm-scf.run      => nonrel. DLM scf             #
+#         make nrsp-scf.run       => nonrel. spinpol. scf        #
+#         make rsp-scf.run        => rel. spinpol. scf           #
+#                                                                # 
+##################################################################
+#
+# fortran compiler:
+#
+FC = /opt/ohpc/pub/mpi/openmpi4-gnu9/4.0.4/bin/mpifort
+LD = /opt/ohpc/pub/mpi/openmpi4-gnu9/4.0.4/bin/mpifort
+#
+# compiler options for superman:
+#FFLAGS = -cpp -fbacktrace -O3 -ffixed-line-length-132
+# compiler options for pepper:
+#FFLAGS = -O2 -w -unroll -132 -mcmodel=medium -i-dynamic
+# LFLAGS = -lpthread
+# compiler options for cluster:
+# FFLAGS = -traceback -O2 -unroll -132 -mcmodel=medium -i-dynamic
+# LFLAGS = -Vaxlib -lsvml -mcmodel=medium -i-dynamic
+FFLAGS = -xSSE4.2 -fpp -O2 -unroll -132 -mcmodel=medium #for general use, latest
+LFLAGS=$(MKLROOT)/lib/intel64/libmkl_scalapack_lp64.a \
+     -Wl,--start-group \
+     $(MKLROOT)/lib/intel64/libmkl_intel_lp64.a \
+     $(MKLROOT)/lib/intel64/libmkl_sequential.a \
+     $(MKLROOT)/lib/intel64/libmkl_core.a \
+     $(MKLROOT)/lib/intel64/libmkl_blacs_sgimpt_lp64.a -Wl,--end-group \
+     -lpthread -lm
+# LFLAGS =  -mcmodel=medium  -L/opt/intel/mkl/10.2.2.025/lib/em64t -lmkl_intel_lp64 -lmkl_intel_thread -lmkl_core -lpthread -lm -liomp5
+#
+# working directory
+#
+KPATH = ./
+#
+# subdirectories 
+#
+SUBDIRS = main nrsp-scf nrdlm-scf rsp-scf
+#
+# programs
+#
+PROGRAMS = nrsp-scf.run nrdlm-scf.run rsp-scf.run 
+#
+# generate a unique object from the subroutines 
+# in different subdirectories
+# 
+MAINPATH = $(KPATH)main/
+#
+MAINOBJ = \
+$(MAINPATH)alphamat.o   $(MAINPATH)averagebpot.o $(MAINPATH)blm.o \
+$(MAINPATH)bulkmad1.o   $(MAINPATH)bulkmad2.o \
+$(MAINPATH)broyd.o      $(MAINPATH)cerf.o        $(MAINPATH)chcore.o \
+$(MAINPATH)coulint.o    $(MAINPATH)csbf.o        $(MAINPATH)delkam.o \
+$(MAINPATH)ibz.o        $(MAINPATH)directg.o     $(MAINPATH)dugo.o \
+$(MAINPATH)calcdfdr.o   $(MAINPATH)dvdr.o       $(MAINPATH)easysol.o \
+$(MAINPATH)erf.o        $(MAINPATH)error.o       $(MAINPATH)exchange.o \
+$(MAINPATH)fac.o        $(MAINPATH)findangles.o  $(MAINPATH)fullbz.o \
+$(MAINPATH)gaunt.o      $(MAINPATH)gauntcalc.o \
+$(MAINPATH)genlatt2d.o  $(MAINPATH)genlatt3d.o	 $(MAINPATH)gjinv.o \
+$(MAINPATH)getg2d.o 	$(MAINPATH)getsfg.o 	\
+$(MAINPATH)getg2d_io.o 	$(MAINPATH)getsfg_io.o 	\
+$(MAINPATH)gstore.o     $(MAINPATH)ilkam.o       $(MAINPATH)incgamma.o \
+$(MAINPATH)indekx.o     $(MAINPATH)init.o        $(MAINPATH)inouh.o \
+$(MAINPATH)inth.o       $(MAINPATH)jobnam.o      $(MAINPATH)kamstr.o \
+$(MAINPATH)kmesh2d.o \
+$(MAINPATH)latgen2d.o   $(MAINPATH)latgen3d.o \
+$(MAINPATH)legpol.o 	$(MAINPATH)legzero.o	 $(MAINPATH)ll.o \
+$(MAINPATH)lmfill.o 	$(MAINPATH)madcheck.o \
+$(MAINPATH)madelungb.o  $(MAINPATH)madelungi.o   $(MAINPATH)madelungv.o \
+$(MAINPATH)matops.o     $(MAINPATH)newfl.o       $(MAINPATH)packer.o \
+$(MAINPATH)phi.o        $(MAINPATH)poisson.o     $(MAINPATH)primkr2d.o \
+$(MAINPATH)rcore.o      $(MAINPATH)resld.o       $(MAINPATH)rgroup.o \
+$(MAINPATH)rotmat.o     $(MAINPATH)rotmat2.o \
+$(MAINPATH)rotvec.o     $(MAINPATH)rsimp.o \
+$(MAINPATH)scrinv.o     $(MAINPATH)scrstr.o      $(MAINPATH)setspk.o \
+$(MAINPATH)signum.o     $(MAINPATH)speck.o       $(MAINPATH)speck2.o \
+$(MAINPATH)spherh.o     $(MAINPATH)sphrm.o       $(MAINPATH)surfgf.o \
+$(MAINPATH)struc3d.o    $(MAINPATH)sublattpot.o  $(MAINPATH)sublattmat.o \
+$(MAINPATH)tcpaio.o 	$(MAINPATH)tau2d.o	 $(MAINPATH)vecrot.o \
+$(MAINPATH)vecsrt2d.o 	$(MAINPATH)vecsrt3d.o \
+$(MAINPATH)vector2d.o   $(MAINPATH)vector3d.o \
+$(MAINPATH)ylag.o       $(MAINPATH)ylmc.o 	 $(MAINPATH)ytrafo.o \
+$(MAINPATH)zero.o       $(MAINPATH)zmesh.o \
+$(MAINPATH)clebsch.o    $(MAINPATH)gafill.o      $(MAINPATH)relmtrx.o
+#
+MAINSRC = \
+$(MAINPATH)alphamat.f   $(MAINPATH)averagebpot.f $(MAINPATH)blm.f \
+$(MAINPATH)bulkmad1.f   $(MAINPATH)bulkmad2.f \
+$(MAINPATH)broyd.f      $(MAINPATH)cerf.f        $(MAINPATH)chcore.f \
+$(MAINPATH)coulint.f    $(MAINPATH)csbf.f        $(MAINPATH)delkam.f \
+$(MAINPATH)ibz.f        $(MAINPATH)directg.f     $(MAINPATH)dugo.f \
+$(MAINPATH)calcdfdr.f   $(MAINPATH)dvdr.f       $(MAINPATH)easysol.f \
+$(MAINPATH)erf.f        $(MAINPATH)error.f       $(MAINPATH)exchange.f \
+$(MAINPATH)fac.f        $(MAINPATH)findangles.f  $(MAINPATH)fullbz.f \
+$(MAINPATH)gaunt.f      $(MAINPATH)gauntcalc.f \
+$(MAINPATH)genlatt2d.f 	$(MAINPATH)genlatt3d.f   $(MAINPATH)gjinv.f \
+$(MAINPATH)getg2d.f     $(MAINPATH)getsfg.f      \
+$(MAINPATH)getg2d_io.f  $(MAINPATH)getsfg_io.f   \
+$(MAINPATH)gstore.f     $(MAINPATH)ilkam.f       $(MAINPATH)incgamma.f \
+$(MAINPATH)indekx.f     $(MAINPATH)init.f        $(MAINPATH)inouh.f \
+$(MAINPATH)inth.f       $(MAINPATH)jobnam.f      $(MAINPATH)kamstr.f \
+$(MAINPATH)kmesh2d.f \
+$(MAINPATH)latgen2d.f   $(MAINPATH)latgen3d.f \
+$(MAINPATH)legpol.f \
+$(MAINPATH)legzero.f    $(MAINPATH)ll.f          $(MAINPATH)lmfill.f \
+$(MAINPATH)madcheck.f \
+$(MAINPATH)madelungb.f  $(MAINPATH)madelungi.f   $(MAINPATH)madelungv.f \
+$(MAINPATH)matops.f     $(MAINPATH)newfl.f       $(MAINPATH)packer.f \
+$(MAINPATH)phi.f        $(MAINPATH)poisson.f     $(MAINPATH)primkr2d.f \
+$(MAINPATH)rcore.f      $(MAINPATH)resld.f       $(MAINPATH)rgroup.f \
+$(MAINPATH)rotmat.f     $(MAINPATH)rotmat2.f \
+$(MAINPATH)rotvec.f     $(MAINPATH)rsimp.f \
+$(MAINPATH)scrinv.f     $(MAINPATH)scrstr.f      $(MAINPATH)setspk.f \
+$(MAINPATH)signum.f     $(MAINPATH)speck.f       $(MAINPATH)speck2.f \
+$(MAINPATH)spherh.f     $(MAINPATH)sphrm.f       $(MAINPATH)surfgf.f \
+$(MAINPATH)struc3d.f	 $(MAINPATH)sublattpot.f $(MAINPATH)sublattmat.f \
+$(MAINPATH)tcpaio.f	$(MAINPATH)tau2d.f	 $(MAINPATH)vecrot.f \
+$(MAINPATH)vecsrt2d.f 	$(MAINPATH)vecsrt3d.f \
+$(MAINPATH)vector2d.f   $(MAINPATH)vector3d.f \
+$(MAINPATH)ylag.f       $(MAINPATH)ylmc.f	 $(MAINPATH)ytrafo.f \
+$(MAINPATH)zero.f       $(MAINPATH)zmesh.f \
+$(MAINPATH)clebsch.f    $(MAINPATH)gafill.f      $(MAINPATH)relmtrx.f
+#
+NRSPSCFPATH = $(KPATH)nrsp-scf/
+#
+NRSPSCFOBJ = \
+$(NRSPSCFPATH)enprint.o \
+$(NRSPSCFPATH)newpot.o   $(NRSPSCFPATH)pothandle.o  $(NRSPSCFPATH)printscf.o\
+$(NRSPSCFPATH)printres.o $(NRSPSCFPATH)readini.o    $(NRSPSCFPATH)readgeom.o \
+$(NRSPSCFPATH)restart.o  $(NRSPSCFPATH)vgen.o $(NRSPSCFPATH)vgen_bcast.o \
+$(NRSPSCFPATH)cpacoord.o  \
+$(NRSPSCFPATH)fullcpa.o   $(NRSPSCFPATH)initia.o \
+$(NRSPSCFPATH)initzero.o  $(NRSPSCFPATH)locquant.o  $(NRSPSCFPATH)matrep.o \
+$(NRSPSCFPATH)readpot.o   $(NRSPSCFPATH)phystau.o   $(NRSPSCFPATH)schreq.o \
+$(NRSPSCFPATH)sphbas.o    $(NRSPSCFPATH)tmat.o      $(NRSPSCFPATH)tmatini.o \
+$(NRSPSCFPATH)wafu.o      $(NRSPSCFPATH)moment.o    $(NRSPSCFPATH)dens.o
+#
+NRSPSCFSRC = \
+$(NRSPSCFPATH)enprint.f \
+$(NRSPSCFPATH)newpot.f   $(NRSPSCFPATH)pothandle.f  $(NRSPSCFPATH)printscf.f\
+$(NRSPSCFPATH)printres.f $(NRSPSCFPATH)readini.f    $(NRSPSCFPATH)readgeom.f \
+$(NRSPSCFPATH)restart.f  $(NRSPSCFPATH)vgen.f $(NRSPSCFPATH)vgen_bcast.f \
+$(NRSPSCFPATH)cpacoord.f  \
+$(NRSPSCFPATH)fullcpa.f   $(NRSPSCFPATH)initia.f \
+$(NRSPSCFPATH)initzero.f  $(NRSPSCFPATH)locquant.f  $(NRSPSCFPATH)matrep.f \
+$(NRSPSCFPATH)readpot.f   $(NRSPSCFPATH)phystau.f   $(NRSPSCFPATH)schreq.f \
+$(NRSPSCFPATH)sphbas.f    $(NRSPSCFPATH)tmat.f      $(NRSPSCFPATH)tmatini.f \
+$(NRSPSCFPATH)wafu.f      $(NRSPSCFPATH)moment.f    $(NRSPSCFPATH)dens.f
+#
+NRDLMSCFPATH = $(KPATH)nrdlm-scf/
+#
+NRDLMSCFOBJ = \
+$(NRDLMSCFPATH)enprint.o \
+$(NRDLMSCFPATH)newpot.o   $(NRDLMSCFPATH)pothandle.o  $(NRDLMSCFPATH)printscf.o\
+$(NRDLMSCFPATH)printres.o $(NRDLMSCFPATH)readini.o    $(NRDLMSCFPATH)readgeom.o \
+$(NRDLMSCFPATH)restart.o   $(NRDLMSCFPATH)vgen.o \
+$(NRDLMSCFPATH)cpacoord.o  $(NRDLMSCFPATH)fullcpa.o   $(NRDLMSCFPATH)initia.o \
+$(NRDLMSCFPATH)initzero.o  $(NRDLMSCFPATH)locquant.o  $(NRDLMSCFPATH)matrep.o \
+$(NRDLMSCFPATH)readpot.o   $(NRDLMSCFPATH)phystau.o   $(NRDLMSCFPATH)schreq.o \
+$(NRDLMSCFPATH)sphbas.o    $(NRDLMSCFPATH)tmat.o      $(NRDLMSCFPATH)tmatini.o \
+$(NRDLMSCFPATH)wafu.o      $(NRDLMSCFPATH)moment.o    $(NRDLMSCFPATH)dens.o  \
+$(NRDLMSCFPATH)vgen_bcast.o
+#
+NRDLMSCFSRC = \
+$(NRDLMSCFPATH)enprint.f \
+$(NRDLMSCFPATH)newpot.f   $(NRDLMSCFPATH)pothandle.f  $(NRDLMSCFPATH)printscf.f\
+$(NRDLMSCFPATH)printres.f $(NRDLMSCFPATH)readini.f    $(NRDLMSCFPATH)readgeom.f \
+$(NRDLMSCFPATH)restart.f   $(NRDLMSCFPATH)vgen.f \
+$(NRDLMSCFPATH)cpacoord.f  $(NRDLMSCFPATH)fullcpa.f   $(NRDLMSCFPATH)initia.f \
+$(NRDLMSCFPATH)initzero.f  $(NRDLMSCFPATH)locquant.f  $(NRDLMSCFPATH)matrep.f \
+$(NRDLMSCFPATH)readpot.f   $(NRDLMSCFPATH)phystau.f   $(NRDLMSCFPATH)schreq.f \
+$(NRDLMSCFPATH)sphbas.f    $(NRDLMSCFPATH)tmat.f      $(NRDLMSCFPATH)tmatini.f \
+$(NRDLMSCFPATH)wafu.f      $(NRDLMSCFPATH)moment.f    $(NRDLMSCFPATH)dens.f  \
+$(NRDLMSCFPATH)vgen_bcast.f
+#
+RSPSCFPATH = $(KPATH)rsp-scf/
+#
+RSPSCFOBJ = \
+$(RSPSCFPATH)bop.o         $(RSPSCFPATH)brmat.o \
+$(RSPSCFPATH)enblloyd.o    $(RSPSCFPATH)denblloyd.o \
+$(RSPSCFPATH)dirmag1-op.o  $(RSPSCFPATH)dirmag2-op.o  $(RSPSCFPATH)fullcpa.o \
+$(RSPSCFPATH)g2fill.o      $(RSPSCFPATH)initia.o      $(RSPSCFPATH)matlms.o \
+$(RSPSCFPATH)magnet.o      $(RSPSCFPATH)matr.o        $(RSPSCFPATH)matr2.o \
+$(RSPSCFPATH)matrep.o      $(RSPSCFPATH)matrot.o      $(RSPSCFPATH)matrot2.o \
+$(RSPSCFPATH)moment.o      $(RSPSCFPATH)phystau.o \
+$(RSPSCFPATH)readpot.o     $(RSPSCFPATH)replms.o 	$(RSPSCFPATH)replmsf.o \
+$(RSPSCFPATH)sphbas.o      $(RSPSCFPATH)spzwafu.o 	$(RSPSCFPATH)matnr.o \
+$(RSPSCFPATH)tinvmat.o     $(RSPSCFPATH)tmat.o        $(RSPSCFPATH)wafu.o \
+$(RSPSCFPATH)cpacoord_save.o \
+$(RSPSCFPATH)dens.o        $(RSPSCFPATH)enprint.o     $(RSPSCFPATH)localrot.o \
+$(RSPSCFPATH)initzero.o    $(RSPSCFPATH)localrot2.o   $(RSPSCFPATH)locquant.o \
+$(RSPSCFPATH)newdir.o      $(RSPSCFPATH)newpot.o      $(RSPSCFPATH)pothandle.o \
+$(RSPSCFPATH)printres.o    $(RSPSCFPATH)printscf.o    $(RSPSCFPATH)readgeom.o \
+$(RSPSCFPATH)readini.o     $(RSPSCFPATH)restart.o     $(RSPSCFPATH)sorttmat.o \
+$(RSPSCFPATH)tmatini.o     $(RSPSCFPATH)vgen.o		$(RSPSCFPATH)vgen_bcast.o
+#
+RSPSCFSRC = \
+$(RSPSCFPATH)bop.f         $(RSPSCFPATH)brmat.f \
+$(RSPSCFPATH)enblloyd.f    $(RSPSCFPATH)denblloyd.f \
+$(RSPSCFPATH)dirmag1-op.f  $(RSPSCFPATH)dirmag2-op.f  $(RSPSCFPATH)fullcpa.f \
+$(RSPSCFPATH)g2fill.f      $(RSPSCFPATH)initia.f      $(RSPSCFPATH)matlms.f \
+$(RSPSCFPATH)magnet.f      $(RSPSCFPATH)matr.f        $(RSPSCFPATH)matr2.f \
+$(RSPSCFPATH)matrep.f      $(RSPSCFPATH)matrot.f      $(RSPSCFPATH)matrot2.f \
+$(RSPSCFPATH)moment.f      $(RSPSCFPATH)phystau.f \
+$(RSPSCFPATH)readpot.f     $(RSPSCFPATH)replms.f 	$(RSPSCFPATH)replmsf.f \
+$(RSPSCFPATH)sphbas.f      $(RSPSCFPATH)spzwafu.f 	$(RSPSCFPATH)matnr.f \
+$(RSPSCFPATH)tinvmat.f     $(RSPSCFPATH)tmat.f        $(RSPSCFPATH)wafu.f \
+$(RSPSCFPATH)cpacoord_save.f \
+$(RSPSCFPATH)dens.f	   $(RSPSCFPATH)enprint.f     $(RSPSCFPATH)localrot.f \
+$(RSPSCFPATH)initzero.f    $(RSPSCFPATH)localrot2.f   $(RSPSCFPATH)locquant.f \
+$(RSPSCFPATH)newdir.f      $(RSPSCFPATH)newpot.f      $(RSPSCFPATH)pothandle.f \
+$(RSPSCFPATH)printres.f    $(RSPSCFPATH)printscf.f    $(RSPSCFPATH)readgeom.f \
+$(RSPSCFPATH)readini.f     $(RSPSCFPATH)restart.f     $(RSPSCFPATH)sorttmat.f \
+$(RSPSCFPATH)tmatini.f     $(RSPSCFPATH)vgen.f		$(RSPSCFPATH)vgen_bcast.f
+#
+     skkr-obj   = $(MAINOBJ) $(NRSPSCFOBJ) $(NRDLMSCFOBJ) $(RSPSCFOBJ) 
+     nrsp-scf-obj = $(MAINOBJ)  $(NRSPSCFOBJ)
+     nrdlm-scf-obj = $(MAINOBJ) $(NRDLMSCFOBJ)
+     rsp-scf-obj = $(MAINOBJ) $(RSPSCFOBJ)
+#
+    skkr-src   = $(MAINSRC) $(NRSPSCFSRC) $(NRDLMSCFSRC) $(RSPSCFSRC)
+#
+# dependencies
+#
+# .SUFFIXES: .o .f
+.SUFFIXES: .run .o .f
+#
+.f.o:
+	$(FC) -c $(FFLAGS) $<
+	mv $(*F).o $(*D)
+# $<   : source files of an out-of-date module
+# $(*F): "file part" 
+# $(*D): "directory part" of target
+#
+# activities: executables
+#
+all: $(PROGRAMS)
+#
+nrsp-scf.run: $(NRSPSCFPATH)skkr.o $(nrsp-scf-obj)
+	@echo " "
+	@echo "Linking nrsp-scf.run ..."
+	@echo "-----------------------"
+	@echo " "
+	$(FC) -o $@ $(NRSPSCFPATH)skkr.o $(nrsp-scf-obj) $(LFLAGS)
+	@echo " "
+	@echo "done"
+#
+nrdlm-scf.run: $(NRDLMSCFPATH)skkr.o $(nrdlm-scf-obj)
+	@echo " "
+	@echo "Linking nrdlm-scf.run ..."
+	@echo "-----------------------"
+	@echo " "
+	$(FC) -o $@ $(NRDLMSCFPATH)skkr.o $(nrdlm-scf-obj) $(LFLAGS)
+	@echo " "
+	@echo "done"
+#
+rsp-scf.run: $(RSPSCFPATH)skkr.o $(rsp-scf-obj)
+	@echo " "
+	@echo "Linking rsp-scf.run ..."
+	@echo "-----------------------------"
+	@echo " "
+	$(FC) -o $@ $(RSPSCFPATH)skkr.o $(rsp-scf-obj) $(LFLAGS)
+	@echo " "
+	@echo "done"
+#
+# delete object files
+#
+del-all.o:
+	@echo " "
+	@echo "Deleting ALL object-files ..."
+	@rm -f $(skkr-obj) $(NRDLMSCFPATH)skkr.o \
+	$(NRSPSCFPATH)skkr.o $(RSPSCFPATH)skkr.o
+	@echo "done"
+	@echo " "
+#
+del-nrsp.o:
+	@echo " "
+	@echo "Deleting NRSP object-files ..."
+	@rm -f $(nrsp-scf-obj)  \
+	$(NRSPSCFPATH)skkr.o 
+	@echo "done"
+	@echo " "
+#
+del-nrdlm.o:
+	@echo " "
+	@echo "Deleting NRDLM object-files ..."
+	@rm -f $(nrdlm-scf-obj)  \
+	$(NRDLMSCFPATH)skkr.o 
+	@echo "done"
+	@echo " "
+#
+del-rsp.o:
+	@echo " "
+	@echo "Deleting RSP object-files ..."
+	@rm -f $(rsp-scf-obj)  \
+	$(RSPSCFPATH)skkr.o 
+	@echo "done"
+	@echo " "
+#
+# utils
+#                                                                #
+skkr_v5.tgz:
+	@echo " "
+	@echo "Making tar-file: skkr.tar ..."
+	@echo "-----------------------------"
+	tar cvzf $@ ./makefile ./param* ./compile* ./recompile* \
+	$(skkr-src) \
+	$(NRDLMSCFPATH)skkr.f \
+	$(NRSPSCFPATH)skkr.f \
+	$(RSPSCFPATH)skkr.f
+	@echo " "
+	@echo "done"
+#

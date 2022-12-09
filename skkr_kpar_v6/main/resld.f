@@ -1,0 +1,226 @@
+c     Name of Copyright owners: Gabor Csire, Andras Laszloffy, Bendeguz Nyari, Laszlo Szunyogh, and Balazs Ujfalussy
+      subroutine resld(nqn,nql,nk,imax,de,dfl,dq1,jc,
+     >                 dv,dr,dp,dq,dpas,z,nes,test,np,nuc,iskip)      
+c
+c     ****************************
+c     * dirac equation [Hartree] *
+c     ****************************
+c
+      implicit real*8(a-h,o-z)
+c
+      include '../param.h'
+c
+      dimension dv(nrad),dr(nrad),dp(nrad),dq(nrad)
+      dimension dep(10),deq(10)
+      dimension dpno(4,iorb),dqno(4,iorb)
+c
+      dkoef=1.0d0/720.0d0
+      dvc=137.036d0
+      dsal=dvc+dvc
+      de=de/2.d0
+c
+      epriv=de
+      imm=0
+      ies=1
+      dk=nk
+      lll=(nql*(nql+1))/2
+      nd=0
+      nodes=nqn-nql
+c
+      if (lll.eq.0) then
+        elim=-z*z/(1.5d0*nqn*nqn)
+      else
+        elim=dv(1)+lll/(dr(1)*dr(1))
+        do i=2,np
+          val=dv(i)+lll/(dr(i)*dr(i))
+          if (val.le.elim) elim=val
+        end do
+        if(elim.ge.0.) then
+          write(6,'(5x,''  2*v+l*(l+1)/r**2 is positive''/)') 
+          stop 'in resld'
+        end if
+      end if
+c
+      if(de.le.elim) de=elim*0.5d0
+   10 continue
+      if(imm.eq.0) then
+        do i=7,np,2
+          imat=np+1-i
+          if ((dv(imat)+lll/(dr(imat)*dr(imat))-de).le.0.) go to 15
+        end do
+   15   if(imat.le.5) then
+          de=de*0.5d0
+          if(de.lt.-test.and.nd.le.nodes) go to 10
+          write(6,'(5x,''2*v+l*(l+1)/r**2-2*e is positive''/)')
+          stop ' in resld'
+        end if
+      end if
+c
+c     get start values for outward integration
+c
+      db=de/dvc
+      call inouh(dp,dq,dr,dq1,dfl,dv(1),z,test,nuc,jc,
+     >           dep,deq,db,dvc,dsal,dk,dm,dpno,dqno)
+c
+c     calculate number of nodes for the large component
+c
+      nd=1
+      do i=1,5
+        dval=dr(i)**dfl
+        if (i.eq.1) go to 20
+        if (dp(i-1).eq.0.d0) go to 20
+        if ((dp(i)/dp(i-1)).gt.0.) go to 20
+        nd=nd+1
+   20   continue
+        dp(i)=dp(i)*dval
+        dq(i)=dq(i)*dval
+        dep(i)=dep(i)*dval
+        deq(i)=deq(i)*dval
+      end do
+c
+      k=-1+2*(nodes-2*(nodes/2))
+      if((dp(1)*k).le.0.or.(k*nk*dq(1)).lt.0.) then
+        write(6,'(5x,'' expansion error at the origin''/)') 
+        stop ' in resld'
+      end if
+c
+      dm=dpas*dkoef
+c
+c     do now outward integration
+c
+      do 30 i=6,imat
+        dp(i)=dp(i-1)
+        dq(i)=dq(i-1)
+        call inth(dp(i),dq(i),dv(i),dr(i),dep,deq,db,dvc,dsal,dk,dm)
+        if (dp(i-1).eq.0.d0) go to 30
+        if ((dp(i)/dp(i-1)).gt.0.) go to 30
+        nd=nd+1
+        if(nd.gt.nodes) go to 35
+   30 continue
+c
+      if (nd.eq.nodes) go to 40
+      de=0.8d0*de
+      if(de.lt.-test) go to 10
+      write(6,'(5x,'' number of nodes is too small''/)')
+      stop ' in resld'
+c
+   35 de=1.2d0*de
+      if(de.gt.elim) go to 10
+      write(6,'(5x,'' number of nodes is too large''/)')
+      stop ' in resld'
+c
+c     start values for inward integration, use descleaux's
+c     magic boundary: 300
+c
+   40 dqm=dq(imat)
+      dpm=dp(imat)
+      if (imm.eq.0) then
+        do i=1,np,2
+          imax=np+1-i
+          if (((dv(imax)-de)*dr(imax)*dr(imax)).le.300.) go to 45
+        end do
+      end if
+   45 dd=dsqrt(-de*(2.d0+db/dvc))
+c
+      dpq=-dd/(dsal+db)
+      dm=-dm
+      do i=1,5
+        j=imax+1-i
+        dp(j)=dexp(-dd*dr(j))
+        dep(i)=-dd*dp(j)*dr(j)
+        dq(j)=dpq*dp(j)
+        deq(i)=dpq*dep(i)
+      end do
+      m=imax-5
+c
+c     do now inward integration
+c
+      do i=imat,m
+        j=m+imat-i
+        dp(j)=dp(j+1)
+        dq(j)=dq(j+1)
+        call inth(dp(j),dq(j),dv(j),dr(j),dep,deq,db,dvc,dsal,dk,dm)
+      end do
+c
+c     check left and right large components
+c
+      dval=dpm/dp(imat)
+      if (dval.le.0.) then
+        write(6,'(5x,'' sign error for the large component''/)') 
+        stop ' in resld'
+      end if
+c
+      do i=imat,imax
+        dp(i)=dp(i)*dval
+        dq(i)=dq(i)*dval
+      end do
+c
+c     calculate the norm
+c
+      dsum=0.d0
+      if(dabs(dp(1)).gt.1.0d-10) 
+     >dsum=3.0d0*dr(1)*(dp(1)**2+dq(1)**2)/(dpas*(dfl+dfl+1.d0))
+      do i=3,imax,2
+        dsum=dsum+dr(i)*(dp(i)**2+dq(i)**2)+4.d0*dr(i-1)*(dp(i-1)**2+
+     >       dq(i-1)**2)+dr(i-2)*(dp(i-2)**2+dq(i-2)**2)
+      end do
+      dsum=dpas*(dsum+dr(imat)*(dqm*dqm-dq(imat)*dq(imat)))/3.0d0
+c
+c     modify one-electron energy
+c
+      dbe=dp(imat)*(dqm-dq(imat))*dvc/dsum
+      imm=0
+      val=dabs(dbe/de)
+      if (val.le.test) go to 50
+   55 dval=de+dbe
+      if(dval.ge.0.) then
+        dbe=dbe*0.5d0
+        val=val*0.5d0
+        if (val.gt.test) go to 55
+        write(6,'(5x,'' energy converged to zero''/)') 
+        stop ' in resld'
+      end if
+c
+      de=dval
+c
+      if(iskip.ge.2) write(6,1009) jc,ies,epriv,de
+ 1009 format(' orb.: ',i2,' it.: ',i3,3x,'e0 =',d23.15,
+     *       3x,'e1 = ',e23.15)
+c
+      delta=dabs(de-epriv)
+      if(delta.lt.test) go to 50
+      epriv=de
+c
+      if (val.le.0.1d0) imm=1
+      ies=ies+1
+      if(ies.le.nes) go to 10
+      write(6,'(5x,''ies = '',i4,
+     >      ''number of iterations is too large''/)') ies
+      stop ' in resld' 
+c
+c     renormalize wavefunction
+c
+   50 dsum=dsqrt(dsum)
+      dq1=dq1/dsum
+c
+      do i=1,imax
+        dp(i)=dp(i)/dsum
+        dq(i)=dq(i)/dsum
+      end do
+      do i=1,4
+        dpno(i,jc)=dpno(i,jc)/dsum
+        dqno(i,jc)=dqno(i,jc)/dsum
+      end do
+c
+      if(imax.lt.np) then
+        j=imax+1
+        do i=j,np
+          dp(i)=0.0d0
+          dq(i)=0.0d0
+        end do
+      end if
+c
+      de=2.d0*de
+c
+      return
+      end
